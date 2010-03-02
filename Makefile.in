@@ -340,14 +340,16 @@ gettext: gettext_compile
 
 .PHONY: gettext_compile
 gettext_compile: gettext_translate
-	cd po; \
-		tail --lines=+18 de_DE.po > current.txt; \
-		tail --lines=+18 de_DE_new.po > new.txt; \
-		diff -u current.txt new.txt
 	cd po; msgfmt --check --statistics --strict de_DE.po --output=de_DE.mo
 	cd po; \
 		mkdir -p ./de/LC_MESSAGES; \
 		cp de_DE.mo ./de/LC_MESSAGES/cpm.mo
+
+# diff fails
+#	cd po; \
+#		tail --lines=+18 de_DE.po > current.txt; \
+#		tail --lines=+18 de_DE_new.po > new.txt; \
+#		diff -u current.txt new.txt
 
 
 # ##############################################################################

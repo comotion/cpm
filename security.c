@@ -495,7 +495,7 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     /* check that stderr, stdin and stdout are opened */
     /* NOTE: no file must be opened before this test! */
     /* Flawfinder: ignore */
-    canary = open("/dev/null", O_CREAT);
+    canary = open("/dev/null", O_CREAT, 0700);
     if ((canary >= 0) && (canary <= 2))
       {
         fprintf(stderr, "%s\n",

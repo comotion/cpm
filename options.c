@@ -176,7 +176,7 @@ int getOptions(int argc, char **argv)
             { "regex",        no_argument,        0, 0 },   /* 10 */
             { "regular",      no_argument,        0, 0 },   /* 11 */
             { "security",     no_argument,        0, 0 },   /* 12 */
-            { "testrun",      optional_argument,  0, 0 },   /* 13 */
+            { "testrun",      required_argument,  0, 0 },   /* 13 */
             { "version",      no_argument,        0, 0 },   /* 14 */
             { 0,              0,                  0, 0 }
           };

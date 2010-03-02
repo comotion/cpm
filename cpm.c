@@ -28,6 +28,7 @@
 #include "configuration.h"
 #include "general.h"
 #include "gpg.h"
+#include <termios.h>
 #include "interface_cli.h"
 #include "interface_gui.h"
 #include "interface_keys.h"
@@ -50,6 +51,15 @@ RETSIGTYPE sighandler(int signum);
   void testMemset(void);
 #endif
 
+static struct termios tcsaved;
+void savetermios(void)
+{
+    tcgetattr(0, &tcsaved);
+}
+void restoretermios(void)
+{
+    tcsetattr(0, TCSANOW, &tcsaved);
+}
 
 /* #############################################################################
  *
@@ -70,6 +80,8 @@ int main(int argc, char **argv)
 #ifdef TEST_OPTION
     int                 testrun = 0;
 #endif
+
+    savetermios();
 
     if (initSecurity(&max_mem_lock, &memory_safe, &ptrace_safe, &memlock_limit))
       { exit(1); }
@@ -267,7 +279,9 @@ RETSIGTYPE sighandler(int signum)
     if (signum == SIGINT ||
         signum == SIGTERM)
       {   /* we have to quit right away */
+        fprintf(stderr,"\nquitting on signal\n");
         fileLockRemove(&dummy);
+        restoretermios();
         _exit(1);
       }
   }

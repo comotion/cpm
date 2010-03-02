@@ -127,7 +127,9 @@ void cliEchoOff(void)
  */
 void cliEchoOn(void)
   {
+    if(terminalsettings.c_lflag){
     tcsetattr(0, TCSANOW, &terminalsettings);
+  }
   }
 
 

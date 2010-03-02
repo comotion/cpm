@@ -1,0 +1,32 @@
+general #1: [1;32mok[0m (0)
+regerror: No match
+general #2: [1;32mok[0m (1)
+alpha #1: [1;32mok[0m (0)
+alpha #2: [1;32mok[0m (0)
+regerror: No match
+alpha #3: [1;32mok[0m (1)
+numeric #1: [1;32mok[0m (0)
+regerror: No match
+numeric #2: [1;32mok[0m (1)
+regerror: No match
+numeric #3: [1;32mok[0m (1)
+regerror: No match
+numeric #4: [1;32mok[0m (1)
+regerror: No match
+numeric #5: [1;32mok[0m (1)
+regerror: No match
+numeric #6: [1;32mok[0m (1)
+filename #1: [1;32mok[0m (0)
+filename #2: [1;32mok[0m (0)
+filename #3: [1;32mok[0m (0)
+filename #4: [1;32mok[0m (0)
+filename #5: [1;32mok[0m (0)
+filename #6: [1;32mok[0m (0)
+filename #7: [1;32mok[0m (0)
+filename #8: [1;32mok[0m (0)
+path #1: [1;32mok[0m (0)
+path #2: [1;32mok[0m (0)
+path #3: [1;32mok[0m (0)
+path #4: [1;32mok[0m (1)
+path #5: [1;32mok[0m (1)
+path #6: [1;32mok[0m (1)

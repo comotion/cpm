@@ -1,0 +1,2 @@
+www.google.de		http		harry_b	This is the test entry for google	test	;
+www.web.de		ssh		harry	This is a web.de test account	test	;

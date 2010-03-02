@@ -1,0 +1,31 @@
+# ##############################################################################
+# resource file for the search pattern tests
+# ##############################################################################
+
+
+# we use the same config as for the encryption stuff
+Include "tests/cpmrc-crypt-tests"
+
+
+# default template names
+# these template names are only used as long as nothing else is defined in
+# the database file.
+TemplateName "field1"
+TemplateName "field2"
+TemplateName "field3"
+
+
+# patterns which test ok
+SearchPattern "ok f1: <field1>@<field2>" "ok r1: <field3>"
+SearchPattern "ok f2: <field1>@<field2>" "ok r2: \\<<field3>\\>"
+
+
+# error patterns
+SearchPattern "err f3: <field1<field2>>" "err r3: <field3>"
+SearchPattern "err f4: <field1><field2>>" "err r4: <field3>"
+SearchPattern "err f5: <field1><field2>>" "err r5: <field3>"
+SearchPattern "err f3: <field1" "err r3: \\<<field3>\\>"
+
+
+# ##############################################################################
+

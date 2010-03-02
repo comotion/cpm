@@ -1,0 +1,20 @@
+# ##############################################################################
+# resource file for the tests
+# ##############################################################################
+
+
+# overwrite the default database filename
+# it defaults to ${HOME}/.cpmdb
+DatabaseFile ./tests/cryptdb
+
+# we do not want any compression for the tests
+Compression 0
+
+# default encoding keys
+# these keys are only used as default for new database files; after a file
+# exists, the actually used keys are used instead.
+EncryptionKey "cpm@testdomain.org"
+
+
+# ##############################################################################
+

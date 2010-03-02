@@ -1,0 +1,4 @@
+buffer size: 32 -> 55
+buffer size: 55 -> 32
+buffer size ok
+buffer ok

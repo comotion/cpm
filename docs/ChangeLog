@@ -1,0 +1,1934 @@
+Wed Jul 12 08:41:57 CEST 2006  harry_b@mm.st
+  * Added new searchpatterns to list hosts, services and users and modified the password alphabet to create more keyboard friendly passwords.
+
+Mon Jul 10 14:34:08 CEST 2006  harry_b@mm.st
+  * Typo fix.
+
+Mon Jul 10 14:33:47 CEST 2006  harry_b@mm.st
+  * Fixed wrong XML code in the example.
+
+Thu Jul  6 11:23:38 CEST 2006  harry_b@mm.st
+  * Todos updated.
+
+Wed Apr 12 10:55:37 CEST 2006  harry_b@mm.st
+  * The statusline now reflects the correct ESC command which now switches from 'Exit' to 'Back' on deeper levels.
+
+Fri Apr  7 13:42:44 CEST 2006  harry_b@mm.st
+  * Added support for the current version of CDK 5.
+
+Mon Apr  3 20:17:24 CEST 2006  harry_b@mm.st
+  * Added signing of the Debian repositories.
+
+Sun Mar 26 17:00:29 CEST 2006  harry_b@mm.st
+  tagged VERSION_0_22BETA
+
+Sun Mar 26 16:55:40 CEST 2006  harry_b@mm.st
+  * Translation added.
+
+Sun Mar 26 16:54:56 CEST 2006  harry_b@mm.st
+  * Added feature to ask the user wether the lockfile should be removed or not.
+
+Sun Mar 26 16:54:37 CEST 2006  harry_b@mm.st
+  * Updated the changelog.
+
+Sun Mar 26 15:57:09 CEST 2006  harry_b@mm.st
+  * Code cleanup.
+
+Sat Mar 25 12:03:41 CET 2006  harry_b@mm.st
+  * Fixed for bug #1458208.
+
+Sat Mar 25 11:28:13 CET 2006  harry_b@mm.st
+  * Fix for bug #1457707.
+
+Sat Mar 25 11:27:47 CET 2006  harry_b@mm.st
+  * Fixed CDK header detection for gcc multi-files per line output.
+
+Tue Feb 28 21:18:01 CET 2006  harry_b@mm.st
+  * Replaced the sed call with a perl call so the CDK detection works even without a current version of sed.
+
+Tue Feb 28 21:17:43 CET 2006  harry_b@mm.st
+  * Version upgraded to 0.22beta.
+
+Mon Feb 27 11:20:03 CET 2006  harry_b@mm.st
+  tagged VERSION_0_21BETA
+
+Mon Feb 27 11:17:29 CET 2006  harry_b@mm.st
+  tagged VERSION_0_21BETA
+
+Mon Feb 27 11:07:37 CET 2006  harry_b@mm.st
+  * Fixed order of chown and chmod calls.
+
+Mon Feb 27 11:01:52 CET 2006  harry_b@mm.st
+  tagged VERSION_0_21BETA
+
+Mon Feb 27 10:05:10 CET 2006  harry_b@mm.st
+  * Todo list updated.
+
+Mon Feb 27 09:49:44 CET 2006  harry_b@mm.st
+  * The changelogs are no longer checked by lintian since the Debian specific changelog just contains a single line and produces unnecessary warnings.
+
+Fri Feb 24 17:22:46 CET 2006  harry_b@mm.st
+  * Added explicit setting of permissions for the debian postinst file.
+
+Fri Feb 24 17:19:12 CET 2006  harry_b@mm.st
+  * Modified build process for deb-packages so they now support the wrapper-less distribution as well.
+
+Fri Feb 24 17:02:54 CET 2006  harry_b@mm.st
+  * Documentation updated.
+
+Fri Feb 24 16:59:14 CET 2006  harry_b@mm.st
+  * Added automatic detection of GpgME version 1.1+ to enable automatic recipient detection. Moreover a short information was added to the --version display.
+
+Thu Feb 23 18:05:37 CET 2006  harry_b@mm.st
+  * Fixed bug #1437432.
+
+Mon Feb 20 17:45:08 CET 2006  harry_b@mm.st
+  * The manpage is now man1 instead of man8.
+
+Mon Feb 20 15:45:34 CET 2006  harry_b@mm.st
+  * Fixed copyright information and the address of the Free Software Foundation.
+
+Sun Feb 19 22:31:17 CET 2006  harry_b@mm.st
+  * Added label GPGME_HAS_RECIPIENT to suppres the stuff which is new to GPGME 1.1.
+
+Sun Feb 19 22:30:51 CET 2006  harry_b@mm.st
+  * Version updated to 0.21beta.
+
+Sun Feb 19 22:30:37 CET 2006  harry_b@mm.st
+  * Fixed deprecated chown call.
+
+Sun Feb 19 22:30:14 CET 2006  harry_b@mm.st
+  * Modified date entries and updated the changelog.
+
+Sun Feb 19 21:59:59 CET 2006  harry_b@mm.st
+  * Added automatic addition of keys when encrypted files are opened.
+
+Sun Feb 19 21:58:48 CET 2006  harry_b@mm.st
+  * Removed HAVE_REALLOC for correct usage on BSD systems. Otherwise memory problems occur there.
+
+Wed Jan 11 08:30:11 CET 2006  harry_b@mm.st
+  * Fixed libc6 dependency for Debian Sarge.
+
+Wed Jan 11 08:29:40 CET 2006  harry_b@mm.st
+  * Fixed autoconf to get it working on none-Linux platforms.
+
+Thu Dec  1 10:24:17 CET 2005  harry_b@mm.st
+  * Added support for different Debian distributions.
+
+Thu Dec  1 10:06:35 CET 2005  harry_b@mm.st
+  * Todo updated.
+
+Thu Dec  1 09:53:44 CET 2005  harry_b@mm.st
+  tagged VERSION_0_20BETA
+
+Thu Dec  1 09:30:12 CET 2005  harry_b@mm.st
+  * Added apt repository update for sarge and unstable.
+
+Thu Dec  1 09:29:59 CET 2005  harry_b@mm.st
+  * Documentation updated.
+
+Thu Dec  1 09:29:14 CET 2005  harry_b@mm.st
+  * Documentation added.
+
+Thu Dec  1 09:08:37 CET 2005  harry_b@mm.st
+  * Added the @ character to the general string alphabet (bug #1370314).
+
+Thu Dec  1 09:08:23 CET 2005  harry_b@mm.st
+  * Todo updated.
+
+Sat Nov  5 09:08:37 CET 2005  harry_b@mm.st
+  * Replaced the permission setting call.
+
+Sat Nov  5 09:08:20 CET 2005  harry_b@mm.st
+  * Another fix for the CDK header handling.
+
+Sat Nov  5 08:45:37 CET 2005  harry_b@mm.st
+  * Changelog updated.
+
+Sat Nov  5 08:45:22 CET 2005  harry_b@mm.st
+  * Added a version check for GPGME.
+
+Sat Nov  5 08:44:44 CET 2005  harry_b@mm.st
+  * Fixed the checking of the cdk.h file which could not be properly detected before.
+
+Sat Nov  5 08:44:09 CET 2005  harry_b@mm.st
+  * Todolist updated.
+
+Sat Nov  5 08:14:49 CET 2005  harry_b@mm.st
+  * Todo and documentation updated.
+
+Sat Nov  5 07:53:07 CET 2005  harry_b@mm.st
+  * Added support for the case that xmllint is not in the path or does not even exist.
+
+Sat Nov  5 07:33:58 CET 2005  harry_b@mm.st
+  * The prepare process now checks and sets filepermissions.
+
+Sat Nov  5 07:26:02 CET 2005  harry_b@mm.st
+  * Removed the error message check from the CLI search 3 check. Now only an existing error is checked but not it's exact message.
+
+Sun Oct 30 19:51:24 CET 2005  harry_b@mm.st
+  * Translation updated.
+
+Sun Oct 30 19:48:51 CET 2005  harry_b@mm.st
+  * Even if no key was specified, the first question always must be, if the user really wants to quit.
+
+Sun Oct 23 20:30:07 CEST 2005  harry_b@mm.st
+  * Documentation updated.
+
+Sun Oct 23 20:07:38 CEST 2005  harry_b@mm.st
+  * Translation updated.
+
+Sun Oct 23 20:04:36 CEST 2005  harry_b@mm.st
+  * Todo list updated.
+
+Sun Oct 23 20:02:29 CEST 2005  harry_b@mm.st
+  * Added functionality to ask the user if he really wants to quit if no key was specified.
+
+Sun Oct 23 19:52:52 CEST 2005  harry_b@mm.st
+  * Set version to 0.20beta.
+
+Sun Oct 23 19:51:19 CEST 2005  harry_b@mm.st
+  * Added the new configuration variable TemplateLock and the function to keep the user within known templates.
+
+Wed Oct 12 11:23:42 CEST 2005  harry_b@mm.st
+  tagged VERSION_0_19BETA
+
+Thu Sep 29 22:15:32 CEST 2005  harry_b@mm.st
+  * Fixed the encryption check procedure.
+
+Thu Sep 29 22:15:04 CEST 2005  harry_b@mm.st
+  * Versions for libraries added.
+
+Tue Sep 27 15:16:51 CEST 2005  harry_b@mm.st
+  * The test of the character encoding now really works as expected.
+
+Tue Sep 27 09:40:22 CEST 2005  harry_b@mm.st
+  * Fixed sprintf() calls.
+
+Tue Sep 27 09:40:07 CEST 2005  harry_b@mm.st
+  * Updated translations.
+
+Mon Sep 26 19:39:10 CEST 2005  harry_b@mm.st
+  * Documentation updated.
+
+Mon Sep 26 19:36:16 CEST 2005  harry_b@mm.st
+  * Modified security check so a wrong max. memory limit is reported correctly.
+
+Mon Sep 26 17:06:51 CEST 2005  harry_b@mm.st
+  * Typo fix.
+
+Mon Sep 26 16:36:06 CEST 2005  harry_b@mm.st
+  * The build directory gets removed once again.
+
+Mon Sep 26 16:20:42 CEST 2005  harry_b@mm.st
+  * Small code cleanup to catch some null pointers - which is just preemptive so far.
+
+Mon Sep 26 15:43:12 CEST 2005  harry_b@mm.st
+  * Modified tagging to work with darcs.
+
+Sun Sep 25 21:02:35 CEST 2005  harry_b@mm.st
+  * Updated timestamp.
+
+Sun Sep 25 21:01:53 CEST 2005  harry_b@mm.st
+  * Changes documented and updated.
+
+Sun Sep 25 20:59:12 CEST 2005  harry_b@mm.st
+  * Fixed configtest result.
+
+Sun Sep 25 20:56:00 CEST 2005  harry_b@mm.st
+  * Translation updated.
+
+Sun Sep 25 20:55:10 CEST 2005  harry_b@mm.st
+  * Todo list updated.
+
+Sun Sep 25 20:53:47 CEST 2005  harry_b@mm.st
+  * Removed the now obsolete CVS Id tags.
+
+Sun Sep 25 20:47:40 CEST 2005  harry_b@mm.st
+  * Documentation updated.
+
+Sun Sep 25 20:26:09 CEST 2005  harry_b@mm.st
+  * Fixed missing permissions.
+
+Sun Sep 25 20:17:14 CEST 2005  harry_b@mm.st
+  * Added a call to umask so our files always have a default permission setting we choose.
+
+Sun Sep 25 20:16:54 CEST 2005  harry_b@mm.st
+  * Translation updated.
+
+Sun Sep 25 20:15:52 CEST 2005  harry_b@mm.st
+  * Added a check right at startup to the xml encoder which makes the program terminate properly even when the enocder initializes but can't encode.
+
+Sun Sep 25 20:15:13 CEST 2005  harry_b@mm.st
+  * Fixed missing type cast which caused a compiler warning.
+
+Sun Sep 25 20:14:23 CEST 2005  harry_b@mm.st
+  * Updated the makefile so it can restore file permissions which is necessary since we switched to darcs.
+
+Sun Sep 25 20:12:58 CEST 2005  harry_b@mm.st
+  * Updated the todo list.
+
+Wed Sep 21 17:28:55 CEST 2005  harry_b@mm.st
+  * Modified make processes for the darcs update.
+
+Tue Sep 20 13:51:57 CEST 2005  harry
+  * Fixed wrong encoding of umlauts in GPG keynames if they were found in the GPG realm.
+
+Tue Sep 20 08:42:46 CEST 2005  harry
+  tagged VERSION_0_18BETA 
+
+Tue Sep 20 08:42:46 CEST 2005  harry
+  * Documentation updated.
+
+Tue Sep 20 08:42:23 CEST 2005  harry
+  * Comment added.
+
+Tue Sep 20 08:41:35 CEST 2005  harry
+  * Language update.
+
+Tue Sep 20 08:41:11 CEST 2005  harry
+  * Added handling of signing keys. Now all used keys are checked for secret keys and if possible, they are used for signing the data instead of gpg's default key.
+
+Tue Sep 20 08:40:19 CEST 2005  harry
+  * Added missing #include statement.
+
+Tue Sep 20 08:33:42 CEST 2005  harry
+  * Documentation fixed.
+
+Tue Sep 20 08:33:17 CEST 2005  harry
+  * Modified CDK version check.
+
+Tue Sep 20 08:32:35 CEST 2005  harry
+  * Added --compress-level argument to gpg so it does not try to handle the compressed data itself.
+
+Tue Sep 20 08:31:44 CEST 2005  harry
+  * Little code cleanup.
+
+Tue Sep 20 08:31:23 CEST 2005  harry
+  * Fixed wrong return value.
+
+Mon Sep 12 10:47:12 CEST 2005  harry
+  * Little code cleanup, check for buggy CDK libraries and fixed compilation for path specification to libxml2.
+
+Mon Sep  5 08:57:37 CEST 2005  harry
+  tagged VERSION_0_17BETA 
+
+Mon Sep  5 08:57:37 CEST 2005  harry
+  * Updated documentation.
+
+Mon Sep  5 08:57:21 CEST 2005  harry
+  * Added information about memory problems with max. locked memory.
+
+Mon Sep  5 08:55:46 CEST 2005  harry
+  * Added fix for CDK on Gentoo.
+
+Mon Aug 29 08:48:41 CEST 2005  harry
+  tagged VERSION_0_16BETA 
+
+Mon Aug 29 08:48:41 CEST 2005  harry
+  * Fixed missing comma.
+
+Mon Aug 29 08:22:57 CEST 2005  harry
+  * Documentation updated.
+
+Mon Aug 29 08:21:27 CEST 2005  harry
+  * Updated translation.
+
+Mon Aug 29 08:21:18 CEST 2005  harry
+  * Added support of newer CDK versions.
+
+Mon Aug 29 08:20:32 CEST 2005  harry
+  * Added support of --with-memlock to get aroung the ulimit -l problems.
+
+Mon Aug 29 08:19:17 CEST 2005  harry
+  * Added check for max. memory lock setting (ulimit -l) to the startup security checks.
+
+Mon Aug 29 08:17:52 CEST 2005  harry
+  * Added display of CDK version if possible.
+
+Mon Aug 29 08:17:12 CEST 2005  harry
+  * Cleaned up the removal of check logs.
+
+Tue Aug 23 13:35:54 CEST 2005  harry
+  * Added missing glibc dependency.
+
+Tue Aug 23 13:35:34 CEST 2005  harry
+  * Removed tabs.
+
+Tue Aug 16 11:14:51 CEST 2005  harry
+  * Useless comment removed.
+
+Tue Aug 16 09:35:42 CEST 2005  harry
+  * Added sort and uniq filter for the CLI search results.
+
+Mon Aug  8 17:06:29 CEST 2005  harry
+  * The GPG_AGENT_INFO now is checked as a filename and not as a patch anymore. The environment checks have added checks for that now.
+
+Mon Aug  8 16:36:05 CEST 2005  harry
+  * Updated the version to 0.16beta and added some documentation.
+
+Mon Aug  8 16:34:09 CEST 2005  harry
+  * Fix for missing ':' character in the filename check which is needed e.g. for the GPG_AGENT_INFO variable.
+
+Mon Aug  8 09:34:37 CEST 2005  harry
+  tagged VERSION_0_15BETA 
+
+Mon Aug  8 09:34:37 CEST 2005  harry
+  * Typo fix.
+
+Mon Aug  8 08:55:23 CEST 2005  harry
+  * Added support for regex search on the CLI interface.
+
+Fri Aug  5 08:30:45 CEST 2005  harry
+  * Added an additional gettext check to verify that the language support for de_DE is enabled with locales.
+
+Fri Aug  5 08:29:48 CEST 2005  harry
+  * Translation updated.
+
+Thu Aug  4 17:26:15 CEST 2005  harry
+  * Fixed improper display of umlauts in GPG key names.
+
+Thu Aug  4 16:27:47 CEST 2005  harry
+  * Todo updated.
+
+Thu Aug  4 16:27:09 CEST 2005  harry
+  * Todo updated.
+
+Thu Aug  4 14:59:13 CEST 2005  harry
+  * Terminal bugs #1235984 and #1235987 fixed.
+
+Thu Aug  4 14:58:53 CEST 2005  harry
+  * Changes updated.
+
+Thu Aug  4 14:56:31 CEST 2005  harry
+  * Gentoo docs updated.
+
+Thu Aug  4 14:56:18 CEST 2005  harry
+  * Todo list updated.
+
+Wed Aug  3 08:58:20 CEST 2005  harry
+  * Todo updated.
+
+Mon Aug  1 16:48:08 CEST 2005  harry
+  * Todo updated.
+
+Fri Jul 29 15:03:49 CEST 2005  harry
+  * Todo updated.
+
+Sun Jul 24 19:50:56 CEST 2005  harry
+  tagged VERSION_0_14BETA 
+
+Sun Jul 24 19:50:56 CEST 2005  harry
+  * Fixed the gettext check and the gettext result file.
+
+Fri Jul 22 14:50:39 CEST 2005  harry
+  * Moved the import tools to /usr/share/cpm.
+
+Fri Jul 22 14:04:37 CEST 2005  harry
+  * Todo list updated.
+
+Sat Jul 16 12:11:20 CEST 2005  harry
+  * Todo updated.
+
+Sat Jul 16 12:10:28 CEST 2005  harry
+  * Documentation updated.
+
+Sat Jul 16 11:41:38 CEST 2005  harry
+  * Debian changelog updated.
+
+Sat Jul 16 11:39:06 CEST 2005  harry
+  * Updated the control file to fix the missing zlib dependency in the Debian package.
+
+Sat Jul 16 10:34:57 CEST 2005  harry
+  * Todo updated.
+
+Tue Jul 12 00:04:35 CEST 2005  harry
+  * Added translations.
+
+Mon Jul 11 23:57:34 CEST 2005  harry
+  * Added used library versions to the --version display.
+
+Mon Jul 11 23:27:54 CEST 2005  harry
+  * gettext fixed for the new version output.
+
+Mon Jul 11 23:25:18 CEST 2005  harry
+  * Added change of the CLI search to the changelog.
+
+Mon Jul 11 23:22:21 CEST 2005  harry
+  * Todo updated.
+
+Mon Jul 11 23:20:11 CEST 2005  harry
+  * Added the translation for the additional version information.
+
+Mon Jul 11 23:15:38 CEST 2005  harry
+  * Added check for the CLI search.
+
+Mon Jul 11 22:39:36 CEST 2005  harry
+  * Modified the cracklib support slightly and added a message to the --version output to verify wether it has been compiled in or not.
+
+Mon Jul 11 11:59:23 CEST 2005  harry
+  * Added support for the --without-crack-lib support for the configure script to not use the library in the program.
+
+Mon Jul 11 11:39:11 CEST 2005  harry
+  * Todo updated.
+
+Sun Jul 10 11:59:12 CEST 2005  harry
+  * Todo updated.
+
+Sun Jul 10 11:34:17 CEST 2005  harry
+  * Added generall xml validation for the import process.
+
+Sun Jul 10 11:09:02 CEST 2005  harry
+  * Translation updated.
+
+Sun Jul 10 11:00:49 CEST 2005  harry
+  * Fixed missing CFLAGS argument for creating the dependencies.
+
+Fri Jul  8 15:06:02 CEST 2005  harry
+  * Fixed the missing entity encoding in the comment field.
+
+Fri Jul  8 14:29:14 CEST 2005  harry
+  * Added missing convert call.
+
+Thu Jul  7 17:24:25 CEST 2005  harry
+  * Added screen refresh calls when popup windows close. So far, a black box stayed there.
+
+Thu Jul  7 16:45:31 CEST 2005  harry
+  * Added comment node removal when the comment is empty.
+
+Thu Jul  7 16:17:40 CEST 2005  harry
+  * Added \n handling for comment fields to be able to enter line breaks.
+
+Wed Jul  6 09:50:58 CEST 2005  harry
+  * Todo updated.
+
+Wed Jul  6 09:42:37 CEST 2005  harry
+  * Todo updated.
+
+Wed Jul  6 09:23:41 CEST 2005  harry
+  * Todo updated.
+
+Wed Jul  6 09:08:22 CEST 2005  harry
+  * Fixed the missing & quotes and missing basename for the subprocesses.
+
+Wed Jul  6 09:07:48 CEST 2005  harry
+  * Fixed the header of the file to match the specifications.
+
+Wed Jul  6 09:00:33 CEST 2005  harry
+  * Fixed the name for cvs2cpm.pl here as well.
+
+Mon Jul  4 17:34:36 CEST 2005  harry
+  * Added prevention of showing any passwords in the GUI headline area.
+
+Sun Jul  3 13:23:37 CEST 2005  harry
+  tagged VERSION_0_13BETA 
+
+Sun Jul  3 13:23:37 CEST 2005  harry
+  * Todo updated.
+
+Sun Jul  3 13:04:37 CEST 2005  harry
+  * Translation and todo list updated.
+
+Sun Jul  3 12:23:23 CEST 2005  harry
+  * Added proper encoding support.
+
+Fri Jul  1 22:31:54 CEST 2005  harry
+  * Prototype added.
+
+Fri Jul  1 22:31:30 CEST 2005  harry
+  * Added error message for the encoding loader.
+
+Fri Jul  1 21:05:20 CEST 2005  harry
+  * Added general encoding support.
+
+Fri Jul  1 18:27:55 CEST 2005  harry
+  * Bugfix for memory leak when --noencrypt files got written to disk.
+
+Fri Jul  1 18:18:30 CEST 2005  harry
+  * Todo updated.
+
+Fri Jul  1 18:15:43 CEST 2005  harry
+  * Added a small perl script to anonymize any XML file to make debugging easier.
+
+Fri Jul  1 17:54:38 CEST 2005  harry
+  * Renamed the script cvs2cpm.pl to it's correct name csv2cpm.pl.
+
+Fri Jul  1 09:39:38 CEST 2005  harry
+  * Todo updated.
+
+Thu Jun 16 11:47:52 CEST 2005  harry
+  * Changelog updated.
+
+Thu Jun 16 11:47:40 CEST 2005  harry
+  * Added some comments.
+
+Thu Jun 16 11:47:22 CEST 2005  harry
+  * Added information about the --testrun argument.
+
+Thu Jun 16 11:47:01 CEST 2005  harry
+  * Upgraded the version number.
+
+Thu Jun 16 11:46:20 CEST 2005  harry
+  * Fixed the short options to handle arguments without any additional data.
+
+Wed Jun 15 09:11:50 CEST 2005  harry
+  tagged VERSION_0_12BETA 
+
+Wed Jun 15 09:11:50 CEST 2005  harry
+  * Updated the changelog and todo list.
+
+Tue Jun 14 14:24:07 CEST 2005  harry
+  * Todo updated.
+
+Mon Jun 13 15:17:28 CEST 2005  harry
+  * Added the ascii signatures to the cleanup process.
+
+Mon Jun 13 15:16:23 CEST 2005  harry
+  * Added signature of the files to the website and the publishing procedure.
+
+Mon Jun 13 14:45:20 CEST 2005  harry
+  * Added a todo entry.
+
+Mon Jun 13 11:12:47 CEST 2005  harry
+  * Fixed the memory leak which occured when the CLI was used.
+
+Fri Jun 10 15:20:51 CEST 2005  harry
+  * Translation updated.
+
+Wed Jun  8 09:52:37 CEST 2005  harry
+  * Switched to version 0.12beta.
+
+Wed Jun  8 09:49:30 CEST 2005  harry
+  * Fixed typo in short options which don't require an argument.
+
+Wed Jun  8 09:49:13 CEST 2005  harry
+  * The save dialog does not get displayed anymore if the system is running in
+  The save dialog does not get displayed anymore if the system is running in
+  read-only mode.
+  
+
+Tue Jun  7 14:13:07 CEST 2005  harry
+  tagged VERSION_0_11BETA 
+
+Tue Jun  7 14:13:07 CEST 2005  harry
+  * Changelog updated.
+
+Tue Jun  7 14:12:23 CEST 2005  harry
+  * Fixed wrong inclusion of the new manpage.
+
+Mon Jun  6 10:31:06 CEST 2005  harry
+  * Fixed the message which explains that users can't read the database file if
+  Fixed the message which explains that users can't read the database file if
+  they don't use any of their own secret keys.
+  
+
+Mon Jun  6 10:21:30 CEST 2005  harry
+  * Removed my key as default encryption key from the default configuration.
+
+Mon Jun  6 10:15:56 CEST 2005  harry
+  * Fixed bug with the help function which caused a core dump.
+
+Mon Jun  6 10:09:58 CEST 2005  harry
+  * Fixed permissions for the published files.
+
+Fri Jun  3 13:58:49 CEST 2005  harry
+  * Added first basic man page.
+
+Fri Jun  3 10:17:03 CEST 2005  harry
+  * Added automatic CVS tagging for the released version.
+
+Fri Jun  3 10:05:15 CEST 2005  harry
+  * Changelog updated.
+
+Fri Jun  3 10:03:20 CEST 2005  harry
+  * Added flag, so the lockfile gets only removed if it has been created before.
+
+Fri Jun  3 09:58:30 CEST 2005  harry
+  * Updated to version 0.11beta.
+
+Fri Jun  3 09:57:38 CEST 2005  harry
+  * Fixed the symlink creation.
+
+Thu Jun  2 14:12:26 CEST 2005  harry
+  * Updated language file.
+
+Thu Jun  2 14:11:22 CEST 2005  harry
+  * Fixed missing flawfinder tag.
+
+Thu Jun  2 13:57:55 CEST 2005  harry
+  * Fixed badly modified garbage checks.
+
+Thu Jun  2 12:27:34 CEST 2005  harry
+  * Removed debug information.
+
+Thu Jun  2 12:25:37 CEST 2005  harry
+  * Fixed bug in gpgData2Char() which caused the GpgMe buffer to be read the wrong
+  Fixed bug in gpgData2Char() which caused the GpgMe buffer to be read the wrong
+  way and the de- or encrypted data was garbled. Moreover the function's code was
+  cleaned up as well.
+  
+
+Thu Jun  2 10:30:57 CEST 2005  harry
+  * Changelog updated.
+
+Thu Jun  2 10:28:39 CEST 2005  harry
+  * Added script to create random xml test data and improved the encryption test to run several times on random xml data.
+  Added script to create random xml test data and improved the encryption test to run several times on random xml data.
+  Moreover fixed a bug when a file didn't validate against the DTD. In this case
+  a core dump occured because xmlDataFileRead() returned with an error but
+  errormsg was not set and hence the program continued.
+  
+
+Wed Jun  1 11:21:45 CEST 2005  harry
+  * Typo fixes.
+
+Wed Jun  1 11:20:05 CEST 2005  harry
+  * Little add on.
+
+Wed Jun  1 11:17:10 CEST 2005  harry
+  * Documentation updated.
+
+Wed Jun  1 10:50:19 CEST 2005  harry
+  * Added this script to automate my upload process.
+
+Tue May 31 15:06:45 CEST 2005  harry
+  * Version upgraded.
+
+Tue May 31 11:37:14 CEST 2005  harry
+  * Wrapper fix.
+
+Tue May 31 11:31:08 CEST 2005  harry
+  * Documentation updated.
+
+Tue May 31 11:01:56 CEST 2005  harry
+  * Added missing variable initialization.
+
+Tue May 31 11:01:43 CEST 2005  harry
+  * Added the new commandline arguments.
+
+Tue May 31 11:01:25 CEST 2005  harry
+  * Added ownership and suid-bit handling.
+
+Tue May 31 10:33:08 CEST 2005  harry
+  * Added many security features, like disabling of core dumps, ptrace protection, memory swapping and environment poisoning.
+
+Fri May 27 12:12:21 CEST 2005  harry
+  * Code cleanup.
+
+Fri May 27 12:12:09 CEST 2005  harry
+  * Todo updated.
+
+Mon May 23 17:05:59 CEST 2005  harry
+  * Translation updated.
+
+Mon May 23 17:05:34 CEST 2005  harry
+  * Comment modified.
+
+Mon May 23 16:48:19 CEST 2005  harry
+  * Documentation updated.
+
+Mon May 23 16:43:51 CEST 2005  harry
+  * Splitup for configuration and runtime information data.
+
+Mon May 23 14:30:57 CEST 2005  harry
+  * Removed the memory check since it does not work when checked without debugger.
+
+Mon May 23 14:25:20 CEST 2005  harry
+  * Added the --readonly commandline option.
+
+Mon May 23 14:01:06 CEST 2005  harry
+  * Added the function resolveFilelink() to make it possible to create correct
+  Added the function resolveFilelink() to make it possible to create correct
+  lockfiles even when symbolic links are used.
+  
+
+Mon May 23 12:03:12 CEST 2005  harry
+  * Added O_NO_FOLLOW to lockfile opening.
+
+Mon May 23 12:00:37 CEST 2005  harry
+  * The lockfile is created with O_NOFOLLOW so we don't follow any symbolic links.
+
+Mon May 23 10:25:49 CEST 2005  harry
+  * Todo updated.
+
+Mon May 23 09:42:35 CEST 2005  harry
+  * Todo list and documentation updated.
+
+Mon May 23 09:29:50 CEST 2005  harry
+  * Fixed Gentoo Ebuild file to check for GpgMe version.
+
+Mon May 23 09:09:04 CEST 2005  harry
+  * Fixed bug #1205873.
+
+Sun May 22 22:12:06 CEST 2005  harry
+  * Modified standard definition in call to gcc and also fixed some wrong pointers.
+
+Sun May 22 21:41:52 CEST 2005  harry
+  * Some minor code cleanups and according translation fix.
+
+Sun May 22 21:23:34 CEST 2005  harry
+  * Fixed some more flawfinder complaints.
+
+Sun May 22 21:22:58 CEST 2005  harry
+  * Updated the translations.
+
+Sun May 22 21:22:29 CEST 2005  harry
+  * Added gettext_update target to copy the po file.
+
+Sun May 22 21:05:56 CEST 2005  harry
+  * Added signal handling for SIGINT and SIGTERM to remove the lockfile if it was
+  Added signal handling for SIGINT and SIGTERM to remove the lockfile if it was
+  created before.
+  
+
+Fri May 20 20:09:14 CEST 2005  harry
+  * Helpscreen and translation updated.
+
+Fri May 20 19:59:47 CEST 2005  harry
+  * Todo updated.
+
+Fri May 20 19:57:29 CEST 2005  harry
+  * Documentation updated.
+
+Fri May 20 19:56:06 CEST 2005  harry
+  * Added a check for the --configtest option.
+
+Fri May 20 19:34:59 CEST 2005  harry
+  * Added checks to read broken/garbled files.
+
+Fri May 20 19:05:42 CEST 2005  harry
+  * Todo updated.
+
+Fri May 20 19:03:32 CEST 2005  harry
+  * Fixed the file opening in read-only mode when write access was not really
+  Fixed the file opening in read-only mode when write access was not really
+  necessary, updated the todo list and the translations.
+  
+
+Fri May 20 19:02:48 CEST 2005  harry
+  * Fixed a memoryleak when the database lock could not be obtained. The message
+  Fixed a memoryleak when the database lock could not be obtained. The message
+  buffer was not freed properly then.
+  
+
+Fri May 20 18:10:21 CEST 2005  harry
+  * Added check for the backupfile creation.
+
+Fri May 20 17:09:38 CEST 2005  harry
+  * Updated documentation.
+
+Fri May 20 17:09:27 CEST 2005  harry
+  * Updated translations.
+
+Fri May 20 17:09:19 CEST 2005  harry
+  * Fixed missing Flawfinder tags.
+
+Fri May 20 17:01:25 CEST 2005  harry
+  * Todo updated.
+
+Fri May 20 17:01:14 CEST 2005  harry
+  * Removed all fopen() calls and replaced them by opening the files via open() and
+  Removed all fopen() calls and replaced them by opening the files via open() and
+  lockf().
+  
+
+Fri May 20 16:27:12 CEST 2005  harry
+  * Moved the file locking stuff to the function fileLockOpen().
+
+Fri May 20 15:02:19 CEST 2005  harry
+  * Todo updated.
+
+Fri May 20 15:01:27 CEST 2005  harry
+  * Added missing stuff for the lockfile support.
+
+Fri May 20 14:31:58 CEST 2005  harry
+  * Added support for lockfile generation.
+
+Fri May 20 10:59:57 CEST 2005  harry
+  * Todo updated.
+
+Fri May 20 10:55:21 CEST 2005  harry
+  * Modified version checking so it can properly handle the difference between 0.1,
+  Modified version checking so it can properly handle the difference between 0.1,
+  0.2 and 0.10.
+  
+
+Thu May 19 15:34:16 CEST 2005  harry
+  * Updated todo list.
+
+Thu May 19 14:28:37 CEST 2005  harry
+  * Documentation updated.
+
+Thu May 19 14:06:30 CEST 2005  harry
+  * Translation updated.
+
+Thu May 19 14:01:58 CEST 2005  harry
+  * Documentation updated.
+
+Thu May 19 11:34:25 CEST 2005  harry
+  * Fixed wrong snprintf() call where the n-argument was too small.
+
+Thu May 19 11:34:03 CEST 2005  harry
+  * Modified the destroyScreen() function a little to clean up properly.
+
+Thu May 19 11:28:13 CEST 2005  harry
+  * Fixed uncleared statusline.
+
+Thu May 19 11:17:49 CEST 2005  harry
+  * Documentation updated.
+
+Thu May 19 10:25:35 CEST 2005  harry
+  * Added full compression support with tests to verify that the zlib
+  Added full compression support with tests to verify that the zlib
+  implementation actually works.
+  
+
+Thu May 19 10:18:53 CEST 2005  harry
+  * Added compression tests.
+
+Wed May 18 17:17:13 CEST 2005  harry
+  * Added zlib compression support. Encryption check does not work yet though.
+
+Wed May 18 16:19:43 CEST 2005  harry
+  * Added flawfinder comments.
+
+Wed May 18 16:18:46 CEST 2005  harry
+  * Added zlib compression and decompression functions.
+
+Wed May 18 16:18:16 CEST 2005  harry
+  * Added Compression resource.
+
+Wed May 18 16:17:51 CEST 2005  harry
+  * Added compression configuration option.
+
+Wed May 18 09:50:09 CEST 2005  harry
+  * Added zlib check.
+
+Wed May 18 09:13:02 CEST 2005  harry
+  * Added call to xmlSetDocCompressMode() and a todo marker on where to fix the
+  Added call to xmlSetDocCompressMode() and a todo marker on where to fix the
+  zlib support.
+  
+
+Tue May 17 18:00:45 CEST 2005  harry
+  * Finished fix of flawfinder messages at level 2+.
+
+Tue May 17 17:33:47 CEST 2005  harry
+  * Added more flawfinder fixes.
+
+Tue May 17 17:25:57 CEST 2005  harry
+  * Debug code removed.
+
+Tue May 17 17:25:36 CEST 2005  harry
+  * First step of the flawfinder cleanup finished. I now use my own strStrncat()
+  First step of the flawfinder cleanup finished. I now use my own strStrncat()
+  and strStrncpy() functions.
+  
+
+Tue May 17 16:36:45 CEST 2005  harry
+  * Updated the ebuild file.
+
+Tue May 17 09:45:45 CEST 2005  harry
+  * Set version to 0.9beta.
+
+Tue May 17 09:45:22 CEST 2005  harry
+  * Added my own memSet() function to get around any possible 'dead store removal'
+  Added my own memSet() function to get around any possible 'dead store removal'
+  problems.
+  
+
+Tue May 17 08:52:28 CEST 2005  harry
+  tagged VERSION_0_8_BETA 
+
+Tue May 17 08:52:28 CEST 2005  harry
+  * Fixed naming convention of the gentoo ebuild filename.
+
+Tue May 17 08:51:39 CEST 2005  harry
+  * Added mode_t variable.
+
+Fri May 13 20:23:01 CEST 2005  harry
+  * Added AC_TYPE_MODE_T.
+
+Fri May 13 20:19:13 CEST 2005  harry
+  * Todo updated.
+
+Fri May 13 20:16:49 CEST 2005  harry
+  * Todo updated.
+
+Fri May 13 20:07:28 CEST 2005  harry
+  * Updated error messages and the translations.
+
+Fri May 13 19:57:42 CEST 2005  harry
+  * Documentation updated.
+
+Fri May 13 19:57:27 CEST 2005  harry
+  * Added configuration directive 'CreateBackup' to make it possible to turn backup
+  Added configuration directive 'CreateBackup' to make it possible to turn backup
+  file creation on and off.
+  
+
+Fri May 13 19:40:46 CEST 2005  harry
+  * Added support of backup file creation.
+
+Fri May 13 18:24:04 CEST 2005  harry
+  * Added Gentoo's ebuild file to the build process.
+
+Fri May 13 17:59:21 CEST 2005  harry
+  * Added patch from Marc Jauvin to make the Makefile Gentoo compatible.
+
+Fri May 13 15:21:59 CEST 2005  harry
+  * Added new import stuff to the packaging system and fixed tests.
+
+Fri May 13 14:54:52 CEST 2005  harry
+  * Documentation updated.
+
+Fri May 13 14:43:59 CEST 2005  harry
+  * Added a more general import interface.
+
+Thu May 12 11:34:07 CEST 2005  harry
+  * Changelog updated.
+
+Thu May 12 11:29:58 CEST 2005  harry
+  * Added conversion scripts for the Password Safe tool by Bruce Schneier.
+
+Thu May 12 11:29:30 CEST 2005  harry
+  * Added xmlSetCreation() calls at the creation of the <editor> and <template> entities.
+
+Wed May 11 16:24:24 CEST 2005  harry
+  * Set version number to 0.8beta and added default colors to be transparent.
+
+Wed May 11 15:51:32 CEST 2005  harry
+  tagged VERSION_0_7_BETA 
+
+Wed May 11 15:51:32 CEST 2005  harry
+  * Documentation updated.
+
+Wed May 11 14:57:31 CEST 2005  harry
+  * Added handling of --with-crack-dict and fixed the library order to make it possible to compile the source on Gentoo Linux and probably other platforms as well.
+
+Fri May  6 16:12:26 CEST 2005  harry
+  * Added function xmlRemoveDtd().
+
+Fri May  6 11:57:05 CEST 2005  harry
+  * Fixed the cleaning process to remove *~ files in subdirectories as well.
+
+Fri May  6 11:52:21 CEST 2005  harry
+  * Translation updated.
+
+Fri May  6 11:51:06 CEST 2005  harry
+  * Changelog updated.
+
+Fri May  6 11:42:14 CEST 2005  harry
+  * Added error handlers for the DTD validation so errors are nicely displayed.
+
+Fri May  6 09:44:06 CEST 2005  harry
+  * Fixed wrong decryption buffer.
+
+Fri May  6 09:43:52 CEST 2005  harry
+  * Added missing translation string.
+
+Fri May  6 09:43:21 CEST 2005  harry
+  * Fixed wrong printf() call which bugged with the decrypt testrun.
+
+Fri May  6 09:27:48 CEST 2005  harry
+  * Updated the test procedures to match the new DTD files.
+
+Fri May  6 09:27:25 CEST 2005  harry
+  * German translation updated.
+
+Wed May  4 17:47:07 CEST 2005  harry
+  * Added support for DTD validation.
+
+Tue May  3 12:21:16 CEST 2005  harry
+  * The message about not using any of the secret keys is no longer shown, when
+  The message about not using any of the secret keys is no longer shown, when
+  running in --noencrypt mode.
+  
+
+Mon May  2 10:45:52 CEST 2005  harry
+  * Todo updated.
+
+Thu Apr 28 15:48:47 CEST 2005  harry
+  tagged VERSION_0_6_BETA 
+
+Thu Apr 28 15:48:47 CEST 2005  harry
+  * Added --with-XXX support for the configure command.
+
+Tue Apr 26 17:08:55 CEST 2005  harry
+  * Translation updated.
+
+Tue Apr 26 17:08:44 CEST 2005  harry
+  * Format string modified.
+
+Tue Apr 26 17:00:58 CEST 2005  harry
+  * Fixed core dump when unsigned database files were used.
+
+Tue Apr 26 16:43:03 CEST 2005  harry
+  * Added names for hashes and for the validity error messages.
+
+Tue Apr 26 16:35:30 CEST 2005  harry
+  * Added text error message for the validity error message.
+
+Tue Apr 26 14:28:06 CEST 2005  harry
+  * Code cleanup.
+
+Tue Apr 26 12:39:25 CEST 2005  harry
+  * Fixed the wrapper so it now matches the name of the installed binary.
+
+Tue Apr 26 10:41:23 CEST 2005  harry
+  * Added dialog during random password generation.
+
+Tue Apr 26 10:01:32 CEST 2005  harry
+  * Updated the changelog.
+
+Tue Apr 26 10:00:34 CEST 2005  harry
+  * Added the wrapper to the debian package.
+
+Tue Apr 26 10:00:19 CEST 2005  harry
+  * Updated the translation.
+
+Tue Apr 26 09:14:43 CEST 2005  harry
+  * Fixed bug where it was possible to create nodes with the same name which should not be possible.
+
+Tue Apr 26 08:57:48 CEST 2005  harry
+  * Code cleanup.
+
+Mon Apr 25 22:23:26 CEST 2005  harry
+  * Todo updated.
+
+Mon Apr 25 17:35:11 CEST 2005  harry
+  * Translation updated.
+
+Mon Apr 25 16:43:54 CEST 2005  harry
+  * Todo updated.
+
+Mon Apr 25 16:32:04 CEST 2005  harry
+  * Modified the CLI search result where now the number of results is also displayed.
+
+Mon Apr 25 15:45:44 CEST 2005  harry
+  * Removed the plain search by keyname and replaced it with a real search in the users secret keys.
+
+Mon Apr 25 15:45:08 CEST 2005  harry
+  * Added the gpgIsSecretKey() function.
+
+Mon Apr 25 15:18:45 CEST 2005  harry
+  * Added the wrapper script to get around the GpgMe problem that it's not possible to show the previously used recipients.
+
+Mon Apr 25 15:18:14 CEST 2005  harry
+  * If a key already exists, this no longer provokes an error.
+
+Mon Apr 25 15:09:48 CEST 2005  harry
+  * Added new translations.
+
+Mon Apr 25 13:46:43 CEST 2005  harry
+  * Added the check for the used secret key. A warning is displayed, if the key, the database was originally encrypted for, is not used for encryption again.
+
+Mon Apr 25 11:00:23 CEST 2005  harry
+  * Set version to 0.6beta.
+
+Mon Apr 25 10:39:46 CEST 2005  harry
+  * Code cleanup.
+
+Mon Apr 25 10:31:13 CEST 2005  harry
+  * Added a key listing to the save data dialog so the user now sees the used keys before encrypting the message.
+
+Mon Apr 25 10:15:01 CEST 2005  harry
+  * Added the users own encryption key to the default keys.
+
+Mon Apr 25 09:30:24 CEST 2005  harry
+  * Updated help page.
+
+Mon Apr 25 09:27:25 CEST 2005  harry
+  * Added --key commandline option.
+
+Mon Apr 25 09:08:18 CEST 2005  harry
+  * Updated the todo list.
+
+Thu Apr 21 21:05:30 CEST 2005  harry
+  tagged VERSION_0_5_BETA 
+
+Thu Apr 21 21:05:30 CEST 2005  harry
+  * Comment updated.
+
+Thu Apr 21 21:02:43 CEST 2005  harry
+  * Translation updated.
+
+Thu Apr 21 20:57:26 CEST 2005  harry
+  * Code cleanup.
+
+Thu Apr 21 20:43:50 CEST 2005  harry
+  * Fixed bz2 file creation.
+
+Thu Apr 21 20:38:19 CEST 2005  harry
+  * Added some options to the gettext calls.
+
+Thu Apr 21 20:37:58 CEST 2005  harry
+  * Typo fix.
+
+Thu Apr 21 20:16:43 CEST 2005  harry
+  * Added the --configtest option and added a check to the package preparation script to validate the current example configuration.
+
+Thu Apr 21 19:42:00 CEST 2005  harry
+  * Added fix to the packaging mechanism so the tar archive is now checked for usability and missing files are reported.
+
+Thu Apr 21 15:56:33 CEST 2005  harry
+  * Added German translations.
+
+Thu Apr 21 15:48:49 CEST 2005  harry
+  * Added the statusline.
+
+Thu Apr 21 14:31:04 CEST 2005  harry
+  * Added <CTRL><W> to save the data on user request.
+
+Thu Apr 21 12:52:09 CEST 2005  harry
+  * Added the '^W' key binding to save the database on user request.
+
+Thu Apr 21 12:38:15 CEST 2005  harry
+  * Fixed missing resource file argument 'CrackLibCheck' which was already in the example resource file but not yet implemented in the resource parser.
+
+Thu Apr 21 12:31:57 CEST 2005  harry
+  * Todo updated.
+
+Thu Apr 21 11:31:54 CEST 2005  harry
+  * Set version to 0.5beta.
+
+Wed Apr 20 16:49:14 CEST 2005  harry
+  tagged VERSION_0_4BETA 
+
+Wed Apr 20 16:49:14 CEST 2005  harry
+  * Added full gettext support.
+
+Wed Apr 20 15:53:28 CEST 2005  harry
+  * Added checks for maximum length of commandline arguments, resource file entries and user input.
+
+Wed Apr 20 15:34:03 CEST 2005  harry
+  * Typos fixed and po handling modified a little.
+
+Wed Apr 20 15:13:32 CEST 2005  harry
+  * Modifications documented.
+
+Wed Apr 20 15:12:05 CEST 2005  harry
+  * Added mo creation.
+
+Wed Apr 20 15:07:41 CEST 2005  harry
+  * Typos fixed.
+
+Wed Apr 20 15:05:11 CEST 2005  harry
+  * Added missing translations.
+
+Wed Apr 20 15:00:44 CEST 2005  harry
+  * Added basic gettext support. gettext is not used yet though.
+
+Wed Apr 20 11:50:28 CEST 2005  harry
+  * Fixed autoconf setup procedure.
+
+Tue Apr 19 17:41:30 CEST 2005  harry
+  * Fixed wrong offset for the add/edit labels.
+
+Tue Apr 19 17:39:05 CEST 2005  harry
+  * Documentation modified.
+
+Tue Apr 19 17:38:10 CEST 2005  harry
+  * Documented the addition of cracklib.
+
+Tue Apr 19 17:35:53 CEST 2005  harry
+  * Added cracklib support.
+
+Tue Apr 19 16:07:39 CEST 2005  harry
+  * Todo updated.
+
+Tue Apr 19 15:16:19 CEST 2005  harry
+  * Added start of version 0.4beta.
+
+Tue Apr 19 10:56:09 CEST 2005  harry
+  * Todo updated.
+
+Tue Apr 19 10:53:18 CEST 2005  harry
+  * Updated the version info to 0.4beta.
+
+Tue Apr 19 10:44:16 CEST 2005  harry
+  * Modified todo entries.
+
+Mon Apr 18 17:45:56 CEST 2005  harry
+  tagged VERSION_0_3BETA 
+
+Mon Apr 18 17:45:56 CEST 2005  harry
+  * Added removal of the debian package directory after the package is finished.
+
+Mon Apr 18 17:37:04 CEST 2005  harry
+  * Added a script to create the distribution packages and run all tests before.
+
+Mon Apr 18 14:58:35 CEST 2005  harry
+  * Added the PMS conversion scripts to the packages.
+
+Mon Apr 18 14:42:03 CEST 2005  harry
+  * Updated the changelog to reflect the CDK draw fix.
+
+Mon Apr 18 14:38:29 CEST 2005  harry
+  * Removed the box argument from all CDK draw calls and set it to FALSE now. Probably this speeds up the redrawing action.
+
+Mon Apr 18 14:24:03 CEST 2005  harry
+  * Code cleanup.
+
+Mon Apr 18 12:04:49 CEST 2005  harry
+  * Fixed some missleading comments.
+
+Mon Apr 18 11:58:21 CEST 2005  harry
+  * Added check for AC_FUNC_GETGROUPS.
+
+Mon Apr 18 11:56:33 CEST 2005  harry
+  * Comment fixups.
+
+Mon Apr 18 11:52:00 CEST 2005  harry
+  * Renamed checkReadonly() to isReadonly().
+
+Mon Apr 18 11:31:40 CEST 2005  harry
+  * Added missing include file which caused an ugly warning.
+
+Mon Apr 18 11:26:00 CEST 2005  harry
+  * Fixed problems when the database file was not owned by the current user. Backup file creation was removed and some functions were moved into the new general.c file.
+
+Mon Apr 18 10:44:13 CEST 2005  harry
+  * Added file permission setting when a new database file is created.
+
+Mon Apr 18 10:43:10 CEST 2005  harry
+  * Todo updated.
+
+Mon Apr 18 09:44:03 CEST 2005  harry
+  * Fixed the Debian package name and replaced '_' with '-' for the Debian Version part.
+
+Sat Apr 16 09:54:13 CEST 2005  harry
+  * Added the CVS changelog to the Debian package.
+
+Sat Apr 16 09:39:47 CEST 2005  harry
+  * Fixed the behaviour of the edit, delete and comment command.
+
+Sat Apr 16 09:25:04 CEST 2005  harry
+  * Todo updated.
+
+Fri Apr 15 16:23:35 CEST 2005  harry
+  * Added a new item to the todo list.
+
+Fri Apr 15 14:56:33 CEST 2005  harry
+  * Added feature requests to the todo list.
+
+Fri Apr 15 13:24:18 CEST 2005  harry
+  * Added conversion script to convert data from PMS to CPM.
+
+Fri Apr 15 13:00:54 CEST 2005  harry
+  * Fixed segfaults if no arguments are passed to the string options.
+
+Fri Apr 15 13:00:24 CEST 2005  harry
+  * Modified the headline for the unencrypted warnings.
+
+Fri Apr 15 12:59:29 CEST 2005  harry
+  * Updated version to 0.2beta.
+
+Thu Apr 14 17:37:37 CEST 2005  harry
+  tagged VERSION_0_2BETA 
+
+Thu Apr 14 17:37:37 CEST 2005  harry
+  * Somehow this image did not get updated.
+
+Thu Apr 14 17:01:59 CEST 2005  harry
+  * Comment added.
+
+Thu Apr 14 17:00:45 CEST 2005  harry
+  * Fix for the new navigation method.
+
+Thu Apr 14 16:58:06 CEST 2005  harry
+  * Updated the images.
+
+Thu Apr 14 16:38:07 CEST 2005  harry
+  * Changelog updated.
+
+Thu Apr 14 16:36:46 CEST 2005  harry
+  * Modified the selection mode in case no entry is completely selected. Now the highlighted element of the list is really used.
+
+Thu Apr 14 16:05:44 CEST 2005  harry
+  * Added the title display of the alphalist a little.
+
+Thu Apr 14 15:38:46 CEST 2005  harry
+  * Added the breadcrumb display in the header of the alphalist.
+
+Thu Apr 14 15:00:04 CEST 2005  harry
+  * Todo updated.
+
+Thu Apr 14 11:38:09 CEST 2005  harry
+  * Updated the todo list and the Debian changelog.
+
+Thu Apr 14 11:35:22 CEST 2005  harry
+  * Moved the stderr error messages on program startup (in GUI mode) into dialog boxes.
+
+Thu Apr 14 10:38:58 CEST 2005  harry
+  * Fixed the realclean target and added the control file created by ./configure.
+
+Thu Apr 14 10:37:14 CEST 2005  harry
+  * Added the Debian binary package generation.
+
+Wed Apr 13 18:11:35 CEST 2005  harry
+  * Added Debian binary creation.
+
+Wed Apr 13 13:58:14 CEST 2005  harry
+  * JPGs added.
+
+Wed Apr 13 13:58:08 CEST 2005  harry
+  * Typo fixed.
+
+Wed Apr 13 11:42:14 CEST 2005  harry
+  * Added a note about the missing reencryption feature.
+
+Wed Apr 13 11:41:56 CEST 2005  harry
+  * Added default keys to encrypted files as well until I can fix this properly
+  Added default keys to encrypted files as well until I can fix this properly
+  with an updated version of GpgMe.
+  
+
+Wed Apr 13 11:31:22 CEST 2005  harry
+  * Added /etc/cpm/cpmrc to the resource file search.
+
+Wed Apr 13 11:30:00 CEST 2005  harry
+  * Added documentation for the configuration.
+
+Wed Apr 13 10:57:05 CEST 2005  harry
+  * Prepared stuff for the first beta release.
+
+Wed Apr 13 10:41:04 CEST 2005  harry
+  * Fixed missing #ifdef for the testrun stuff.
+
+Wed Apr 13 10:37:47 CEST 2005  harry
+  * Fixed some label settings and upgraded to version 0.1beta.
+
+Wed Apr 13 10:23:34 CEST 2005  harry
+  * Added the read-only mode check.
+
+Wed Apr 13 09:55:31 CEST 2005  harry
+  * Added feature of automatic password creation.
+
+Wed Apr 13 09:06:12 CEST 2005  harry
+  * Todo updated.
+
+Wed Apr 13 09:05:48 CEST 2005  harry
+  * Added ability to not add an encryption key more than once.
+
+Wed Apr 13 09:03:06 CEST 2005  harry
+  * Todo updated.
+
+Tue Apr 12 17:48:39 CEST 2005  harry
+  * Added the CLI search feature.
+
+Tue Apr 12 15:07:04 CEST 2005  harry
+  * Fixed pattern parsing so it now parses after the database is read and so the template titles in the database are handled with priority.
+
+Tue Apr 12 15:06:14 CEST 2005  harry
+  * Hups, added one file too much.
+
+Tue Apr 12 14:17:58 CEST 2005  harry
+  * Added files for processing 'make check'.
+
+Tue Apr 12 13:55:39 CEST 2005  harry
+  * Added xmlInterfaceTemplateGetId() to find a template id by its title.
+
+Tue Apr 12 12:07:56 CEST 2005  harry
+  * TODO comment added.
+
+Tue Apr 12 11:55:35 CEST 2005  harry
+  * Added the whole --testrun handling.
+
+Tue Apr 12 11:55:19 CEST 2005  harry
+  * Documented the possible compiler defines.
+
+Tue Apr 12 11:55:01 CEST 2005  harry
+  * Todo updated.
+
+Tue Apr 12 09:52:25 CEST 2005  harry
+  * Removed the --searchdebug flag and added --testrun instead to be able to test several parts of the program.
+
+Tue Apr 12 09:09:18 CEST 2005  harry
+  * Todo list updated.
+
+Mon Apr 11 23:33:11 CEST 2005  harry
+  * Todo list updated.
+
+Mon Apr 11 23:13:28 CEST 2005  harry
+  * Fixed the gpgme_data_rewind() usage and replaced it with gpgme_data_seek() call.
+
+Mon Apr 11 23:12:44 CEST 2005  harry
+  * Fixed the 'no' answer from the yes/no/cancel dialog.
+
+Mon Apr 11 17:52:56 CEST 2005  harry
+  * Added some more pattern tests.
+
+Mon Apr 11 17:50:56 CEST 2005  harry
+  * Set default response from guiDialogYesNoCancel() to 'cancel' instead of 'Yes'.
+
+Mon Apr 11 17:50:25 CEST 2005  harry
+  * Added proper dependency for the debug target.
+
+Mon Apr 11 17:34:08 CEST 2005  harry
+  * Added diff call to the check target.
+
+Mon Apr 11 17:12:10 CEST 2005  harry
+  * Added pattern parsing and validation.
+
+Mon Apr 11 15:23:56 CEST 2005  harry
+  * Added memory debugging flag MEMDEBUG to show all memory operations and their files and line numbers.
+
+Fri Apr  8 20:27:48 CEST 2005  harry
+  * Added the resultpatterns.
+
+Fri Apr  8 18:28:24 CEST 2005  harry
+  * Fixed the passphrase gathering.
+
+Fri Apr  8 18:28:07 CEST 2005  harry
+  * Little text modification.
+
+Fri Apr  8 16:43:03 CEST 2005  harry
+  * Added gpgme_set_textmode();
+
+Fri Apr  8 16:25:20 CEST 2005  harry
+  * Added correct cleanup in the encryption and decryption functions.
+
+Fri Apr  8 16:13:39 CEST 2005  harry
+  * Fixed error handling in the read and write functions and fixed proper passphrase re-requesting on bad phrases.
+
+Fri Apr  8 15:36:25 CEST 2005  harry
+  * Increased the version to 0.3alpha.
+
+Fri Apr  8 15:36:07 CEST 2005  harry
+  * Fixed the verification fix.
+
+Fri Apr  8 15:35:53 CEST 2005  harry
+  * Little cosmetic output change.
+
+Fri Apr  8 15:22:15 CEST 2005  harry
+  * Added addition of the key verification.
+
+Fri Apr  8 15:11:19 CEST 2005  harry
+  * Ported the GpgMe interface from version 0.3.16 to 1.0.2.
+
+Fri Apr  8 15:10:25 CEST 2005  harry
+  * Added more function checks..
+
+Fri Apr  8 15:09:53 CEST 2005  harry
+  * Removed the compiler flag -Werror because of GpgMe.
+
+Wed Apr  6 17:56:03 CEST 2005  harry
+  * Added the pattern parsing structure.
+
+Wed Apr  6 17:16:18 CEST 2005  harry
+  * Added walking of the node tree for the CLI search.
+
+Wed Apr  6 14:55:34 CEST 2005  harry
+  * Added basic search loop and also added the --searchdebug commandline argument.
+
+Wed Apr  6 14:44:51 CEST 2005  harry
+  * Added missing void argument.
+
+Wed Apr  6 14:41:03 CEST 2005  harry
+  * Added handling of the SearchPattern configuration tag.
+
+Wed Apr  6 14:33:59 CEST 2005  harry
+  * Removed the todos from the README and put them into the todo utility instead.
+
+Wed Apr  6 14:33:19 CEST 2005  harry
+  * Added the SearchPattern configuration tags.
+
+Wed Apr  6 14:23:07 CEST 2005  harry
+  * Modified exit message in case of wrong options.
+
+Wed Apr  6 14:17:25 CEST 2005  harry
+  * Little hint about the GUI usage added.
+
+Wed Apr  6 14:08:09 CEST 2005  harry
+  * Fixed bad walking of the editors node (it sometimes did not get initialized) and also added the global removal of owner tags from certain nodes, depending on the nodename.
+
+Wed Apr  6 12:34:56 CEST 2005  harry
+  * Added user handling by id reference.
+
+Wed Apr  6 12:34:56 CEST 2005  harry
+  * Added max() and min() macros.
+
+Wed Apr  6 09:53:06 CEST 2005  harry
+  * Splitup of the interface_user files into GUI and CLI part.
+
+Tue Apr  5 17:41:10 CEST 2005  harry
+  * Fixed recursion bug with the alphalist widget which was create way too often.
+
+Tue Apr  5 17:35:28 CEST 2005  harry
+  * Fixed some small update issues with the comment box.
+
+Tue Apr  5 16:58:43 CEST 2005  harry
+  * Updated the readme a little.
+
+Tue Apr  5 16:47:25 CEST 2005  harry
+  * Fixed bug when infobox was updated without any available node.
+
+Tue Apr  5 16:41:51 CEST 2005  harry
+  * Added proper refresh of the infobox.
+
+Tue Apr  5 16:41:20 CEST 2005  harry
+  * Fixed the bogus comment handling so far.
+
+Tue Apr  5 15:28:51 CEST 2005  harry
+  * Fixed bug in recursing through the alphalists with the new key events.
+
+Tue Apr  5 14:48:42 CEST 2005  harry
+  * Finished comment handling, including update of the info box.
+
+Tue Apr  5 14:48:13 CEST 2005  harry
+  * Added missing modification date update when the comment gets set.
+
+Tue Apr  5 13:11:52 CEST 2005  harry
+  * Added handling of the comments.
+
+Tue Apr  5 11:59:08 CEST 2005  harry
+  * Added basic version of comment handling.
+
+Tue Apr  5 10:28:58 CEST 2005  harry
+  * Added configuration InfoboxHeight to define the height of the infobox.
+
+Tue Apr  5 09:54:41 CEST 2005  harry
+  * Made the modification attribute optional now.
+
+Mon Apr  4 17:21:58 CEST 2005  harry
+  * Typo fix.
+
+Mon Apr  4 17:13:20 CEST 2005  harry
+  * Fixed memory leak with the title handling.
+
+Mon Apr  4 16:23:51 CEST 2005  harry
+  * Added help screen.
+
+Mon Apr  4 16:23:27 CEST 2005  harry
+  * Little code cleanup.
+
+Mon Apr  4 14:24:46 CEST 2005  harry
+  * Added automatic database update handling and xml attributes created-by, created-on, modified-by and modified-on.
+
+Mon Apr  4 14:24:00 CEST 2005  harry
+  * Added call to AC_STRUCT_TM.
+
+Mon Apr  4 14:23:38 CEST 2005  harry
+  * Fixed memory leak with global realm handling.
+
+Mon Apr  4 14:23:05 CEST 2005  harry
+  * Added usage of global realm variable.
+
+Mon Apr  4 14:22:44 CEST 2005  harry
+  * Added commandline argument --version.
+
+Mon Apr  4 14:21:58 CEST 2005  harry
+  * Removed Electric Fence from debug mode and added version information as gcc label.
+
+Mon Apr  4 10:58:44 CEST 2005  harry
+  * Added missing prototype declaration.
+
+Mon Apr  4 10:58:27 CEST 2005  harry
+  * Removed unused include of "gpg.h".
+
+Mon Apr  4 10:36:33 CEST 2005  harry
+  * Added the display of the realm name in the passphrase dialog.
+
+Mon Apr  4 10:12:38 CEST 2005  harry
+  * Added the HideCharacter resource option.
+
+Mon Apr  4 10:12:15 CEST 2005  harry
+  * Fixed bad typecasting when calling the passphrase callback function.
+
+Mon Apr  4 10:11:37 CEST 2005  harry
+  * Added the projects genereal description.
+
+Mon Apr  4 08:56:50 CEST 2005  harry
+  * Updated readme information.
+
+Mon Apr  4 08:56:14 CEST 2005  harry
+  * Added new resource flag.
+
+Sun Apr  3 22:44:44 CEST 2005  harry
+  * Added passing of the description to the password dialogs.
+
+Sun Apr  3 22:12:51 CEST 2005  harry
+  * Added toggle to keep the passphrase in memory and added retries of password queries.
+
+Sun Apr  3 21:04:31 CEST 2005  harry
+  * Added file decryption.
+
+Sun Apr  3 20:22:14 CEST 2005  harry
+  * Added propper handling of badly entered passphrase - it's now asked again.
+
+Sun Apr  3 19:42:09 CEST 2005  harry
+  * Added ASAP passphrase clearing.
+
+Sun Apr  3 19:37:02 CEST 2005  harry
+  * Added configuration flag to check if we are in GUI or CLI mode and added CLI passphrase reader functions.
+
+Sun Apr  3 19:07:31 CEST 2005  harry
+  * Added freeing of reserved GpgMe stuff before returning from all functions.
+
+Sun Apr  3 19:02:34 CEST 2005  harry
+  * Fixed bug where file reading and/or bad file decryption caused a core dump. Now the program exits properly.
+
+Sun Apr  3 18:53:09 CEST 2005  harry
+  * Defined encrypttionkeylist no longer public and added interface functions to handle it instead.
+
+Fri Apr  1 12:40:24 CEST 2005  harry
+  * Added AC_CHECK_FUNCS([strchr]).
+
+Fri Apr  1 12:40:04 CEST 2005  harry
+  * Moved the data extraction from the GpgMe structure to char* into a function.
+
+Thu Mar 31 19:12:24 CEST 2005  harry
+  * Removed debug output.
+
+Thu Mar 31 19:12:02 CEST 2005  harry
+  * Added passphrase handling and encryption of the datafile.
+
+Thu Mar 31 14:17:48 CEST 2005  harry
+  * gpgValidateEncryptionKey() no longer cycles through all keys and just takes the first one instead.
+
+Thu Mar 31 14:16:18 CEST 2005  harry
+  * ^K is not bound to a key if we run in unencrypted mode.
+
+Thu Mar 31 13:31:06 CEST 2005  harry
+  * Disabled key validation in case we are running in unencrypted mode.
+
+Thu Mar 31 13:27:12 CEST 2005  harry
+  * Fixed key validation when keys were edited.
+
+Thu Mar 31 12:09:51 CEST 2005  harry
+  * Added encryption key validation.
+
+Thu Mar 31 10:47:42 CEST 2005  harry
+  * Added check if any encryption key exists and quitting is impossible unless there really is a key to encrypt to.
+
+Thu Mar 31 10:38:05 CEST 2005  harry
+  * Comments added.
+
+Thu Mar 31 10:28:15 CEST 2005  harry
+  * Added default encryption keys and default template names.
+
+Thu Mar 31 10:27:43 CEST 2005  harry
+  * Implemented usage of configured default template names.
+
+Thu Mar 31 10:24:30 CEST 2005  harry
+  * Added default encryption keys and default template names to the resource file and moved the general list handling into a separate file.
+
+Wed Mar 30 17:59:31 CEST 2005  harry
+  * Modified some comments.
+
+Wed Mar 30 17:58:09 CEST 2005  harry
+  * Moved the key handling to a separate file so it can now act as an interface
+  Moved the key handling to a separate file so it can now act as an interface
+  between interface_user.c and gpg.c.
+  
+
+Wed Mar 30 17:37:22 CEST 2005  harry
+  * Finished key handling.
+
+Wed Mar 30 17:04:26 CEST 2005  harry
+  * Added basic encryption key handling.
+
+Wed Mar 30 15:23:47 CEST 2005  harry
+  * Added initial GpgMe library support.
+
+Wed Mar 30 15:23:11 CEST 2005  harry
+  * Added SIGINT handler.
+
+Wed Mar 30 15:22:37 CEST 2005  harry
+  * Added SIGINT handler.
+
+Wed Mar 30 10:16:17 CEST 2005  harry
+  * Added GPL copyright.
+
+Wed Mar 30 10:13:04 CEST 2005  harry
+  * Added GPL documentation.
+
+Wed Mar 30 09:56:09 CEST 2005  harry
+  * Added resource option 'DatabaseFile'.
+
+Wed Mar 30 09:55:31 CEST 2005  harry
+  * Added the resource option 'DatabaseFile'.
+
+Wed Mar 30 09:55:09 CEST 2005  harry
+  * Added the default configuration to the packaging process.
+
+Wed Mar 30 09:06:02 CEST 2005  harry
+  * Addded default resource file.
+
+Wed Mar 30 09:05:40 CEST 2005  harry
+  * Fixed wrong library specs.
+
+Wed Mar 30 09:05:02 CEST 2005  harry
+  * Added the AskToQuit option.
+
+Tue Mar 29 17:58:08 CEST 2005  harry
+  * Added the 'do you really want to quit' question.
+
+Tue Mar 29 17:37:38 CEST 2005  harry
+  * Fixed bug where library checks did not work properly.
+
+Tue Mar 29 17:16:16 CEST 2005  harry
+  * Added the README from the docs directory to the package.
+
+Tue Mar 29 17:13:26 CEST 2005  harry
+  * Added the first documentation part.
+
+Tue Mar 29 16:56:17 CEST 2005  harry
+  * Modified the configure script to demand the necessary libraries.
+
+Tue Mar 29 16:37:09 CEST 2005  harry
+  * Added the install target.
+
+Tue Mar 29 16:34:37 CEST 2005  harry
+  * Added the srcpack target.
+
+Tue Mar 29 16:33:39 CEST 2005  harry
+  * Removed the file.
+
+Tue Mar 29 16:27:26 CEST 2005  harry
+  * Added template setting functions.
+
+Tue Mar 29 16:27:04 CEST 2005  harry
+  * Removed the template node creation.
+
+Tue Mar 29 15:34:23 CEST 2005  harry
+  * Added creation of a backup file of the database file.
+
+Tue Mar 29 15:34:02 CEST 2005  harry
+  * Removed useless function xmlInterfaceRemove().
+
+Tue Mar 29 14:44:31 CEST 2005  harry
+  * Added editing of labels.
+
+Tue Mar 29 14:26:45 CEST 2005  harry
+  * Added the delete action to unlink a node from the tree.
+
+Tue Mar 29 13:30:47 CEST 2005  harry
+  * Fixed the keybinding issue which did not refresh the widget after an entry has been added.
+
+Tue Mar 29 13:12:39 CEST 2005  harry
+  * Added the -Werror compiler flag.
+
+Tue Mar 29 11:18:11 CEST 2005  harry
+  * Fixed buggy qsort function.
+
+Sun Mar 27 14:48:14 CEST 2005  harry
+  * Fixed core dump when switching between levels and added propper finding of sub-labels.
+
+Sun Mar 27 13:38:20 CEST 2005  harry
+  * Fixed the qsort() compiler warning and the memory leak with xmlwalklist.
+
+Sun Mar 27 13:20:18 CEST 2005  harry
+  * Added sorting of the display and modified the control keys.
+
+Sun Mar 27 12:01:06 CEST 2005  harry
+  * Restructured the interface files and added adding of nodes.
+
+Thu Mar 24 09:59:00 CET 2005  harry
+  * Moved all interface stuff to the interface module and cleaned the module a
+  Moved all interface stuff to the interface module and cleaned the module a
+  little.
+  
+
+Wed Mar 23 21:23:54 CET 2005  harry
+  * Added change of the statusline, depending on the current level.
+
+Wed Mar 23 21:08:01 CET 2005  harry
+  * Added a little text formatting.
+
+Wed Mar 23 20:54:25 CET 2005  harry
+  * Added handling of the statusline.
+
+Wed Mar 23 20:12:33 CET 2005  harry
+  * First keybinding added.
+
+Wed Mar 23 18:27:21 CET 2005  harry
+  * First basic implementation of the alpha list.
+
+Wed Mar 23 18:25:45 CET 2005  harry
+  * Added the user interface call.
+
+Mon Mar 21 21:32:22 CET 2005  harry
+  * Fixed the library checks for libtermcap and libm.
+
+Mon Mar 21 20:16:03 CET 2005  harry
+  * Added several init and cleanup calls.
+
+Mon Mar 21 20:15:34 CET 2005  harry
+  * Added the argument --noencryption to the debug call.
+
+Mon Mar 21 20:14:50 CET 2005  harry
+  * Modified the warning messages.
+
+Mon Mar 21 20:13:53 CET 2005  harry
+  * Added library m and termcap and modified the debug target a little.
+
+Mon Mar 21 19:41:54 CET 2005  harry
+  * Added warnings in case the datafile is not encrypted.
+
+Fri Mar 18 16:58:36 CET 2005  harry
+  * Fixed wrong and not necessary argument definition.
+
+Fri Mar 18 16:52:32 CET 2005  harry
+  * Added missing functions.
+
+Fri Mar 18 16:52:18 CET 2005  harry
+  * Modified error messages.
+
+Fri Mar 18 15:19:28 CET 2005  harry
+  * Added data encoding and basic file save/load functions.
+
+Fri Mar 18 15:19:07 CET 2005  harry
+  * Removed the error message in case the db file does not exist.
+
+Fri Mar 18 15:18:36 CET 2005  harry
+  * Added the memRealloc() function.
+
+Fri Mar 18 14:22:28 CET 2005  harry
+  * Added encoding support.
+
+Fri Mar 18 11:33:06 CET 2005  harry
+  * Added basic XML parsing structure.
+
+Fri Mar 18 10:02:50 CET 2005  harry
+  * Added proper linking for libxml2 with path finding.
+
+Thu Mar 17 18:03:41 CET 2005  harry
+  * Added basic XML stuff and added missing header to resource.c.
+
+Thu Mar 17 17:25:47 CET 2005  harry
+  * Added first interface calls.
+
+Thu Mar 17 16:38:59 CET 2005  harry
+  * Added some more #ifdefs.
+
+Thu Mar 17 16:30:11 CET 2005  harry
+  * Fixed comments and stuff so gcc now can run in picky mode with '-ansi -pedantic -Wall'.
+
+Thu Mar 17 16:13:42 CET 2005  harry
+  * Improved the autoconf capabilities.
+
+Thu Mar 17 15:48:09 CET 2005  harry
+  * Added general resource file handling.
+
+Thu Mar 17 14:34:01 CET 2005  harry
+  * Added automatic dependency handling.
+
+Thu Mar 17 14:33:46 CET 2005  harry
+  * Added resource file handling.
+
+Thu Mar 17 13:25:15 CET 2005  harry
+  * Added memory checks and handling of the additional commandline arguments to make a difference between CLI and interactive interface.
+
+Thu Mar 17 10:29:25 CET 2005  harry
+  * Added memory handling wrapper.
+
+Thu Mar 17 09:49:33 CET 2005  harry
+  * Added configuration structure.
+
+Wed Mar 16 17:38:46 CET 2005  harry
+  * Comment fixed.
+
+Wed Mar 16 17:33:39 CET 2005  harry
+  * Initial revision

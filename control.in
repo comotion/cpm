@@ -1,0 +1,15 @@
+Package: cpm
+Version: @PACKAGE_VERSION@
+Section: utils
+Priority: optional
+Architecture: i386
+Depends: libc6 (>=2.3.2), @CDK_DEBIAN_DEP@, cracklib-runtime (>= 2.7-15), cracklib2 (>= 2.7-15), libdotconf1.0 (>= 1.0.13-1), libgpgme11 (>= 1.0.2-1), libncurses5 (>= 5.4-4), libxml2 (>= 2.6.16-7), zlib1g (>= 1:1.2.2-4)
+Maintainer: Harry Brueckner <harry_b@mm.st>
+Description: This program is a ncurses based console tool to manage passwords
+ and store them public key encrypted in a file - even for more than one person.
+ The encryption is handled via GnuPG so the programs data can be accessed via
+ gpg as well, in case you want to have a look inside.
+ The data is stored as as zlib compressed XML so it's even possible to reuse
+ the data for some other purpose.
+ This package is currently in beta stage.
+ You can find more information about cpm at http://www.harry-b.de/

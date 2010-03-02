@@ -1,0 +1,52 @@
+<!ENTITY % creation "
+    created-by    CDATA #REQUIRED
+    created-on    CDATA #REQUIRED
+    ">
+<!ENTITY % creationtime "
+    created-on    CDATA #REQUIRED
+    ">
+<!ENTITY % modification "
+    modified-by   CDATA #IMPLIED
+    modified-on   CDATA #IMPLIED
+    ">
+<!ENTITY % modificationtime "
+    modified-on   CDATA #IMPLIED
+    ">
+<!ELEMENT root ((node*|template?|editor?)*)>
+<!ATTLIST root
+    version       CDATA #REQUIRED
+    %creation;
+    %modification;
+>
+<!ELEMENT comment (#PCDATA)>
+<!ATTLIST comment
+    %creation;
+    %modification;
+>
+<!ELEMENT editor (user*)>
+<!ATTLIST editor
+    %creationtime;
+>
+<!ELEMENT node (comment?, node*)>
+<!ATTLIST node
+    %creation;
+    %modification;
+    label         CDATA #REQUIRED
+>
+<!ELEMENT template (title*)>
+<!ATTLIST template
+    %creationtime;
+    %modification;
+>
+<!ELEMENT title (#PCDATA)>
+<!ATTLIST title
+    %creationtime;
+    %modificationtime;
+    level         CDATA #REQUIRED
+>
+<!ELEMENT user (#PCDATA)>
+<!ATTLIST user
+    uid           CDATA #REQUIRED
+    %creationtime;
+>
+

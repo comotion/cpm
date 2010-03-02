@@ -1,0 +1,7 @@
+For PMS we can import the database as well. It is necessary to pass the PMS
+password on the commandline though. Otherwise it's not possible to get the
+input to the export program.
+
+The syntax for the import is:
+  $ ./import.sh pms <PASSWORD>
+

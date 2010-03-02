@@ -1,0 +1,2 @@
+www.google.de.http	harry_b	test	"This is the test entry for google"
+www.web.de.ssh	harry	test	"This is a web.de test account"

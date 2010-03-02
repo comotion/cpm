@@ -1,0 +1,75 @@
+#!/bin/sh
+
+FILE="${HOME}/.cpmdb"
+
+# we keep the original arguments
+ARGUMENTS="${*}"
+
+# we parse the options to find the database file we are about to process
+TEMP=`getopt -n "$0" --options c:e:f:hirs --long config:,configtest,encoding:,file:,help,ignore,key:,noencryption,noignore,readonly,regex,regular,security,version -- "$@"`
+if [ ${?} != 0 ]; then
+  echo "Syntax error." >&2
+  exit 1
+fi
+
+eval set -- "$TEMP"
+
+while true; do
+  case "${1}" in
+    -c|--config)
+        shift
+        ;;
+    --configtest)
+        ;;
+    -e|--encoding)
+        shift
+        ;;
+    -f|--file)
+        FILE="${2}"
+        shift
+        ;;
+    -h|--help)
+        ;;
+    -i|--ignore)
+        ;;
+    --key)
+        shift
+        ;;
+    --noencryption)
+        ;;
+    --noignore)
+        ;;
+    --readonly)
+        ;;
+    -r|--regex)
+        ;;
+    --regular)
+        ;;
+    -s|--security)
+        ;;
+    --version)
+        ;;
+    --)   # finished parsing options
+      shift
+      break
+      ;;
+    *)
+      echo "Internal error." >&2
+      exit 1
+      ;;
+  esac
+
+  shift
+done
+
+# now that we know the file, we can ask gpg to tell us about the recipients
+# used in the file.
+KEYS=""
+for KEYID in `gpg --list-only --status-fd=1 "${FILE}" 2> /dev/null | \
+    grep "ENC_TO" | cut --delimiter=" " --field="3"`; do
+  KEYNAME=`gpg --list-key "${KEYID}" | grep uid | sed -e 's/^.*<\([^>]\+\)>.*$/\1/'`
+  KEYS="${KEYS} --key=${KEYNAME}"
+done
+
+cpm.bin ${KEYS} ${ARGUMENTS}
+

@@ -1,0 +1,94 @@
+# ##############################################################################
+# resource file for the Console Password Manager (cpm)
+# ##############################################################################
+
+# set this option to no if you do not want cpm to ask on exit
+AskToQuit yes
+
+# set this if you want to enter the passphrase only once at the start;
+# this only works if you use one of your own private keys for signing; as soon
+# as there is more than one, caching is disabled
+# WARNING: if you use this feature, please keep in mind that your passphrase
+#          stays in memory during program runtime!
+KeepPassphrase yes
+
+# we want to create backup files
+CreateBackup yes
+
+# define the character used to hide the typing of the passphrase
+# if you don't want anything to be seen, set it to "_"
+HideCharacter "*"
+
+# define the default compression level of the XML data in the encrypted file;
+# 0 - no compression
+# 1 - best speed
+# ...
+# 9 - best compression
+# WARNING: turning compression off reduces the quality of the encryption since
+#          much more text is known in the encrypted file;
+#          a 'known plaintext attack' might be more successful if no
+#          compression is used!
+Compression 9
+
+# define the height of the infobox; the value must be [5..25]
+InfoboxHeight 5
+
+
+# overwrite the default database filename
+# it defaults to $HOME/.cpmdb
+# DatabaseFile /tmp/testdb
+
+
+# default encoding keys
+# these keys are only used as default for new database files; after a file
+# exists, the actually used keys are used instead.
+# EncryptionKey "harry_b@mm.st"
+
+
+# password creation configuration
+PasswordLength 10
+PasswordAlphabet "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=@#$%_;:,."
+
+# set if passwords should be checked via cracklib and display a warning if the
+# password is bad
+CrackLibCheck yes
+
+
+# default template names
+# these template names are only used as long as nothing else is defined in
+# the database file.
+# if you specify "password" as a second argument, this template is considered
+# to hold passwords and is - if enabled - checked via cracklib
+TemplateName "host"
+TemplateName "service"
+TemplateName "user"
+TemplateName "password" "password"
+
+
+# if TemplateLock is set to yes, it's not possible to extend the depth of
+# existing templates.
+TemplateLock yes
+
+
+# search patterns for the commandline call and their response
+# WARNING: please keep in mind that the result pattern must also be fully
+#          resolvable for each hit, the searchpattern matches!
+SearchPattern "host <host>" "<host>"
+SearchPattern "service <service>" "<service>"
+SearchPattern "user <user>" "<user>"
+SearchPattern "<service> <user>@<host>" "<service> <user>@<host> <password>"
+SearchPattern "<service>@<host>" "<service> <user>@<host> <password>"
+SearchPattern "<user>@<host>" "<service> <user>@<host> <password>"
+
+
+# default search type on the commandline interface
+# possible values are "regex" or "regular"
+SearchType regex
+
+# default type of case matching for the commandline interface
+# if set to yes, the search runs case sensitive, otherwise not
+MatchCaseSensitive yes
+
+
+# ##############################################################################
+

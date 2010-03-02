@@ -1,0 +1,565 @@
+# ##############################################################################
+# Makefile template to create the final makefile
+# ##############################################################################
+
+.SUFFIXES: .c .o
+
+
+# ##############################################################################
+# configuration
+CC=@CC@
+# I used to have -Werror here but this breaks the warning which I must have
+# with lib GpgMe. :-(
+CFLAGS=@CFLAGS@ @CPPFLAGS@ @DEFS@ @LIBGPGME_CFLAGS@ @LIBXML_CFLAGS@ -std=c89 -pedantic -Wall -DLOCALEDIR='"@prefix@/share/locale"' @CDK_VERSION_DEF@
+INSTALL=@INSTALL@
+LDFLAGS=@LDFLAGS@ @LIBS@ @LIBGPGME_LIBS@ @LIBXML_LIBS@
+SHELL=@SHELL@
+DEBIAN_RELEASE=1
+DEBIAN_BINARY=@PACKAGE_NAME@-@PACKAGE_VERSION@-$(DEBIAN_RELEASE)_i386.deb
+GENTOO_EBUILD=`echo @PACKAGE_NAME@-@PACKAGE_VERSION@.ebuild | sed -e 's/\([0-9]\)\([a-z]\)/\1_\2/'`
+BZ2_SOURCE=@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.bz2
+TAR_SOURCE=@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+XMLLINT=@LIBXML_XMLLINT@
+WRAPPER_NECESSARY=@WRAPPER_NECESSARY@
+
+prefix=@prefix@
+sysconfdir=@sysconfdir@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+sbindir=@sbindir@
+mandir=@prefix@/man
+localedir=@prefix@/share/locale
+
+OBJECTS=cpm.o configuration.o general.o gpg.o interface_cli.o interface_gui.o interface_keys.o interface_utf8.o interface_xml.o listhandler.o memory.o patternparser.o options.o resource.o security.o string.o xml.o zlib.o
+
+
+# ##############################################################################
+# build rules
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+.o:
+	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o $@
+
+
+# ##############################################################################
+# do all
+.PHONY: all
+all: dependencies cpm
+
+
+# ##############################################################################
+# run the tests
+.PHONY: check
+check: cpm gettext check_backup check_clisearch check_compress check_configtest check_decrypt check_encrypt check_environment check_garbage check_gettext check_searchpattern
+
+OK=\t\t\t\t[1;32mok[0m
+ERROR=\t\t\t\t[1;31mfailed[0m
+GPG_ENV=GNUPGHOME=./tests GPG_AGENT_INFO=
+
+.PHONY: check_backup
+check_backup:
+	@echo -n "Testing [1;37mbackup 1         [0m"; \
+		rm -f check-backup.log tests/cryptdb~; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun=backup > check-backup.log 2>&1 || exit 1; \
+		diff --brief check-backup.log tests/backup-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+		fi; \
+		echo -n "Testing [1;37mbackup 2         [0m"; \
+		diff --brief tests/cryptdb tests/cryptdb~ > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-backup.log tests/cryptdb~; \
+		fi
+
+.PHONY: check_clisearch
+check_clisearch:
+	@MAX=6; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mcli search 1 $${RUN}/$${MAX}   [0m"; \
+			rm -f "check-clisearch-1-$${RUN}.log"; \
+			$(GPG_ENV) ./cpm --regular --noignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch host$${RUN} > "check-clisearch-1-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --noignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch user$${RUN}@host$${RUN} >> "check-clisearch-1-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --noignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch service$${RUN}@host$${RUN} >> "check-clisearch-1-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --noignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch service$${RUN} user$${RUN}@host$${RUN} >> "check-clisearch-1-$${RUN}.log" 2>&1 || exit 1; \
+			diff --brief "check-clisearch-1-$${RUN}.log" "tests/clisearch-1-$${RUN}-result.txt" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-clisearch-1-$${RUN}.log"; \
+			fi; \
+	done; \
+	echo; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mcli search 2 $${RUN}/$${MAX}   [0m"; \
+			rm -f "check-clisearch-2-$${RUN}.log"; \
+			$(GPG_ENV) ./cpm --regular --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch HOST$${RUN} > "check-clisearch-2-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch USER$${RUN}@HOST$${RUN} >> "check-clisearch-2-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch SERVICE$${RUN}@HOST$${RUN} >> "check-clisearch-2-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regular --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch service$${RUN} USER$${RUN}@HOST$${RUN} >> "check-clisearch-2-$${RUN}.log" 2>&1 || exit 1; \
+			diff --brief "check-clisearch-2-$${RUN}.log" "tests/clisearch-2-$${RUN}-result.txt" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-clisearch-2-$${RUN}.log"; \
+			fi; \
+	done; \
+	echo; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mcli search 3 $${RUN}/$${MAX}   [0m"; \
+			rm -f "check-clisearch-3-$${RUN}.log"; \
+			$(GPG_ENV) ./cpm --regex --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch "host$${RUN}" > "check-clisearch-3-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regex --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch "user[0-9]" >> "check-clisearch-3-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regex --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch "serv[a-z]+$${RUN}" >> "check-clisearch-3-$${RUN}.log" 2>&1 || exit 1; \
+			$(GPG_ENV) ./cpm --regex --ignore --config=tests/cpmrc-clisearch-tests --file=tests/clisearchdb --testrun=clisearch "servic[:alp" 2>&1 | sed -e 's/ error: .*/ error/' >> "check-clisearch-3-$${RUN}.log" || exit 1; \
+			diff --brief "check-clisearch-3-$${RUN}.log" "tests/clisearch-3-$${RUN}-result.txt" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-clisearch-3-$${RUN}.log"; \
+			fi; \
+	done; \
+	echo
+
+.PHONY: check_compress
+check_compress:
+	@MAX=6; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mcompression $${RUN}/$${MAX}  [0m"; \
+			rm -f "check-compress-$${RUN}.log"; \
+			$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun="compress$${RUN}" > "check-compress-$${RUN}.log" 2>&1 || exit 1; \
+			diff --brief "check-compress-$${RUN}.log" "tests/compress$${RUN}-result.txt" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-compress-$${RUN}.log"; \
+			fi; \
+	done; \
+	echo
+
+.PHONY: check_configtest
+check_configtest:
+	@echo -n "Testing [1;37mconfigtest 1     [0m"; \
+		rm -f check-configtest-1.log; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --configtest > check-configtest-1.log 2>&1 || exit 1; \
+		diff --brief check-configtest-1.log tests/configtest1-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-configtest-1.log; \
+		fi; \
+	echo -n "Testing [1;37mconfigtest 2     [0m"; \
+		rm -f check-configtest-2.log; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-broken --configtest > check-configtest-2.log 2>&1; \
+		diff --brief check-configtest-2.log tests/configtest2-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-configtest-2.log; \
+		fi
+
+.PHONY: check_decrypt
+check_decrypt:
+	@echo -n "Testing [1;37mdecryption       [0m"; \
+		rm -f check-decrypt.log; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun=decrypt > check-decrypt.log 2>&1 || exit 1; \
+		diff --brief check-decrypt.log tests/decrypt-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-decrypt.log; \
+		fi
+
+.PHONY: check_encrypt
+check_encrypt:
+	@MAX=100; \
+	if [ ! -x "$(XMLLINT)" ]; then \
+		echo "xmllint not found in $(XMLLINT)"; \
+		exit 1; \
+	fi; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mencryption $${RUN}/$${MAX}  [0m"; \
+			rm -f "check-data-$${RUN}.log" check-data-$${RUN}-*.data check-data-$${RUN}-*.data~; \
+			tests/testxml.pl --alphabet=tests/alphabet-ascii.txt > "check-data-$${RUN}-0.data" || exit 1; \
+			cat "check-data-$${RUN}-0.data" | gzip -9 > "check-data-$${RUN}-1.data" || exit 1; \
+			echo "1234567890" | GNUPGHOME=./tests GPG_AGENT_INFO= gpg --no-tty --recipient="cpm@testdomain.org" --passphrase-fd 0 --armour --sign --encrypt --compress-level 0 --output="check-data-$${RUN}-2.data" "check-data-$${RUN}-1.data" 2> /dev/null || exit 1; \
+			cp "check-data-$${RUN}-2.data" "check-data-$${RUN}-3.data" || exit 1; \
+			$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --file="check-data-$${RUN}-3.data" --testrun=encrypt > "check-data-$${RUN}.log" 2>&1 || exit 1; \
+			echo "1234567890" | GNUPGHOME=./tests GPG_AGENT_INFO= gpg --no-tty --passphrase-fd 0 --decrypt "check-data-$${RUN}-3.data" 2> /dev/null | gzip -cd > "check-data-$${RUN}-4.data" || exit 1; \
+			sed -e 's/ \(created\|modified\)-[a-z]\+="[^"]\+"//g' -e 's/root version="[^"]\+"/root/' "check-data-$${RUN}-0.data" | $(XMLLINT) --dropdtd - | $(XMLLINT) --c14n > "check-data-$${RUN}-5.data"; \
+			sed -e 's/ \(created\|modified\)-[a-z]\+="[^"]\+"//g' -e 's/root version="[^"]\+"/root/' "check-data-$${RUN}-4.data" | $(XMLLINT) --dropdtd - | $(XMLLINT) --c14n > "check-data-$${RUN}-6.data"; \
+			diff --brief "check-data-$${RUN}-5.data" "check-data-$${RUN}-6.data" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-data-$${RUN}.log" check-data-$${RUN}-*.data check-data-$${RUN}-*.data~; \
+			fi; \
+	done; \
+	echo
+
+.PHONY: check_environment
+check_environment:
+	@echo -n "Testing [1;37menvironment      [0m"; \
+		rm -f check-environment.log; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun=environment > check-environment.log 2>&1 || exit 1; \
+		diff --brief check-environment.log tests/environment-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-environment.log; \
+		fi
+
+.PHONY: check_garbage
+check_garbage:
+	@MAX=8; \
+	for RUN in `seq 1 $${MAX}`; do \
+		echo -n "Testing [1;37mgarbage $${RUN}/$${MAX}      [0m"; \
+			rm -f "check-garbagedb-$${RUN}.log"; \
+			$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun=garbage --file="tests/garbagedb$${RUN}" > "check-garbagedb-$${RUN}.log" 2>&1; \
+			diff --brief "check-garbagedb-$${RUN}.log" "tests/garbagedb$${RUN}-result.txt" > /dev/null; \
+			if [ $${?} -ne 0 ]; then \
+				echo -e "$(ERROR)"; \
+				exit 1; \
+			else \
+				echo -en "$(OK)\r"; \
+				rm -f "check-garbagedb-$${RUN}.log"; \
+			fi; \
+	done; \
+	echo
+
+.PHONY: check_gettext
+check_gettext:
+	@echo -n "Testing [1;37mgettext 1       [0m"; \
+		INSTALLED=`locale -a | grep -c "^de_DE$$"`; \
+		if [ $${INSTALLED} -ne 1 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+		fi
+	@echo -n "Testing [1;37mgettext 2       [0m"; \
+		rm -f check-gettext.log; \
+		$(GPG_ENV) LANG=de_DE ./cpm --version | tail --lines=1 > check-gettext.log 2>&1 || exit 1; \
+		diff --brief check-gettext.log tests/gettext-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-gettext.log; \
+		fi
+
+.PHONY: check_searchpattern
+check_searchpattern:
+	@echo -n "Testing [1;37msearchpatterns   [0m"; \
+		rm -f check-searchpattern.log; \
+		$(GPG_ENV) ./cpm --config=tests/cpmrc-pattern-tests --testrun=searchpattern > check-searchpattern.log 2>&1 || exit 1; \
+		diff --brief check-searchpattern.log tests/pattern-result.txt > /dev/null; \
+		if [ $${?} -ne 0 ]; then \
+			echo -e "$(ERROR)"; \
+			exit 1; \
+		else \
+			echo -e "$(OK)"; \
+			rm -f check-searchpattern.log; \
+		fi
+
+
+# ##############################################################################
+# clean the directory from unused and autogenerated stuff
+.PHONY: clean
+clean:
+	find . -name "*~" -exec rm {} \;
+	rm -fr *.o check-*.data check-*.log debug.log cpm core
+	cd ./po; rm -fr cpm.po current.txt new.txt de_DE_new.po *.mo ./de/*
+
+
+# ##############################################################################
+# dependencies
+cpm: $(OBJECTS)
+-include Makefile.dep
+
+
+# ##############################################################################
+# run the program in debug mode
+.PHONY: debug
+debug: cpm
+	./cpm --noencryption 2> debug.log; \
+		cat debug.log
+# electric fence does not work with GpgMe
+# 	LD_PRELOAD=libefence.so.0.0 ./cpm --noencryption 2> debug.log; \
+# 		cat debug.log
+
+
+# ##############################################################################
+# create the dependencies file
+.PHONY: dependencies
+dependencies:
+	@rm -f Makefile.dep; \
+	for FILE in $(OBJECTS); do \
+		$(CC) $(CFLAGS) -MM $${FILE%%.o}.c >> Makefile.dep; \
+	done
+
+
+# ##############################################################################
+# create the Gentoo ebuild file
+.PHONY: gentoo
+gentoo:
+	cp ../gentoo/cpm.ebuild $(GENTOO_EBUILD)
+
+
+# ##############################################################################
+# compile the gettext information
+.PHONY: gettext
+gettext: gettext_compile
+
+.PHONY: gettext_compile
+gettext_compile: gettext_translate
+	cd po; \
+		tail --lines=+18 de_DE.po > current.txt; \
+		tail --lines=+18 de_DE_new.po > new.txt; \
+		diff -u current.txt new.txt
+	cd po; msgfmt --check --statistics --strict de_DE.po --output=de_DE.mo
+	cd po; \
+		mkdir -p ./de/LC_MESSAGES; \
+		cp de_DE.mo ./de/LC_MESSAGES/cpm.mo
+
+
+# ##############################################################################
+# make new gettext file
+.PHONY: gettext_translate
+gettext_translate:
+	xgettext -p ./po -o cpm.po --language=C --indent --width=80 --keyword=_ *.c
+	cd ./po; \
+		mv cpm.po cpm.tmp; \
+		sed -e 's/; charset=CHARSET/; charset=iso-8859-1/' cpm.tmp > cpm.po; \
+		rm -f cpm.tmp
+	cd ./po; \
+		msgmerge --no-fuzzy-matching de_DE.po cpm.po > de_DE_new.po
+
+
+# ##############################################################################
+# update gettext information
+.PHONY: gettext_update
+gettext_update:
+	cp ./po/de_DE_new.po ./po/de_DE.po
+
+
+# ##############################################################################
+# install everything
+.PHONY: install
+install: cpm gettext
+	$(INSTALL) -D --mode=4755 --owner=root --group=root @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
+	$(INSTALL) -D --mode=644 ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
+	$(INSTALL) -D --mode=644 ./docs/cpm.1.gz $(DESTDIR)$(mandir)/man1/cpm.1.gz
+
+
+# ##############################################################################
+# create the manual
+
+.PHONY: man
+man:
+	txt2man -s 1 -r "@PACKAGE_NAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" -T ../docs/cpm.txt | gzip -9 > ../docs/cpm.1.gz
+
+
+# ##############################################################################
+# set all probably missing file permissions
+.PHONY:
+permissions:
+	chmod 755 ../anonymize/cpm2anonymous.pl
+	chmod 755 ../debian/postinst
+	chmod 755 ../import/general/convert.sh
+	chmod 755 ../import/passwordsafe/convert.pl
+	chmod 755 ../import/*.pl ../import/*.sh
+	chmod 755 ../import/pms/convert.pl ../import/pms/convert.sh
+	chmod 755 ./prepare_release.sh ./publish_release.sh
+	chmod 755 ./tests/testxml.pl
+	chmod 755 ../wrapper/cpm-wrapper
+
+
+# ##############################################################################
+# clean all the autoconf stuff
+.PHONY: realclean
+realclean: clean
+	rm -fr \
+		tests/*~ \
+		tests/random_seed \
+		autom4te.cache \
+		autoscan.log \
+		config.h \
+		config.log \
+		config.status \
+		configure.scan \
+		configure \
+		control \
+		Makefile \
+		Makefile.dep \
+		$(DEBIAN_BINARY) \
+		$(GENTOO_EBUILD) \
+		$(BZ2_SOURCE) \
+		$(BZ2_SOURCE).asc \
+		$(TAR_SOURCE) \
+		$(TAR_SOURCE).asc
+
+
+# ##############################################################################
+# create the Debian binary package
+.PHONY: debian
+debian: clean gettext man cpm
+	rm -fr ./debian $(DEBIAN_BINARY)
+	mkdir -p \
+		./debian/usr/bin \
+		./debian/etc/cpm \
+		./debian/usr/share/cpm \
+		./debian/usr/share/cpm/general \
+		./debian/usr/share/cpm/passwordsafe \
+		./debian/usr/share/cpm/pms \
+		./debian/usr/share/doc/cpm/anonymize \
+		./debian/usr/share/doc/cpm/wrapper \
+		./debian/usr/share/locale/de/LC_MESSAGES \
+		./debian/usr/share/man/man1 \
+		./debian/DEBIAN
+	find ./debian -type d | xargs chmod 755
+	cd ..; \
+		darcs changes > ChangeLog
+	cp control debian/DEBIAN
+	if [ $(WRAPPER_NECESSARY) -eq 1 ]; then \
+		cp cpm ./debian/usr/bin/cpm.bin; \
+		cp ../wrapper/cpm-wrapper ./debian/usr/bin/cpm; \
+		strip --remove-section=.comment --remove-section=.note ./debian/usr/bin/cpm.bin; \
+	else \
+		cp cpm ./debian/usr/bin/cpm; \
+		strip --remove-section=.comment --remove-section=.note ./debian/usr/bin/cpm; \
+	fi
+	cd ./po; \
+		cp de_DE.mo ../debian/usr/share/locale/de/LC_MESSAGES/cpm.mo
+	cd ../debian; \
+		cp ../ChangeLog AUTHORS changelog changelog.Debian copyright ../src/debian/usr/share/doc/cpm; \
+		cp conffiles postinst ../src/debian/DEBIAN/; \
+		chmod 755 ../src/debian/DEBIAN/postinst
+	cd ../docs; \
+		cp GPLv2 README ../src/debian/usr/share/doc/cpm
+	cd ../docs; \
+		cp cpm.1.gz ../src/debian/usr/share/man/man1
+	cd ../anonymize; \
+		cp cpm2anonymous.pl ../src/debian/usr/share/doc/cpm/anonymize/
+	cd ../docs; \
+		cp cpmdb.dtd ../src/debian/usr/share/cpm/
+	cd ../import; \
+		cp convert2cpm.sh csv2cpm.pl import.sh ../src/debian/usr/share/cpm/
+	cd ../import/general; \
+		cp convert.sh example.txt README ../../src/debian/usr/share/cpm/general/
+	cd ../import/passwordsafe; \
+		cp convert.pl example.txt README ../../src/debian/usr/share/cpm/passwordsafe/
+	cd ../import/pms; \
+		cp convert.pl convert.sh README ../../src/debian/usr/share/cpm/pms/
+	cd ../wrapper; \
+		cp cpm-wrapper ../src/debian/usr/share/doc/cpm/wrapper/
+	find ./debian/usr/share/doc/cpm/anonymize/ -type f -exec chmod 644 {} \;
+	find ./debian/usr/share/cpm/ -type f -exec chmod 644 {} \;
+	find ./debian/usr/share/cpm/ -type f \( -name "*.pl" -or -name "*.sh" \) -exec chmod 755 {} \;
+	chmod 644 ./debian/usr/share/doc/cpm/wrapper/*
+	gzip --best ./debian/usr/share/doc/cpm/ChangeLog
+	gzip --best ./debian/usr/share/doc/cpm/changelog
+	gzip --best ./debian/usr/share/doc/cpm/changelog.Debian
+	cp ../conf/cpmrc-default ./debian/usr/share/doc/cpm
+	cp ../conf/cpmrc-default ./debian/etc/cpm/cpmrc
+	fakeroot dpkg-deb --build debian
+	mv debian.deb $(DEBIAN_BINARY)
+	lintian --dont-check-part chg $(DEBIAN_BINARY)
+	rm -fr debian
+
+
+# ##############################################################################
+# create the tar packages
+.PHONY: tar
+tar: clean gettext man permissions
+	cd ..; \
+		darcs changes > ChangeLog; \
+		cd -
+	rm -fr @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	mkdir -p @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@; \
+		mkdir -p anonymize conf docs share/cpm/general share/cpm/passwordsafe share/cpm/pms po tests wrapper
+	cp \
+		*.c \
+		*.h \
+		*.in \
+		configure \
+		install-sh \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	cp \
+		../conf/cpmrc-default \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/conf/
+	cp \
+		../debian/changelog \
+		../ChangeLog \
+		../docs/cpm.1.gz \
+		../docs/cpm.txt \
+		../docs/GPLv2 \
+		../docs/README \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/docs/
+	cp \
+		../anonymize/cpm2anonymous.pl \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/anonymize/
+	cp \
+		../docs/cpmdb.dtd \
+		../import/convert2cpm.sh \
+		../import/csv2cpm.pl \
+		../import/import.sh \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/share/cpm/
+	cp \
+		../import/general/convert.sh \
+		../import/general/example.txt \
+		../import/general/README \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/share/cpm/general/
+	cp \
+		../import/passwordsafe/convert.pl \
+		../import/passwordsafe/example.txt \
+		../import/passwordsafe/README \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/share/cpm/passwordsafe/
+	cp \
+		../import/pms/convert.pl \
+		../import/pms/convert.sh \
+		../import/pms/README \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/share/cpm/pms/
+	cp \
+		../wrapper/cpm-wrapper \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/wrapper/
+	cp ./po/de_DE.mo \
+		./po/de_DE.po \
+		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/po/
+	find tests/ -type f -maxdepth 1 -exec \
+		cp {} @PACKAGE_TARNAME@-@PACKAGE_VERSION@/tests/ \;
+	tar cjf $(BZ2_SOURCE) @PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+	tar czf $(TAR_SOURCE) @PACKAGE_TARNAME@-@PACKAGE_VERSION@/
+	rm -fr @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+
+
+# ##############################################################################
+

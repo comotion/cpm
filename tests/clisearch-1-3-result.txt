@@ -1,0 +1,8 @@
+service3 user3@host3 password3
+1 match found.
+service3 user3@host3 password3
+1 match found.
+service3 user3@host3 password3
+1 match found.
+service3 user3@host3 password3
+1 match found.

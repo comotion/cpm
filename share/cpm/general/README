@@ -1,0 +1,9 @@
+This import script is used to import plain CSV files in our proprietary format.
+
+The format for the cpm CSV is:
+
+hostname<TAB>host comment<TAB>servive<TAB>servive comment<TAB>user<TAB>user comment<TAB>password<TAB>password comment;<nl>
+
+The syntax for the import is:
+  $ ./import.sh general <FILENAME>
+

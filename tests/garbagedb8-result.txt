@@ -1,0 +1,11 @@
+tests/garbagedb8:42: parser error : Premature end of data in tag user line 41
+
+^
+tests/garbagedb8:42: parser error : Premature end of data in tag editor line 41
+
+^
+tests/garbagedb8:42: parser error : Premature end of data in tag root line 41
+
+^
+error: file error failed to parse xml document 'tests/garbagedb8'.
+error: (null)

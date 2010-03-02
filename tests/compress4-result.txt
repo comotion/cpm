@@ -1,0 +1,4 @@
+buffer size: 10240 -> 10263
+buffer size: 10263 -> 10240
+buffer size ok
+buffer ok

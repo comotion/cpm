@@ -1,0 +1,94 @@
+NAME
+  cpm - Console Password Manager
+
+SYNOPSIS
+  cpm [--config FILE] [--configtest] [--encoding] [--file FILE] [--help]
+    [--key KEY] [--noencryption] [--readonly] [--security] [--testrun TYPE]
+    [--version] [PATH]
+
+DESCRIPTION
+  Keep a password database safe and encrypted.
+
+  --config, -c    configuration file to use [~/.cpmrc]
+  --configtest    verify the configuration file and exit
+  --encoding, -e  the encoding in which keyboard input arrives [ISO-8859-1]
+  --file, -f      database file to use [~/.cpmdb]
+  --help, -h      display this help
+  --key           overwrite the default encryption keys and use this key
+                  instead; repeat for several keys
+  --noencryption  turn off file encryption
+                  WARNING: THIS IS FOR DEVELOPMENT AND TESTING ONLY!
+  --readonly, -r  open the database in read-only mode
+  --security, -s  run a security check and show the current security status
+  --testrun       run one of the testmodes
+                  backup          run test on the backupfile creation
+                  compress[1-6]   run compression test 1-6
+                  decrypt         run test on the decryption code
+                  encrypt         run test on the encryption code
+                  environment     run test on the environment validation
+                  garbage         run test on garbage input files
+                  searchpattern   run test on the search patterns
+                  This only works when the application has been compiled with
+                  the compiler flag -DTEST_OPTION.
+  --version       display the version and exit
+  PATH            path to display the password for
+
+KEYS
+  The following keys launch commands in the GUI of cpm:
+    * ^A    add a new node to the current node.
+    * ^D    delete the currently selected node and all its subnodes.
+    * ^E    edit the currently selected node.
+    * ^H    show the help screen.
+    * ^K    edit the currently used encryption keys.
+    * ^N    edit the name of the current level.
+    * ^O    edit the comment of the selected node.
+    * ^P    edit the current node and suggest a password.
+    * ^W    write the database to disk.
+
+ENVIRONMENT
+  The following environment variables are used by the application:
+    * GNUPGHOME       If set directory used instead of "~/.gnupg".
+    * GPG_AGENT_INFO  Used  to  locate the gpg-agent
+
+    * HOME            Used to locate the default home directory.
+    * LANG            Used to determine the user's language.
+
+    * COLUMNS         Used to size some displays to the full size of the screen.
+    * LINES           Used to size some displays to the full size of the screen.
+    * TERMCAP         Terminal settings of the currently used terminal.
+    * TERM            Terminal settings of the currently used terminal.
+
+  All other variables are discarded at program startup.
+
+IMPORT
+  The data import utilities are installed in /usr/share/cpm and the following
+  formats can be imported:
+    * csv
+    * passwordsafe
+    * pms
+
+SEE ALSO
+  gpg(1)
+
+REPORTING BUGS
+  Report bugs to <harry_b@mm.st>.
+
+COPYRIGHT
+  Copyright (C) 2005, 2006 Harry Brueckner
+
+  This program is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or any later version.
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+  You should have received a copy of the GNU General Public License along with
+  this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+  Contact: Harry Brueckner <harry_b@mm.st>
+           Muenchener Strasse 12a
+           85253 Kleinberghofen
+           Germany
+

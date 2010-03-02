@@ -1,0 +1,9 @@
+no match found.
+service1 user1@host1 password1
+service2 user2@host2 password2
+service3 user3@host3 password3
+service4 user4@host4 password4
+service5 user5@host5 password5
+5 matches found.
+no match found.
+regular expression error

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE none PUBLIC "none" "none" [
+<!ENTITY % creation "
+    created-by    CDATA #REQUIRED
+    created-on    CDATA #REQUIRED
+    ">
+<!ENTITY % creationtime "
+    created-on    CDATA #REQUIRED
+    ">
+<!ENTITY % modification "
+    modified-by   CDATA #IMPLIED
+    modified-on   CDATA #IMPLIED
+    ">
+<!ELEMENT root (node | template | editor)*>
+<!ATTLIST root version CDATA #REQUIRED>
+<!ATTLIST root created-by CDATA #REQUIRED>
+<!ATTLIST root created-on CDATA #REQUIRED>
+<!ATTLIST root modified-by CDATA #IMPLIED>
+<!ATTLIST root modified-on CDATA #IMPLIED>
+<!ELEMENT comment (#PCDATA)>
+<!ATTLIST comment created-by CDATA #REQUIRED>
+<!ATTLIST comment created-on CDATA #REQUIRED>
+<!ATTLIST comment modified-by CDATA #IMPLIED>
+<!ATTLIST comment modified-on CDATA #IMPLIED>
+<!ELEMENT editor (user)*>
+<!ATTLIST editor created-on CDATA #REQUIRED>
+<!ELEMENT node (comment? , node*)>
+<!ATTLIST node created-by CDATA #REQUIRED>
+<!ATTLIST node created-on CDATA #REQUIRED>
+<!ATTLIST node modified-by CDATA #IMPLIED>
+<!ATTLIST node modified-on CDATA #IMPLIED>
+<!ATTLIST node label CDATA #REQUIRED>
+<!ELEMENT template (title)*>
+<!ATTLIST template created-on CDATA #REQUIRED>
+<!ATTLIST template modified-by CDATA #IMPLIED>
+<!ATTLIST template modified-on CDATA #IMPLIED>
+<!ELEMENT user (#PCDATA)>
+<!ATTLIST user uid CDATA #REQUIRED>
+<!ATTLIST user created-on CDATA #REQUIRED>
+]>
+<root version="0.7beta" created-by="1" created-on="2005-05-06 09:20:29" modified-by="1" modified-on="2005-05-06 09:20:31"><editor created-on="2005-05-06 09:20:29"><user uid="1" created-on="2005-05-06 09:20:29">unknown</user></editor><template created-on="2005-05-06 09:20:29"/></root>

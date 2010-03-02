@@ -1,0 +1,8 @@
+service4 user4@host4 password4
+1 match found.
+service4 user4@host4 password4
+1 match found.
+service4 user4@host4 password4
+1 match found.
+service4 user4@host4 password4
+1 match found.

@@ -1,0 +1,377 @@
+cpm (0.23beta) unstable; urgency=low
+  * GUI
+    + The statusline now reflects the correct ESC command which now switches
+      from 'Exit' to 'Back' on deeper levels.
+    + Modified the CDK support so it now runs with the current version 5 of
+      this library
+  * General
+    + Finally the Debian repository is signed. For this, some scripts were
+      modified.
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri, 12 Apr 2006 19:13:18 +0100
+
+cpm (0.22beta) unstable; urgency=medium
+  * Bugs
+    + Fixed bug #1457707 where a new comment caused a segmentation fault when
+      the comment was left empty.
+    + Fixed bug #1458208 where CTRL+E caused a weird string to show up at
+      certain occasions. The list control was not checked correctly for the
+      available number of entries.
+  * GUI
+    + Added a dialog to ask the user if the lockfile should be removed in case
+      it exists on program startup.
+
+ -- Harry Brueckner <harry_b@mm.st>  Sun, 26 Mar 2006 16:01:57 +0100
+
+cpm (0.21beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed bug #1437432 which created a lockfile even if cpm was started
+      with the --readonly option.
+  * GUI
+    + GPGME 1.1 is now supported and the binary directly encrypts the
+      datafile for the same recipients as it was encrypted before; the
+      wrapper script is no longer necessary.
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri, 24 Feb 2006 17:32:23 +0100
+
+cpm (0.20beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed bug #1370314 which didn't allow @ characters in strings during the
+      security checks.
+  * GUI
+    + The configuration option 'TemplateLock' now can be used so it's no longer
+      possible to extend the tree structure with unknwon nodes. If set to 'no'
+      the behaviour is like it has been before.
+    + If no encryption key has been specified, the user is now asked if he
+      wants to quit without saving.
+  * General
+    + Fixed CLI search 3 check so the regex error message test is ignored;
+      it's enough to verify that there is an error, not which error exactly
+      since the message has been changed between versions
+    + Fixed bug in the configure script which did not examine the cdk.h file
+      properly and also added a check for the version of GPGME
+    + Modified the apt repository on the server to be able to hold repositories
+      for several Debian versions
+    + Added Debian package for Debian Sarge.
+
+ -- Harry Brueckner <harry_b@mm.st>  Sat,  1 Dec 2005 09:26:44 +0100
+
+cpm (0.19beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed wrong encoding of the user identity which was extracted from the
+      GPG realm
+    + Wrong max. memory limits were not reported correctly since the
+      application run out of memory before it could report it; now memory does
+      not get locked if not enough memory is available
+  * General
+    + Switched from CVS to darcs
+    + Added UTF-8 encoding check during program startup
+
+ -- Harry Brueckner <harry_b@mm.st>  Mon, 26 Sep 2005 19:38:56 +0100
+
+cpm (0.18beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed a bug in the configure script where --with-xml2 did not work like
+      it was expected
+    + Datafiles with size 0 now create an error and no segmentation fault
+  * General
+    + Added check to the configure script so CDK versions >4.9.10 can no longer
+      be used since these versions can not handle empty lists properly
+    + The default gpg key is no longer used to sign the database files;
+      instead all keys which are used for encryption and have the ability to
+      be used for signing are used
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri, 16 Sep 2005 19:00:47 +0100
+
+cpm (0.17beta) unstable; urgency=low
+
+  * Bugs
+    + Some versions of CDK could not be used for compilation; the --with-cdk-v4
+      option fixes those problems (e.g. with CDK version 4.9.10)
+    + Added a warning to the Gentoo ebuild
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri,  2 Sep 2005 17:25:23 +0100
+
+cpm (0.16beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed bug in the environment variable check where GPG_AGENT_INFO needs
+      the ':' character
+  * CLI
+    + Duplicate search results are no longer displayed. The output list is
+      made unique and the entries are alphabetically sorted.
+  * GUI
+    + The GUI now compiles with later CDK versions as well (highest tested
+      version is 5.0-20050424)
+  * General
+    + Added check for the 'max locked memory' setting in the security checks;
+      the behaviour can be controlled by the configure option --with-memlock
+    + Makefile cleanup to cleanup temorary files of the check process
+
+ -- Harry Brueckner <harry_b@mm.st>  Sun, 28 Aug 2005 20:37:54 +0100
+
+cpm (0.15beta) unstable; urgency=low
+
+  * Bugs
+    + Bug #1235984 has been fixed
+    + Bug #1235987 has been fixed
+  * CLI
+    + Added regular expression search
+  * GUI
+    + Resizing of the terminal does not trigger any weird keys anymore
+    + The info panel uses the full screen width
+    + Fixed invalid display of umlauts in GPG keys
+  * General
+    + added a gettext check to verify if the locale for de_DE is installed;
+      otherwise the gettext check would fail one step later
+
+ -- Harry Brueckner <harry_b@mm.st>  Sun,  7 Aug 2005 21:54:28 +0100
+
+cpm (0.14beta) unstable; urgency=medium
+
+  * CLI
+    + Added an additional test for the CLI search
+  * GUI
+    + If you go deeper than password level, the password is not listed in the
+      headline area of the GUI
+    + In the comment field, manual line breaks are possible by specifying \n
+      in the editor
+    + When a comment is empty, the node in the XML document is removed
+    + The screen now gets properly refreshed when popup windows close
+    + Special entity characters like & did not get encoded properly in the
+      comment field
+  * General
+    + Added a xmllint call to the import process so the created XML code gets
+      generally validated
+    + Added configure option --without-crack-lib to not use the library; this
+      way cpm can be compiled on sytems without that library
+    + Added missing zlib dependency to the Debian package.
+    + Moved the import tools to a new directory in /usr/share/cpm with the
+      proper permissions
+
+ -- Harry Brueckner <harry_b@mm.st>  Thu, 22 Jul 2005 14:30:14 +0100
+
+cpm (0.13beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed short options in the wrapper script
+    + Fixed memory leak when file was written in --noencrypt mode (this had
+      absolutely no effect on encrypted files)
+    + Fixed problems with the encoding of special characters, encoding should
+      now be properly implemented
+  * General
+    + man page slightly modified
+    + renamed the import script cvs2cpm.pl to the correct name csv2cpm.pl
+
+ -- Harry Brueckner <harry_b@mm.st>  Sun,  3 Jul 2005 12:21:47 +0100
+
+cpm (0.12beta) unstable; urgency=low
+
+  * Bugs
+    + Short options which don't take an argument did not get recognized
+      correctly
+    + The save dialog did get displayed even when the file was opened in
+      read-only mode
+    + Fixed a memory leak in the CLI search routine which was the reason that
+      the search did not find matches
+  * General
+    + Added GPG signatures of the tar.gz and tar.bz2 files to the website
+
+ -- Harry Brueckner <harry_b@mm.st>  Wed, 15 Jun 2005 09:09:14 +0100
+
+cpm (0.11beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed bug with the help screen; pressing CTRL+H caused a core dump due to
+      the new and improved guiDialogOk() function which can reformat long lines
+  * General
+    + man page for cpm added
+
+ -- Harry Brueckner <harry_b@mm.st>  Tue,  7 Jun 2005 15:11:34 +0100
+
+cpm (0.10beta) unstable; urgency=high
+
+  * Bugs
+    + Fixed a bug in the de- and encryption function which might cause large
+      files to get garbled
+    + Fixed core dump when a none-validatable document was read; the program
+      didn't terminate properly in this case
+  * General
+    + Added a much better encryption test - which caused the now fixed bugs
+      to show up
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri,  3 Jun 2005 09:30:56 +0100
+
+cpm (0.9beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed outdated calls to tail where '+n' was used instead of '--lines=+n'
+  * General
+    + Added several security checks to prevent core dumps, swapping of the
+      application's memory, ptracing and environment variable checks
+    + Added zlib compression support so the XML data inside the encrypted file
+      is compressed and 'known plaintext' attacks against the encrypted
+      database are harder to mount
+    + Added filelocking mechanism so multiple users can not overwrite each
+      other's data (when more than one user opens a file, only the first one
+      gets writepermissions)
+    + Signal handlers for SIGINT and SIGTERM remove the lockfile, if it exists
+    + Added several more tests for the 'make check' run, to provide a more
+      secure package creation process
+    + Added a check during package creation using flawfinder; code has been
+      cleaned up to match the checks
+    + Added --readonly commandline option
+    + Modified version check so it now properly handles the difference between
+      version 0.1, 0.2 and 0.10.
+    + Internal code and configuration/runtime information cleanup
+    + Fixed dependency in the Gentoo ebuild file
+
+ -- Harry Brueckner <harry_b@mm.st>  Tue, 31 May 2005 10:29:07 +0100
+
+cpm (0.8beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed a bug in the fileExists() function which did not check the
+      requested filename
+  * General
+    + Added Gentoo ebuild file (by Marc Jauvin <marc@r4l.com>)
+    + Fixed the Makefile so it should now work with the Gentoo ebuild process
+      (patch provided by Marc Jauvin <marc@r4l.com>)
+    + Added backup files when data is saved; this feature can be configured by
+      the resource directive 'CreateBackup'.
+    + Added a general import interface so it should be easy to add new formats
+    + Added a conversion tool for Password Safe
+      (http://passwordsafe.sourceforge.net/)
+    + Created files now get their permissions fixed right after they are
+      created; this should be safer than after closing the file
+    + File status are checked on filehandles where possible; this should make
+      it harder to trick the code
+  * GUI
+    + Set the default colors to transparent so the GUI also looks nice on
+      transparent terminals
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri, 13 May 2005 19:47:21 +0100
+
+cpm (0.7beta) unstable; urgency=low
+
+  * Bugs
+    + The source did not compile on Gentoo Linux. configure failed on the
+      library checks due to the wrong order of the library checks. This issue
+      was fixed with the help of Christopher Hesse <christopher.hesse@case.edu>.
+  * General
+    + A DTD has been added and the data files are now verified against
+      this DTD with each program start
+    + configure now also knows the parameter --with-crack-dict to specify the
+      path to the cracklib dictionary files
+
+ -- Harry Brueckner <harry_b@mm.st>  Wed, 11 May 2005 14:53:32 +0100
+
+cpm (0.6beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed a core dump if an unsigned file was used during the decryption
+  * CLI
+    + Added the --key option.
+    + Added automatic addition of the used encryption key to the default keys
+  * GUI
+    + Added a key listing to the save data dialog so the user now sees the
+      used keys before encrypting the message
+    + Added a warning if none of the users secret keys is used to encrypt the
+      database
+    + During the creation of random passwords a dialog is displayed, which
+      explains how to create entropy in case /dev/random runs out of
+      numbers
+    + Added a more descriptive error message for hash and validity error
+      messages (gpgme)
+  * General
+    + Added a wrapper script so gpg can now be used to find the recipients of
+      the database file and this information is passed on to CPM via the new
+      --key option
+    + Added the wrapper script to the installation
+
+ -- Harry Brueckner <harry_b@mm.st>  Tue, 26 Apr 2005 10:00:35 +0100
+
+cpm (0.5beta) unstable; urgency=low
+
+  * Bugs
+    + Fixed severe bug in the tar archive which made it impossible to compile
+      the source. control.in and the gettext files were missing; check added
+      so this won't happen again
+    + Fixed missing resource file parsing for flag 'CrackLibCheck' which
+      was already in the example resource file but nut yet supported
+  * GUI
+    + Added <CTRL><W> to save the database
+    + Added a statusline
+  * General
+    + Added the --configtest option and added a check to the package
+      preparation to check the current example configuration
+
+ -- Harry Brueckner <harry_b@mm.st>  Thu, 21 Apr 2005 20:15:55 +0100
+
+cpm (0.4beta) unstable; urgency=low
+
+  * Bugs
+    + fixed wrong autoconf setup; config.h.in wasn't updated properly
+    + fixed check procedure which now stops when an error occurs
+  * General
+    + Added usage of cracklib
+    + Added cracklib check to the password generation function
+    + Added configuration of which templates are used as passwords
+    + Added cracklib support to check password templates via cracklib for
+      secure passwords
+    + Added gettext support
+    + Added first German translation data
+    + Added gettext check for the check make target
+    + Added check for maximum argument length on the commandline, the resource
+      file and all user input
+
+ -- Harry Brueckner <harry_b@mm.st>  Wed, 20 Apr 2005 16:43:12 +0100
+
+cpm (0.3beta) unstable; urgency=medium
+
+  * Bugs
+    + Fixed SIGSEG when options like --file were passed to the binary
+      without handing over a filename
+    + Fixed wrong error message which assumed the file as read-only when
+      the GID of the file was in a supplemental group.
+    + Removed the creation of backup files since this is not possible if the
+      file is not owned by the current user.
+  * General
+    + Moved some functions into a general function collection file.
+  * GUI
+    + Fixed the commands edit, delete and comment to behave like the
+      navigation; only the highlighted entry is used now
+    + I hopefully fixed a little problem which occures when slow connections
+      are used. The draw functions of CDK are hopefully a little faster now.
+  * Migration of PMS
+    + Added a little script to migrate from PMS
+    + Dennis Pries <eisbaer82@users.sourceforge.net> agreed that I take
+      over his project PMS (hosted at
+      http://sourceforge.net/projects/passwordms/) since he no longer has
+      the time to maintain it.
+      We both agreed that CPM will be the official followup of PMS.
+
+ -- Harry Brueckner <harry_b@mm.st>  Tue, 19 Apr 2005 10:40:12 +0100
+
+cpm (0.2eta) unstable; urgency=low
+
+  * GUI
+    + Moved the stderr error messages on program startup (in GUI mode) into
+      dialog boxes.
+    + The headline of the navigation list now shows your current 'location'
+      and the data path you are currently in.
+    + Modified the selection of a node to descend into the tree. Now the
+      highlighted entry is used and it's not tried to add a new node.
+
+ -- Harry Brueckner <harry_b@mm.st>  Fri, 15 Apr 2005 09:04:44 +0100
+
+cpm (0.1beta) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Harry Brueckner <harry_b@mm.st>  Thu, 14 Apr 2005 09:52:12 +0100
+

@@ -1,0 +1,5 @@
+tests/garbagedb3:1: parser error : Start tag expected, '<' not found
+This is just some garbage which we can not read.
+^
+error: file error failed to parse xml document 'tests/garbagedb3'.
+error: (null)

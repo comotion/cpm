@@ -1,0 +1,26 @@
+# ##############################################################################
+# resource file for the search pattern tests
+# ##############################################################################
+
+
+# we use the same config as for the encryption stuff
+Include "tests/cpmrc-crypt-tests"
+
+
+# default template names
+# here we define our template names for the test
+TemplateName "host"
+TemplateName "service"
+TemplateName "user"
+TemplateName "password" "password"
+
+
+# search patterns for the commandline call and their response
+SearchPattern "<service> <user>@<host>" "<service> <user>@<host> <password>"
+SearchPattern "<service>@<host>" "<service> <user>@<host> <password>"
+SearchPattern "<user>@<host>" "<service> <user>@<host> <password>"
+SearchPattern "<host>" "<service> <user>@<host> <password>"
+
+
+# ##############################################################################
+

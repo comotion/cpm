@@ -1,0 +1,6 @@
+For Password Safe an exported CSV file is used for the import. Nothing else is
+required.
+
+The syntax for the import is:
+  $ ./import.sh passwordsafe <FILENAME>
+

@@ -1,0 +1,17 @@
+error: tag not closed in pattern 'err f3: <field1<field2>>'.
+error: tag not closed in pattern 'err f3: <field1<field2>>'.
+error: tag not opened in pattern 'err f4: <field1><field2>>'.
+error: tag not opened in pattern 'err f5: <field1><field2>>'.
+error: tag not closed in pattern 'err f3: <field1'.
+pattern -> string 'ok f1: ' -> template 1 -> string '@' -> template 2
+pattern -> string 'ok r1: ' -> template 3
+pattern -> string 'ok f2: ' -> template 1 -> string '@' -> template 2
+pattern -> string 'ok r2: <' -> template 3 -> string '>'
+pattern -> string 'err f3: '
+pattern -> string 'err r3: ' -> template 3
+pattern -> string 'err f4: ' -> template 1 -> template 2
+pattern -> string 'err r4: ' -> template 3
+pattern -> string 'err f5: ' -> template 1 -> template 2
+pattern -> string 'err r5: ' -> template 3
+pattern -> string 'err f3: '
+pattern -> string 'err r3: <' -> template 3 -> string '>'

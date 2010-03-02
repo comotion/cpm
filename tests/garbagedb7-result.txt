@@ -1,0 +1,5 @@
+tests/garbagedb7:41: parser error : Opening and ending tag mismatch: rot line 41 and root
+20:29">unknown</user></editor><template created-on="2005-05-06 09:20:29"/></root
+                                                                               ^
+error: file error failed to parse xml document 'tests/garbagedb7'.
+error: (null)

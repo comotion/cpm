@@ -62,6 +62,7 @@ install: build
 
 	# Add here commands to install the package into debian/cpm.
 	$(MAKE) prefix=$(CURDIR)/debian/cpm/usr localedir=$(CURDIR)/debian/cpm/usr/share/locale mandir=$(CURDIR)/debian/cpm/usr/share/man install
+	chmod +s $(CURDIR)/debian/cpm/usr/bin/cpm
 
 # Build architecture-independent files here.
 binary-indep: build install

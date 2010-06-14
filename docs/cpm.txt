@@ -1,5 +1,5 @@
 NAME
-  cpm - Console Password Manager
+  cpm \- Console Password Manager
 
 SYNOPSIS
   cpm [--config FILE] [--configtest] [--encoding] [--file FILE] [--help]

@@ -21,7 +21,7 @@ else
 CROSS= --build $(DEB_BUILD_GNU_TYPE)
 endif
 
-DEB_FIXPERMS_EXCLUDE := cpm
+DEB_FIXPERMS_EXCLUDE := /usr/bin/cpm
 
 config.status: patch
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
@@ -93,7 +93,7 @@ binary-arch: build install
 	dh_link
 	dh_strip
 	dh_compress
-	dh_fixperms
+	dh_fixperms -X${DEB_FIXPERMS_EXCLUDE}
 #	dh_perl
 #	dh_makeshlibs
 	dh_installdeb

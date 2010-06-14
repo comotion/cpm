@@ -67,8 +67,10 @@ install: build
 	chmod +s debian/cpm/usr/bin/cpm
 	ls -al debian/cpm/usr/bin/cpm
 
-    # install the helper scripts
+	# install the helper scripts
 	cp -a share/cpm debian/cpm/usr/share/cpm
+	mkdir -p debian/cpm/usr/share/lintian/overrides
+	echo ${DEB_FIXPERMS_EXCLUDE} > debian/cpm/usr/share/lintian/overrides/cpm
 
 # Build architecture-independent files here.
 binary-indep: build install

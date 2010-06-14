@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpm 0.4beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-03 09:48+0200\n"
+"POT-Creation-Date: 2010-06-14 15:56+0000\n"
 "PO-Revision-Date: 2005-04-20 14:19+001\n"
 "Last-Translator: Harry Brueckner <harry_b@mm.st>\n"
 "Language-Team: de_DE <harry_b@mm.st>\n"
@@ -16,49 +16,49 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: cpm.c:117
+#: cpm.c:128
 #, c-format
 msgid "Tree support not compiled in to libxml2 %s\n"
 msgstr "Baum support ist nicht in libxml2 %s eincompiliert\n"
 
-#: cpm.c:147
+#: cpm.c:158
 #, c-format
 msgid "Try `%s --help' for more information.\n"
 msgstr "Versuchen Sie `%s --help' für weitere Informationen.\n"
 
-#: cpm.c:211
+#: cpm.c:222
 #, c-format
 msgid "configuration ok.\n"
 msgstr "Konfigurationsdatei ok.\n"
 
-#: cpm.c:233
+#: cpm.c:244
 msgid "Maximum security level not reached."
 msgstr "Die maximale Sicherheitsstufe ist nicht aktiv."
 
-#: cpm.c:234
+#: cpm.c:245
 msgid "Are you sure you want to continue?"
 msgstr "Sind Sie sicher, daß Sie fortfahren wollen?"
 
-#: cpm.c:235
+#: cpm.c:246
 msgid "Press CTRL+C to stop now or ENTER to continue."
 msgstr "Drücken Sie STRG+C um abzubrechen oder ENTER um fortzufahren."
 
-#: cpm.c:266
+#: cpm.c:277
 #, c-format
 msgid "error: memory leak detected.\n"
 msgstr "Fehler: Es wurde ein Speicherleck enteckt.\n"
 
-#: cpm.c:269
+#: cpm.c:280
 #, c-format
 msgid "%ld byte of memory were not freed.\n"
 msgstr "%ld Byte Speicher wurden nicht freigegeben.\n"
 
-#: cpm.c:275
+#: cpm.c:286
 #, c-format
 msgid "%ld byte of memory were freed without being allocated.\n"
 msgstr "%ld Byte Speicher wurden freigegeben aber nicht belegt.\n"
 
-#: cpm.c:279
+#: cpm.c:290
 #, c-format
 msgid ""
 "Please send a report about this problem to Harry Brueckner <harry_b@mm.st>.\n"
@@ -66,37 +66,37 @@ msgstr ""
 "Bitte senden Sie einen Bericht über dieses Problem an Harry Brueckner "
 "<harry_b@mm.st>.\n"
 
-#: general.c:120
+#: general.c:124
 #, c-format
 msgid "error %d (%s) removing file '%s'."
 msgstr "Fehler %d (%s) beim Löschen der Datei '%s'."
 
-#: general.c:124 general.c:167 general.c:184 xml.c:257 xml.c:388 xml.c:412
+#: general.c:128 general.c:171 general.c:188 xml.c:257 xml.c:388 xml.c:412
 #: xml.c:522 xml.c:539
 msgid "file error"
 msgstr "Dateifehler"
 
-#: general.c:180 xml.c:535
+#: general.c:184 xml.c:535
 #, c-format
 msgid "error %d (%s) writing file '%s'."
 msgstr "Fehler %d (%s) beim Schreiben der Datei '%s'."
 
-#: general.c:432
+#: general.c:436
 #, c-format
 msgid "error %d (%s) opening file '%s'."
 msgstr "Fehler %d (%s) beim Öffnen von '%s'."
 
-#: general.c:445
+#: general.c:449
 #, c-format
 msgid "error %d (%s) seeking in file '%s'."
 msgstr "Fehler %d (%s) beim Positionieren in Datei '%s'."
 
-#: general.c:472
+#: general.c:476
 #, c-format
 msgid "could not exclusively open '%s'."
 msgstr "Datei '%s' konnte nicht exklusiv geöffnet werden."
 
-#: general.c:481
+#: general.c:485
 #, c-format
 msgid "error %d (%s) locking file '%s'."
 msgstr "Fehler %d (%s) beim exklusiven Öffnen von '%s'."
@@ -210,78 +210,78 @@ msgstr ""
 "Geben Sie Ihre Passphrase ein (Versuch #%d)\n"
 "%s\n"
 
-#: interface_cli.c:164 interface_cli.c:174 interface_cli.c:205
+#: interface_cli.c:166 interface_cli.c:176 interface_cli.c:207
 #, c-format
 msgid "error: %s\n"
 msgstr "Fehler: %s\n"
 
-#: interface_cli.c:165 interface_gui.c:2257
+#: interface_cli.c:167 interface_gui.c:2284
 msgid "failed to initialize the character encoding."
 msgstr "Die Zeichenkonvertierung kann nicht initialisiert werden."
 
-#: interface_cli.c:219
+#: interface_cli.c:221
 #, c-format
 msgid "error: no searchpattern given.\n"
 msgstr "Fehler: Kein Suchmuster angegeben.\n"
 
-#: interface_cli.c:285
+#: interface_cli.c:287
 #, c-format
 msgid "no match found.\n"
 msgstr "Kein Suchergebnis gefunden.\n"
 
-#: interface_cli.c:288
+#: interface_cli.c:290
 #, c-format
 msgid "1 match found.\n"
 msgstr "1 Suchergebnis gefunden.\n"
 
-#: interface_cli.c:291
+#: interface_cli.c:293
 #, c-format
 msgid "%d matches found.\n"
 msgstr "%d Suchergebnisse gefunden.\n"
 
-#: interface_cli.c:315
+#: interface_cli.c:317
 #, c-format
 msgid "error: %s %s\n"
 msgstr "Fehler: %s %s\n"
 
-#: interface_gui.c:302
+#: interface_gui.c:324
 #, c-format
 msgid "t-error: %s (%d)\n"
 msgstr "t-error: %s (%d)\n"
 
-#: interface_gui.c:339
+#: interface_gui.c:361
 msgid " Help"
 msgstr " Hilfe"
 
-#: interface_gui.c:348
+#: interface_gui.c:370
 msgid " Add"
 msgstr " Hinzufügen"
 
-#: interface_gui.c:355
+#: interface_gui.c:377
 msgid " Edit"
 msgstr " Ändern"
 
-#: interface_gui.c:362
+#: interface_gui.c:384
 msgid " Comment"
 msgstr " Kommentar"
 
-#: interface_gui.c:370
+#: interface_gui.c:392
 msgid " Choose"
 msgstr " Auswahl"
 
-#: interface_gui.c:378
+#: interface_gui.c:400
 msgid " Exit"
 msgstr " Beenden"
 
-#: interface_gui.c:380
+#: interface_gui.c:402
 msgid " Back"
 msgstr " Zurück"
 
-#: interface_gui.c:472
+#: interface_gui.c:494
 msgid "password"
 msgstr "Passwort"
 
-#: interface_gui.c:617
+#: interface_gui.c:639
 #, c-format
 msgid ""
 "</B>enter your passphrase (try #%d)<!B>\n"
@@ -290,262 +290,262 @@ msgstr ""
 "</B>Geben Sie Ihre Passphrase ein (Versuch #%d)<!B>\n"
 "%s"
 
-#: interface_gui.c:627 interface_gui.c:684 interface_gui.c:769
-#: interface_gui.c:980 interface_gui.c:1059 interface_gui.c:1154
-#: interface_gui.c:1435 interface_gui.c:1520 interface_gui.c:1582
-#: interface_gui.c:1696
+#: interface_gui.c:649 interface_gui.c:706 interface_gui.c:794
+#: interface_gui.c:1006 interface_gui.c:1085 interface_gui.c:1181
+#: interface_gui.c:1462 interface_gui.c:1547 interface_gui.c:1609
+#: interface_gui.c:1723
 msgid "can not create dialog."
 msgstr "Der Dialog kann nicht erstellt werden."
 
-#: interface_gui.c:678
+#: interface_gui.c:700
 msgid "</B>add a new encryption key<!B>"
 msgstr "</B>Neuen Schlüssel hinzufügen<!B>"
 
-#: interface_gui.c:696 interface_gui.c:1071
+#: interface_gui.c:718 interface_gui.c:1097
 msgid "The key you entered could not be validated."
 msgstr "Der angegebene Schlüssel kann nicht validiert werden."
 
-#: interface_gui.c:753
+#: interface_gui.c:778
 #, c-format
 msgid "</B>add new %s<!B>"
 msgstr "</B>%s hinzufügen<!B>"
 
-#: interface_gui.c:789 interface_gui.c:1200
+#: interface_gui.c:814 interface_gui.c:1227
 msgid "The password you have chosen is unsuitable."
 msgstr "Das eingegebene Passwort ist nicht geeignet."
 
-#: interface_gui.c:853
+#: interface_gui.c:878
 msgid "Are you sure you want to delete the encryption key"
 msgstr "Sind Sie sicher, dass Sie den Schlüssel löschen wollen"
 
-#: interface_gui.c:913
+#: interface_gui.c:939
 msgid "Are you sure you want to delete"
 msgstr "Wollen Sie den Datensatz"
 
-#: interface_gui.c:915
+#: interface_gui.c:941
 #, c-format
 msgid "entry %s?"
 msgstr "%s löschen?"
 
-#: interface_gui.c:974
+#: interface_gui.c:1000
 msgid "</B>edit comment<!B>"
 msgstr "</B>Kommentar editieren<!B>"
 
-#: interface_gui.c:1053
+#: interface_gui.c:1079
 msgid "</B>edit encryption key<!B>"
 msgstr "</B>Schlüssel editieren<!B>"
 
-#: interface_gui.c:1138
+#: interface_gui.c:1165
 #, c-format
 msgid "</B>edit %s<!B>"
 msgstr "</B>%s editieren<!B>"
 
-#: interface_gui.c:1160
+#: interface_gui.c:1187
 msgid "If it looks like the program is stuck"
 msgstr "Falls es so aussieht, als ob das Programm still"
 
-#: interface_gui.c:1161
+#: interface_gui.c:1188
 msgid "move the mouse to create more entropy"
 msgstr "steht, bewegen Sie die Maus um mehr Entropie"
 
-#: interface_gui.c:1162
+#: interface_gui.c:1189
 msgid "for the random generator."
 msgstr "für den Zufallszahlengenerator zu generieren."
 
-#: interface_gui.c:1167
+#: interface_gui.c:1194
 msgid "can not create randombox."
 msgstr "Die Randombox kann nicht erstellt werden."
 
-#: interface_gui.c:1269
+#: interface_gui.c:1296
 msgid "</B>Keys to encrypt the database with<!B>"
 msgstr "</B>Schlüssel zum Verschlüsseln der Datenbank<!B>"
 
-#: interface_gui.c:1273
+#: interface_gui.c:1300
 msgid "can not create scroll list."
 msgstr "Die Scrollliste kann nicht erstellt werden."
 
-#: interface_gui.c:1346
+#: interface_gui.c:1373
 msgid " </B>^A<!B> - add a new node to the current one."
 msgstr " </B>^A<!B> - Zum aktuellen Node einen neuen hinzufügen."
 
-#: interface_gui.c:1347
+#: interface_gui.c:1374
 msgid " </B>^D<!B> - delete the currently selected node and all its subnodes."
 msgstr " </B>^D<!B> - den selektieren Node und alle Subnotes löschen."
 
-#: interface_gui.c:1348
+#: interface_gui.c:1375
 msgid " </B>^E<!B> - edit the currently selected node."
 msgstr " </B>^E<!B> - den selektierten Node ändern."
 
-#: interface_gui.c:1349
+#: interface_gui.c:1376
 msgid " </B>^H<!B> - this help screen."
 msgstr " </B>^H<!B> - diese Hilfeseite."
 
-#: interface_gui.c:1350
+#: interface_gui.c:1377
 msgid " </B>^K<!B> - edit the currently used encryption keys."
 msgstr " </B>^K<!B> - die aktuell benutzten Schlüssel ändern."
 
-#: interface_gui.c:1351
+#: interface_gui.c:1378
 msgid " </B>^N<!B> - edit the name of the current level."
 msgstr " </B>^N<!B> - den namen des aktuellen Templates ändern."
 
-#: interface_gui.c:1352
+#: interface_gui.c:1379
 msgid " </B>^O<!B> - edit the comment of the selected node."
 msgstr " </B>^O<!B> - den Kommentar zum aktuell selektierten Eintrag ändern."
 
-#: interface_gui.c:1353
+#: interface_gui.c:1380
 msgid "      (use \\n to add line breaks)"
 msgstr "      (benutzen Sie \\n um Zeilenumbrüche einzufügen)"
 
-#: interface_gui.c:1354
+#: interface_gui.c:1381
 msgid " </B>^P<!B> - edit the current node and suggest a password."
 msgstr ""
 " </B>^P<!B> - den aktuellen Eintrag ändern und ein Passwort vorschlagen."
 
-#: interface_gui.c:1355
+#: interface_gui.c:1382
 msgid " </B>^W<!B> - Write the database to disk."
 msgstr " </B>^W<!B> - Speichern der Datenbank."
 
-#: interface_gui.c:1392
+#: interface_gui.c:1419
 msgid "</B>Ok<!B>"
 msgstr "</B>Ok<!B>"
 
-#: interface_gui.c:1514
+#: interface_gui.c:1541
 msgid "</B>template name<!B>"
 msgstr "</B>Templatename<!B>"
 
-#: interface_gui.c:1568 interface_gui.c:1681
+#: interface_gui.c:1595 interface_gui.c:1708
 msgid "</B>Yes<!B>"
 msgstr "</B>Ja<!B>"
 
-#: interface_gui.c:1569 interface_gui.c:1682
+#: interface_gui.c:1596 interface_gui.c:1709
 msgid "</B>No<!B>"
 msgstr "</B>Nein<!B>"
 
-#: interface_gui.c:1625 interface_gui.c:2231
+#: interface_gui.c:1652 interface_gui.c:2258
 msgid "Error encrypting the data."
 msgstr "Fehler beim Verschlüsseln der Daten."
 
-#: interface_gui.c:1626 interface_gui.c:2232
+#: interface_gui.c:1653 interface_gui.c:2259
 msgid "You did not specify any encryption keys."
 msgstr "Sie haben keinen Schlüssel zum Verschlüsseln angegeben."
 
-#: interface_gui.c:1627
+#: interface_gui.c:1654
 msgid "The database has been written to disk."
 msgstr "Die Datenbank wurde gespeichert."
 
-#: interface_gui.c:1683
+#: interface_gui.c:1710
 msgid "</B>Cancel<!B>"
 msgstr "</B>Abbrechen<!B>"
 
-#: interface_gui.c:1890
+#: interface_gui.c:1917
 #, c-format
 msgid " modified by </B>%s<!B>"
 msgstr "Modifiziert von </B>%s<!B>"
 
-#: interface_gui.c:1892
+#: interface_gui.c:1919
 #, c-format
 msgid " modified on </B>%s<!B>"
 msgstr "Modifiziert am </B>%s<!B>"
 
-#: interface_gui.c:1897
+#: interface_gui.c:1924
 #, c-format
 msgid " created by </B>%s<!B>"
 msgstr "Erstellt von </B>%s<!B>"
 
-#: interface_gui.c:1899
+#: interface_gui.c:1926
 #, c-format
 msgid " created on </B>%s<!B>"
 msgstr "Erstellt am </B>%s<!B>"
 
-#: interface_gui.c:1963
+#: interface_gui.c:1990
 msgid "can not create infobox."
 msgstr "Die Infobox kann nicht erstellt werden."
 
-#: interface_gui.c:2018
+#: interface_gui.c:2045
 msgid "can not create alpha list."
 msgstr "Die Alphaliste kann nicht erstellt werden."
 
-#: interface_gui.c:2233
+#: interface_gui.c:2260
 msgid "Quit without saving?"
 msgstr "Beenden ohne zu speichern?"
 
-#: interface_gui.c:2234
+#: interface_gui.c:2261
 msgid "The database file could not be opened exclusively."
 msgstr "Die Datenbank konnte nicht exclusiv geöffnet werden."
 
-#: interface_gui.c:2235
+#: interface_gui.c:2262
 msgid "The file is opened in read-only mode and"
 msgstr "Die Datei wurde read-only geöffnet und"
 
-#: interface_gui.c:2236
+#: interface_gui.c:2263
 msgid "you can not modify any data at the moment."
 msgstr "Sie können keine Daten modifizieren."
 
-#: interface_gui.c:2237
+#: interface_gui.c:2264
 msgid "</B>warning<!B>"
 msgstr "</B>Warnung<!B>"
 
-#: interface_gui.c:2238
+#: interface_gui.c:2265
 msgid "You did not specify any of your secret keys to"
 msgstr "Sie haben keinen Ihrer Secret-Keys zum Verschlüsseln"
 
-#: interface_gui.c:2239
+#: interface_gui.c:2266
 msgid "encrypt the database."
 msgstr "der Datenbank angegeben."
 
-#: interface_gui.c:2240
+#: interface_gui.c:2267
 msgid "</B>You won't be able to read this file yourself!<!B>"
 msgstr "</B>Sie werden die Datei selbst nicht mehr lesen können!<!B>"
 
-#: interface_gui.c:2241
+#: interface_gui.c:2268
 msgid "Do you want to continue?"
 msgstr "Wollen Sie fortfahren?"
 
-#: interface_gui.c:2242
+#: interface_gui.c:2269
 msgid "The lockfile could not be removed."
 msgstr "Das Lockfile konnte nicht gelöscht werden."
 
-#: interface_gui.c:2243
+#: interface_gui.c:2270
 msgid "You will have to manually remove it."
 msgstr "Sie müssen es manuell entfernen."
 
-#: interface_gui.c:2244
+#: interface_gui.c:2271
 msgid "Do you really want to quit?"
 msgstr "Wollen Sie wirklich beenden?"
 
-#: interface_gui.c:2245
+#: interface_gui.c:2272
 msgid "The database file is read-only."
 msgstr "Die Datenbank ist nur lesbar."
 
-#: interface_gui.c:2246
+#: interface_gui.c:2273
 msgid "You can not modify any data at the moment."
 msgstr "Sie können im Moment keine Daten ändern."
 
-#: interface_gui.c:2247
+#: interface_gui.c:2274
 msgid "A lockfile exists for this database."
 msgstr "Ein Lockfile existiert für diese Datenbank."
 
-#: interface_gui.c:2248
+#: interface_gui.c:2275
 msgid "Do you want to remove the lockfile?"
 msgstr "Wollen Sie das Lockfile entfernen?"
 
-#: interface_gui.c:2249
+#: interface_gui.c:2276
 msgid "The database was updated to the latest version."
 msgstr "Die Datenbank wurde auf die neuste Version aktualisiert."
 
-#: interface_gui.c:2252
+#: interface_gui.c:2279
 msgid "can not initialize the screen."
 msgstr "Der Bildschirm kann nicht initialisiert werden."
 
-#: interface_gui.c:2264
+#: interface_gui.c:2291
 msgid "file read error."
 msgstr "Fehler beim Lesen einer Datei."
 
-#: interface_gui.c:2359
+#: interface_gui.c:2386
 msgid "</B>Data has been modified<!B>"
 msgstr "</B>Daten wurden modifiziert<!B>"
 
-#: interface_gui.c:2360
+#: interface_gui.c:2387
 msgid "Do you want to save the database encrypted for these keys?"
 msgstr "Wollen Sie die Daten für folgende Schlüssel verschlüsseln?"
 

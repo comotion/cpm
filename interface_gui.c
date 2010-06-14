@@ -113,8 +113,30 @@ void guiUpdateInfo(CDKLABEL* infobox, char** infodata, int id);
 void freshAlphalist(CDKALPHALIST* widget);
 int initializeScreen(void);
 char* isNodename(KEYEVENT* event);
+void updateKeyList(KEYEVENT* event);
 RETSIGTYPE resizehandler(int signum);
 
+
+/* #############################################################################
+ *
+ * Description    redraw scroll list after key add/remove
+ * Author         Kacper Wysocki
+ * Date           2010-06-14
+ * Arguments      KEYEVENT
+ * Return         void
+ */
+
+void updateKeyList(KEYEVENT* event)
+{
+    if (event->widget && event->widgettype == vSCROLL) {
+        int counter = keyCount();
+        CDKSCROLL* scroll = (CDKSCROLL*) event->widget;
+        setCDKScrollItems(scroll, keyGetList(), counter, NONUMBERS);
+        eraseCDKScroll(scroll);
+        drawCDKScroll(scroll, TRUE);
+    }
+    return;
+}
 
 /* #############################################################################
  *
@@ -711,6 +733,9 @@ int guiDialogAddEncryptionKey(EObjectType cdktype, void* object,
     if (statusline)
       { drawStatusline(event -> level); }
 
+    /* redraw the calling widget */
+    updateKeyList(event);
+
     return 1;
   }
 
@@ -868,6 +893,7 @@ int guiDialogDeleteEncryptionKey(EObjectType cdktype, void* object,
      * solved this way. */
     EarlyExitOf((CDKSCROLL*)object) = vESCAPE_HIT;
 #endif
+    updateKeyList(event);
 
     return 1;
   }
@@ -1085,6 +1111,7 @@ int guiDialogEditEncryptionKey(EObjectType cdktype, void* object,
     /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
+    updateKeyList(event);
 
     return 1;
   }

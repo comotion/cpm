@@ -1,0 +1,4 @@
+#
+# Regular cron jobs for the cpm package
+#
+0 4	* * *	root	[ -x /usr/bin/cpm_maintenance ] && /usr/bin/cpm_maintenance

@@ -1,0 +1,22 @@
+Source: cpm
+Section: unknown
+Priority: extra
+Maintainer: Kacper Wysocki <comotion@users.sf.net>
+Build-Depends: debhelper (>= 7), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, dpatch
+Standards-Version: 3.7.3
+Homepage: http://www.harry-b.de/dokuwiki/doku.php?id=harry:cpm
+
+Package: cpm
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Curses based password manager using PGP-encryption 
+ This program is a ncurses based console tool to manage passwords
+ and store them public key encrypted in a file - even for more than
+ one person. The encryption is handled via GnuPG so the programs data
+ can be accessed via gpg as well, in case you want to have a look
+ inside. The data is stored as as zlib compressed XML so it's even
+ possible to reuse the data for some other purpose.
+ .
+ The software uses CDK (ncurses) to handle the user interface, libxml2
+ to store the information, the zlib library to compress the data and
+ the library GpgMe to encrypt and decrypt the data securely.

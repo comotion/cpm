@@ -1,0 +1,33 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01_Makefile.in.patch by Lars Bahner <bahner@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix errors in Makefile
+
+@DPATCH@
+diff -Naur cpm-0.25~beta.orig/Makefile.in cpm-0.25~beta/Makefile.in
+--- cpm-0.25~beta.orig/Makefile.in	2009-04-03 14:40:24.000000000 +0200
++++ cpm-0.25~beta/Makefile.in	2009-04-14 22:56:37.000000000 +0200
+@@ -357,7 +357,6 @@
+ .PHONY: gettext_translate
+ gettext_translate:
+ 	xgettext -p ./po -o cpm.po --language=C --indent --width=80 --keyword=_ *.c
+-	cd ./po; \
+ 		mv cpm.po cpm.tmp; \
+ 		sed -e 's/; charset=CHARSET/; charset=iso-8859-1/' cpm.tmp > cpm.po; \
+ 		rm -f cpm.tmp
+@@ -376,12 +375,8 @@
+ # install everything
+ .PHONY: install
+ install: cpm gettext
+-	$(INSTALL) -d $(DESTDIR)$(bindir)
+-	$(INSTALL) -d $(DESTDIR)$(localedir)/de/LC_MESSAGES
+-	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
+-	$(INSTALL) -m 4755 -o 0 -g 0 @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@	$(INSTALL) -m 644 ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
+-	$(INSTALL) -m 644 ./docs/cpm.1.gz $(DESTDIR)$(mandir)/man1/cpm.1.gz
+-
++	$(INSTALL) -m 4755 -o 0 -g 0 -T @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
++	$(INSTALL) -m 644 -T ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
+ 
+ 
+ # ##############################################################################

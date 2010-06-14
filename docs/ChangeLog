@@ -1,3 +1,433 @@
+Thu Mar 12 09:06:48 CET 2009  harry_b@eml.cc
+  * Fixed wrong main() definitions.
+
+Wed Mar 11 14:48:16 CET 2009  harry_b@eml.cc
+  * Fixed number of security checks for Solaris systems.
+
+Wed Mar 11 12:09:13 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Wed Mar 11 12:06:50 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Wed Mar 11 12:06:26 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Wed Mar 11 12:05:33 CET 2009  harry_b@eml.cc
+  * Removed all calls to drawCDKScreen() and added fix for CDK5 for the cursor highlighting problem.
+
+Wed Mar 11 09:04:27 CET 2009  harry_b@eml.cc
+  * Added calls to EarlyExitOf() to fix the keyhandling problems.
+
+Wed Mar 11 07:40:45 CET 2009  harry_b@eml.cc
+  * Fixed handling of debuglevel > 99, new maximum is 999.
+
+Tue Mar 10 06:42:31 CET 2009  harry_b@mm.st
+  * Copyright information updated.
+
+Mon Mar  9 15:22:27 CET 2009  harry_b@eml.cc
+  * Fixed wrong comparison for found de_DE locales.
+
+Mon Mar  9 13:38:28 CET 2009  harry_b@eml.cc
+  * Fixed gettext check for systems with more than one DE locale.
+
+Mon Mar  9 13:19:16 CET 2009  harry_b@eml.cc
+  * Fixed fprintf() problem on platforms where it can not handle null-pointers.
+
+Mon Mar  9 13:19:05 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Mon Mar  9 12:59:48 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Mon Mar  9 10:49:28 CET 2009  harry_b@eml.cc
+  * Fixed environment check so it does not validate regexp and gpg errormessages since they are different between Linux and Solaris.
+
+Mon Mar  9 10:27:04 CET 2009  harry_b@eml.cc
+  * Fixed environment validation on Solaris.
+
+Mon Mar  9 10:26:47 CET 2009  harry_b@eml.cc
+  * Updated translation.
+
+Mon Mar  9 10:25:48 CET 2009  harry_b@eml.cc
+  * Added proper declaration of the environ variable.
+
+Mon Mar  9 10:25:27 CET 2009  harry_b@eml.cc
+  * Added checks for HAVE_LIBINTL, HAVE_UNSETENV, HAVE_EXTERN_ENVIRON and MANUAL_EXTERN_ENVIRON.
+
+Mon Mar  9 10:24:29 CET 2009  harry_b@eml.cc
+  * Added checks for HAVE_LIBINTL, HAVE_UNSETENV, HAVE_EXTERN_ENVIRON and MANUAL_EXTERN_ENVIRON.
+
+Mon Mar  9 10:24:16 CET 2009  harry_b@eml.cc
+  * Changelog updated.
+
+Mon Mar  9 10:23:58 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Mon Mar  9 09:12:40 CET 2009  harry_b@eml.cc
+  * Added errorhandling for putenv() and added generel environment checks for Solaris 10.
+
+Fri Mar  6 12:44:05 CET 2009  harry_b@eml.cc
+  * Modified security checks so they also work on Solaris 10.
+
+Fri Mar  6 12:43:12 CET 2009  harry_b@eml.cc
+  * Added environment passing from main() for the security functions.
+
+Fri Mar  6 12:41:49 CET 2009  harry_b@eml.cc
+  * Added intl library detection.
+
+Fri Mar  6 12:41:24 CET 2009  harry_b@eml.cc
+  * Updated changelog.
+
+Fri Mar  6 12:41:10 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Thu Mar  5 14:57:42 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Thu Mar  5 14:57:17 CET 2009  harry_b@eml.cc
+  * Added wether CRACKLIB_DICTPATH is defined before creating a compilation error.
+
+Thu Mar  5 14:55:42 CET 2009  harry_b@eml.cc
+  * Fixed code structure for compilation on Solaris.
+  Added ncurses5-config to compile cleanly on Solaris.
+
+Thu Mar  5 14:55:24 CET 2009  harry_b@eml.cc
+  * Changelog updated.
+
+Wed Mar  4 13:33:56 CET 2009  harry_b@eml.cc
+  * Changelog updated.
+
+Wed Mar  4 13:29:20 CET 2009  harry_b@eml.cc
+  * Code beautification.
+
+Wed Mar  4 11:59:46 CET 2009  harry_b@eml.cc
+  * guiDialogAddNode() no longer displayes any old values.
+
+Wed Mar  4 09:20:01 CET 2009  harry_b@eml.cc
+  * Removed the CRACKLIB_DICTPATH existence check.
+
+Wed Mar  4 09:17:58 CET 2009  harry_b@eml.cc
+  * Added guess method to find the cracklib dictionaries.
+
+Wed Mar  4 09:16:19 CET 2009  harry_b@eml.cc
+  * Added CPPFLAGS to all gcc calls.
+
+Wed Mar  4 07:19:34 CET 2009  harry_b@eml.cc
+  * File updated due to configure.in update.
+
+Wed Mar  4 07:18:18 CET 2009  harry_b@eml.cc
+  * Added AC_TYPE_SSIZE_T and reenabled AC_FUNC_MALLOC and AC_FUNC_REALLOC. Moreover added Homepage and Bugs link.
+
+Wed Mar  4 07:18:02 CET 2009  harry_b@eml.cc
+  * Changelog formatted.
+
+Wed Mar  4 07:17:46 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Mon Mar  2 14:59:23 CET 2009  harry_b@eml.cc
+  * README updated once more.
+
+Mon Mar  2 14:56:07 CET 2009  harry_b@eml.cc
+  * Changelog updated.
+
+Mon Mar  2 14:54:05 CET 2009  harry_b@eml.cc
+  * README updated according to the wiki page.
+
+Mon Mar  2 14:53:52 CET 2009  harry_b@eml.cc
+  * Changelog updated.
+
+Mon Mar  2 14:28:13 CET 2009  harry_b@eml.cc
+  * Applied patch from SF bug #1881523.
+
+Mon Mar  2 13:42:15 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Mon Mar  2 13:40:42 CET 2009  harry_b@eml.cc
+  * Code formatting.
+
+Mon Mar  2 13:40:15 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Mon Mar  2 11:59:58 CET 2009  harry_b@eml.cc
+  * Updated the CDK release number.
+
+Mon Mar  2 11:59:48 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Mon Mar  2 11:51:44 CET 2009  harry_b@eml.cc
+  * Replaced lastItem with listSize for CDK5 compatibility.
+  
+  This modification fixes the bug where it was not possible to delete the last entry of a list in CDK5.
+
+Mon Mar  2 10:37:04 CET 2009  harry_b@eml.cc
+  * Set the trace level to 199 to not spam regular tracing.
+
+Mon Mar  2 10:26:30 CET 2009  harry_b@eml.cc
+  * Added --with-crack-dict for compiling on Ubuntu.
+
+Mon Mar  2 10:26:08 CET 2009  harry_b@eml.cc
+  * Translation updated.
+
+Mon Mar  2 10:25:42 CET 2009  harry_b@eml.cc
+  * Fixed the write() return value check.
+
+Mon Mar  2 10:25:25 CET 2009  harry_b@eml.cc
+  * Todo updated.
+
+Mon Mar  2 08:17:28 CET 2009  harry_b@eml.cc
+  * destroyScreen() is now a public function.
+
+Mon Mar  2 08:15:51 CET 2009  harry_b@eml.cc
+  * Empty line removed.
+
+Mon Mar  2 08:15:14 CET 2009  harry_b@eml.cc
+  * Added result check of the write() functioncalls.
+
+Mon Mar  2 08:10:19 CET 2009  harry_b@eml.cc
+  * cracklib fix, so now compiling does not report any weird stuff, but terminates with a usable errormessage.
+
+Fri Feb  6 18:56:13 CET 2009  harry_b@mm.st
+  * Configuration updated.
+
+Fri Feb  6 18:55:59 CET 2009  harry_b@mm.st
+  * Todo updated.
+
+Fri Feb  6 18:54:53 CET 2009  harry_b@mm.st
+  * Added cpm.pod to the distribution.
+
+Fri Feb  6 18:45:57 CET 2009  harry_b@mm.st
+  * Changelog updated.
+
+Fri Feb  6 18:41:27 CET 2009  harry_b@mm.st
+  * POD file added which was supplied via Sourceforge.
+
+Fri Feb  6 18:41:08 CET 2009  harry_b@mm.st
+  * Todo list updated.
+
+Fri Feb  6 18:35:16 CET 2009  harry_b@mm.st
+  * open() fix for stdin/stdout/stderr test.
+  
+  open() takes three arguments when used with O_CREAT.
+  Furthermore, opening "/dev/null" and unsuccessfully creating it if it does
+  not exist and assuming everything's ok in that case makes no sense either.
+  Fix the test to be a bit more sane.
+  
+  Lubomir Rintel <lkundrak@v3.sk>
+
+Fri Feb  6 18:32:44 CET 2009  harry_b@mm.st
+  * Correctly destroy window when CTRL+C is pressed.
+  
+  This patch was provided by Marek Mahut <mmahut@fedoraproject.org>.
+
+Fri Feb  6 18:27:49 CET 2009  harry_b@mm.st
+  * Translation updated.
+
+Fri Feb  6 18:27:14 CET 2009  harry_b@mm.st
+  * CFLAGS modified.
+
+Fri Feb  6 18:26:33 CET 2009  harry_b@mm.st
+  * Changelog updated.
+
+Sun Oct  5 19:20:05 CEST 2008  harry_b@mm.st
+  * Renamed all configure options to --xxx-dir if they require a path argument.
+
+Sun Oct  5 19:19:54 CEST 2008  harry_b@mm.st
+  * Changelog updated.
+
+Sun Oct  5 19:04:04 CEST 2008  harry_b@mm.st
+  * Documentation updated.
+
+Sun Oct  5 19:03:19 CEST 2008  harry_b@mm.st
+  * Modified configuration for curses selection.
+
+Sun Oct  5 18:06:23 CEST 2008  harry_b@mm.st
+  * Todo updated.
+
+Fri Oct  3 13:27:10 CEST 2008  harry_b@mm.st
+  * Fixed atoi() calls so flawfinder no longer complains.
+
+Fri Oct  3 12:25:03 CEST 2008  harry_b@mm.st
+  * Changelog updated.
+
+Fri Oct  3 11:25:26 CEST 2008  harry_b@mm.st
+  * Added distclean make target, patch provided by Thomas E. Dickey.
+
+Wed Oct  1 19:14:02 CEST 2008  harry_b@mm.st
+  * Fixed bad ESC key patch which I made before. It breaks CDK4 compatibility.
+
+Wed Oct  1 18:55:00 CEST 2008  harry_b@mm.st
+  * Added version display of ncurses/ncursesw difference.
+
+Wed Oct  1 18:51:25 CEST 2008  harry_b@mm.st
+  * Removed wrong check for bindused when escaping the encryption key dialog.
+
+Wed Oct  1 17:47:39 CEST 2008  harry_b@mm.st
+  * Manpage and manpage creation updated.
+
+Wed Oct  1 17:36:39 CEST 2008  harry_b@mm.st
+  * Todo and changelog updated.
+
+Wed Oct  1 17:19:34 CEST 2008  harry_b@mm.st
+  * Added environment variable NCURSES_NO_UTF8_ACS to the filter list.
+
+Wed Oct  1 17:19:17 CEST 2008  harry_b@mm.st
+  * Translation update.
+
+Wed Oct  1 17:18:31 CEST 2008  harry_b@mm.st
+  * Added missing #ifdef for CDK5 function calls.
+
+Wed Oct  1 17:17:14 CEST 2008  harry_b@mm.st
+  * Added ncursesw library detection.
+
+Tue Sep 30 07:59:34 CEST 2008  harry_b@mm.st
+  * Removed leftover debug message.
+
+Tue Sep 30 07:26:03 CEST 2008  harry_b@mm.st
+  * TRACE and --debuglevel support added.
+
+Mon Sep 29 19:13:56 CEST 2008  harry_b@mm.st
+  * Added the TRACE macro for debugging.
+
+Mon Sep 29 19:13:12 CEST 2008  harry_b@mm.st
+  * Added alphalist method calls to redraw the widget.
+
+Mon Sep 29 19:12:58 CEST 2008  harry_b@mm.st
+  * Todo updated.
+
+Sun Sep 28 20:54:49 CEST 2008  harry_b@mm.st
+  * Translation updated.
+
+Sun Sep 28 20:54:11 CEST 2008  harry_b@mm.st
+  * Todo updated.
+
+Sun Sep 28 20:43:03 CEST 2008  harry_b@mm.st
+  * Changlog update.
+
+Sun Sep 28 20:42:52 CEST 2008  harry_b@mm.st
+  * Typo fix.
+
+Sun Sep 28 20:39:45 CEST 2008  harry_b@mm.st
+  * clearenv() errorhandling added.
+
+Sun Sep 28 20:39:27 CEST 2008  harry_b@mm.st
+  * Todo updated.
+
+Sun Sep 28 20:22:40 CEST 2008  harry_b@mm.st
+  * NCURSES_VERSION_PATCH seems to require %d for printf.
+
+Sun Sep 28 20:05:53 CEST 2008  harry_b@mm.st
+  * Set version to 0.25beta.
+
+Sun Sep 28 20:02:54 CEST 2008  harry_b@mm.st
+  * Typo fix.
+
+Sun Sep 28 20:01:59 CEST 2008  harry_b@mm.st
+  * --environment switch
+
+Fri Sep 26 16:59:47 CEST 2008  harry_b@mm.st
+  * Todo updated, bug ind CDK seems to be fixed.
+
+Fri Sep 26 16:49:55 CEST 2008  harry_b@mm.st
+  * New compilation on an Atom CPU.
+
+Fri Sep 26 16:48:19 CEST 2008  harry_b@mm.st
+  * Todo updated.
+
+Mon May 21 10:52:53 CEST 2007  harry_b@mm.st
+  * Fixed translations.
+
+Mon May 21 10:52:28 CEST 2007  harry_b@mm.st
+  * Modified permission setting of scripts.
+
+Mon May 21 10:52:14 CEST 2007  harry_b@mm.st
+  * Changelog updated.
+
+Mon May 21 10:19:09 CEST 2007  harry_b@mm.st
+  * Show different status line in read-only mode.
+
+Mon May 21 10:18:46 CEST 2007  harry_b@mm.st
+  * Added support for cpmv for viewing mode.
+
+Mon May 21 09:45:15 CEST 2007  harry_b@mm.st
+  * Translation update.
+
+Mon May 21 09:44:47 CEST 2007  harry_b@mm.st
+  * Removed double XML encoding.
+
+Mon May 21 09:44:01 CEST 2007  harry_b@mm.st
+  * Fixed use of wrong variable and flexible dialog box width.
+
+Mon May 21 09:43:45 CEST 2007  harry_b@mm.st
+  * Whitespace removed.
+
+Mon May 21 08:39:19 CEST 2007  harry_b@mm.st
+  * Translation update.
+
+Tue Jan 30 14:24:38 CET 2007  harry_b@mm.st
+  * Added the display of 32- or 64-bit systems in the --version option.
+
+Tue Jan 30 07:41:32 CET 2007  harry_b@mm.st
+  * Changelog update.
+
+Tue Jan 30 07:34:57 CET 2007  harry_b@mm.st
+  * Fixed the wrapper script so it now can handle systemwide DatabaseFile definitions in resource files.
+  The patch was provided by ravenx99 at users.sourceforge.net.
+
+Wed Jan 24 14:07:39 CET 2007  harry_b@mm.st
+  * Translation updated.
+
+Wed Jan 24 14:05:21 CET 2007  harry_b@mm.st
+  * Code style fix.
+
+Wed Jan 24 14:03:55 CET 2007  harry_b@mm.st
+  * Messages in dialog boxed are cut off by new functions so it's no longer possible to have CDK crash on too long message lines.
+
+Wed Jan 24 14:02:52 CET 2007  harry_b@mm.st
+  * Fixed bug where the gpg key name was cut off by 1 on case a comment was used for the key.
+
+Wed Jan 24 14:02:29 CET 2007  harry_b@mm.st
+  * Permissions fixed for check target.
+
+Wed Jan 24 09:39:49 CET 2007  harry_b@mm.st
+  * Translation for new strings added.
+
+Wed Jan 24 08:18:14 CET 2007  harry_b@mm.st
+  * Added the patch from kneufeld@burgundywall.com which sets the current memory limit to the possible maximum.
+
+Wed Jan 24 08:17:34 CET 2007  harry_b@mm.st
+  * New information in config.h.in from Ubuntu system.
+
+Wed Jan 24 08:16:04 CET 2007  harry_b@mm.st
+  * Modified check for gettext so it also works with deDE.utf8 locales.
+
+Wed Jan 24 08:15:28 CET 2007  harry_b@mm.st
+  * Changelog update.
+
+Tue Sep 12 15:29:55 CEST 2006  harry_b@mm.st
+  * Text modifications.
+
+Wed Jul 12 10:20:37 CEST 2006  harry_b@mm.st
+  * Version updated to v0.24beta.
+
+Wed Jul 12 10:20:23 CEST 2006  harry_b@mm.st
+  * Changelog updated.
+
+Wed Jul 12 09:40:08 CEST 2006  harry_b@mm.st
+  tagged VERSION_0_23BETA
+
+Wed Jul 12 09:06:12 CEST 2006  harry_b@mm.st
+  * Updated line numbers.
+
+Wed Jul 12 09:05:27 CEST 2006  harry_b@mm.st
+  * Added some comments and modified the secret key check a little.
+
+Wed Jul 12 08:43:23 CEST 2006  harry_b@mm.st
+  * Added missing cleanup functions for GpgMe (when running key searches) and added key comments if there are any to the display string of the keys.
+
+Wed Jul 12 08:42:53 CEST 2006  harry_b@mm.st
+  * Comment fixes.
+
 Wed Jul 12 08:41:57 CEST 2006  harry_b@mm.st
   * Added new searchpatterns to list hosts, services and users and modified the password alphabet to create more keyboard friendly passwords.
 

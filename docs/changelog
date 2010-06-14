@@ -1,14 +1,85 @@
-cpm (0.23beta) unstable; urgency=low
+cpm (0.25beta) unstable; urgency=medium
+  * Security
+    + The result of the cleanenv() call was not used for further error
+      processing. Now this will be done.
+    + Fix the stdin/stdout/stderr sanity check at startup so /dev/null is
+      no longer necessary
+      (patch provided by Lubomir Rintel <lkundrak@v3.sk>)
+  * Bugs
+    + ncursesw now is preferred over ncurses so the special characters for
+      boxes now work again. Thanks to Thomas E. Dickey for support.
+    + Correctly destroy the window when CTRL+C is pressed
+      (patch provided by Marek Mahut <mmahut@fedoraproject.org>)
+    + Modified install part in the Makefile so it should now work with
+      none-GNU install tools.
+      (patch provided by June Tate-Gans <mondoshawan@users.sourceforge.net>)
+    + Under certain circumstances guiDialogAddNode() did not show an empty
+      inputbox but the currently selected node instead. Now the inputbox is
+      always empty.
+    + Fixed wrong names of parameters in configure. The displayed variables
+      mostly had the -dir prefix, the configured switches were missing those
+      prefixes.
+    + Added a call to EarlyExitOf() to fix keyhandling problems in CDK5.
+  * General
+    + Added commandline switch --environment to list the environemt after
+      cleanup. This is mostly for debugging.
+    + Added commandline switch --debuglevel with a numeric value between
+      0 (off) to 99 (maximum debug information). This is for development
+      reasons and bug tracking issues only and must be enabled at
+      compiletime using the CFLAG -DTRACE_DEBUG
+    + Added NCURSES_NO_UTF8_ACS to the list of permitted environment variables
+      which get passed into the applications environment
+    + Added distclean make target.
+      (patch provided by Thomas E. Dickey <dickey@his.com>)
+    + Renamed all configure options which require a path argument to
+      --xxx-dir, e.g. --with-curses to -with-curses-dir
+    + Added configure options --with-curses, --with-ncurses, --with-ncursesw
+      and --with-pdcurses to choose the used curses library
+    + Fixed method to determine the number of elements in the CDK
+      alphalist widget so it's compatible with CDK4 and CDK5.
+    + Added a guessing method to configure to find the dictionaries for
+      cracklib without any further commandline argument.
+    + Added support for Solaris 10 (x86)
+
+ -- Harry Brueckner <harry_b@mm.st>  Mon,  9 Mar 2009 10:23:35 +0100
+
+cpm (0.24beta) unstable; urgency=low
+  * Note
+    + This release was never published.
+  * Security
+    + In case the current locked memory limit is too low, cpm now tries to
+      raise the limit to the maximum value.
+      (by Kurt Neufeld <kneufeld@burgundywall.com>)
+  * CLI
+    + Fixed the wrapper script so it now can handle systemwide DatabaseFile
+      definitions in resource files.
+      (by Carl Cravens <ravenx99@users.sourceforge.net>.
+  * General
+    + Added support of a symlink named "cpmv" which automatically switches
+      to read-only mode.
+    + Fixed a bug in the key handling part where a key was double-encoded
+      for a check, which caused keys containing umlauts or other special
+      characters to cause problems.
+
+ -- Harry Brueckner <harry_b@mm.st>  Tue, 21 May 2007 18:55:18 +0100
+
+cpm (0.23beta) unstable; urgency=medium
+  * Bugs
+    + The check for the availability of a secure key failed if the used
+      key had a comment.
   * GUI
     + The statusline now reflects the correct ESC command which now switches
       from 'Exit' to 'Back' on deeper levels.
     + Modified the CDK support so it now runs with the current version 5 of
-      this library
+      this library. It's still not usable because of some bugs in CDK.
   * General
     + Finally the Debian repository is signed. For this, some scripts were
       modified.
+    + Added some more search patterns to the default rc-file.
+    + Modified the default password alphabet for automatically created
+      passwords.
 
- -- Harry Brueckner <harry_b@mm.st>  Fri, 12 Apr 2006 19:13:18 +0100
+ -- Harry Brueckner <harry_b@mm.st>  Wed, 12 Jul 2006 19:13:18 +0100
 
 cpm (0.22beta) unstable; urgency=medium
   * Bugs

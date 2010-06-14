@@ -21,7 +21,7 @@ else
 CROSS= --build $(DEB_BUILD_GNU_TYPE)
 endif
 
-export DEB_FIXPERMS_EXCLUDE = /usr/bin/cpm
+DEB_FIXPERMS_EXCLUDE := cpm
 
 config.status: patch
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""

@@ -307,7 +307,7 @@ CDK_DEBIAN_DEP="libcdk4 (<= 4.9.10)"
 if test ${INCOMPATIBLE} -gt 0; then
   # seems like an incompatible version; we have to check the detailed
   # version to be sure
-  CDK_UNUSABLE=1
+  CDK_UNUSABLE=0
 
   # this file only exists in v5
   CDK_VERSION_H=`dirname "${CDK_H}"`"/cdk_version.h"

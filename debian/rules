@@ -52,6 +52,7 @@ clean: unpatch
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
 	rm -f config.sub config.guess
+	rm -f cpm.po
 
 	dh_clean 
 

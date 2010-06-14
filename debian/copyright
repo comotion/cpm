@@ -1,17 +1,16 @@
 This package was debianized by Lars Bahner <bahner@debian.org> on
 Fri, 03 Apr 2009 14:59:19 +0200.
 
-It was downloaded from <url://example.com>
+It was downloaded from http://www.harry-b.de/dokuwiki/doku.php?id=harry:cpm
 
 Upstream Author(s):
 
-    <put author's name and email here>
-    <likewise for another author>
+    Harry Brueckner <harry_b@mm.st>
 
 Copyright:
 
-    <Copyright (C) YYYY Name OfAuthor>
-    <likewise for another author>
+    Copyright (C) 2005-2009 Harry Brueckner
+    Copyright (C) 2005-2010 Kacper Wysocki
 
 License:
 
@@ -36,5 +35,3 @@ The Debian packaging is (C) 2009, Lars Bahner <bahner@debian.org> and
 is licensed under the GPL, see above.
 
 
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.

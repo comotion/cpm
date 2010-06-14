@@ -1,7 +1,5 @@
 Source: cpm
-Section: unknown
-Priority: extra
-Maintainer: Kacper Wysocki <comotion@users.sf.net>
+Section: utils
 Build-Depends: debhelper (>= 6), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5-dev, cracklib2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, dpatch
 Standards-Version: 3.7.3
 Homepage: http://github.com/comotion/cpm
@@ -14,7 +12,7 @@ Description: Curses based password manager using PGP-encryption
  and store them public key encrypted in a file - even for more than
  one person. The encryption is handled via GnuPG so the programs data
  can be accessed via gpg as well, in case you want to have a look
- inside. The data is stored as as zlib compressed XML so it's even
+ inside. The data is stored as zlib compressed XML so it's even
  possible to reuse the data for some other purpose.
  .
  The software uses CDK (ncurses) to handle the user interface, libxml2

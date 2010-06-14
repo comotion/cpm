@@ -1,7 +1,7 @@
 /* #############################################################################
  * interface to the xml library
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -28,6 +28,7 @@
 #include <pwd.h>
 #include <time.h>
 #include "configuration.h"
+#include "general.h"
 #include "interface_utf8.h"
 #include "interface_xml.h"
 #include "listhandler.h"
@@ -76,6 +77,8 @@ void createEditorsNode(void)
     xmlNode*            rootnode;
     char*               prop;
 
+    TRACE(99, "createEditorsNode()", NULL);
+
     /* we walk along the root node to find the template node */
     rootnode = xmlGetDocumentRoot();
     curnode = rootnode -> children;
@@ -121,6 +124,7 @@ void createEditorsNode(void)
             prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "uid"));
             if (prop)
               {   /* we found a user */
+                /* Flawfinder: ignore */
                 maxeditor = max(maxeditor, atoi(prop));
               }
           }
@@ -142,6 +146,8 @@ void createTemplateNode(void)
   {
     xmlNode*            curnode;
     xmlNode*            rootnode;
+
+    TRACE(99, "createTemplateNode()", NULL);
 
     /* we walk along the root node to find the template node */
     rootnode = xmlGetDocumentRoot();
@@ -194,6 +200,8 @@ int editorAdd(xmlChar* editor)
     /* Flawfinder: ignore */
     char                uid[10];
 
+    TRACE(99, "editorAdd()", NULL);
+
     if (!editorsnode)
       { createEditorsNode(); }
 
@@ -234,6 +242,8 @@ char* editorFindById(int uid)
     char*               result;
     char*               user;
 
+    TRACE(99, "editorFindById()", NULL);
+
     if (!editorsnode)
       { createEditorsNode(); }
 
@@ -249,6 +259,7 @@ char* editorFindById(int uid)
             prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "uid"));
             if (prop)
               {   /* we found a user */
+                /* Flawfinder: ignore */
                 if (uid == atoi(prop))
                   {
                     user = convert2terminal(xmlNodeGetContent(curnode));
@@ -278,8 +289,11 @@ char* editorFindById(int uid)
 int editorFindByName(char* editor)
   {
     xmlNode*            curnode;
+    int                 uid;
     char*               prop;
     char*               user;
+
+    TRACE(99, "editorFindByName()", NULL);
 
     if (!editorsnode)
       { createEditorsNode(); }
@@ -299,7 +313,12 @@ int editorFindByName(char* editor)
                 prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "uid"));
                 if (prop)
                   {   /* we found a user */
-                    return atoi(prop);
+                    /* Flawfinder: ignore */
+                    uid = atoi(prop);
+                    if (uid > 0)
+                      { return uid; }
+                    else
+                      { return -1; }
                   }
               }
           }
@@ -321,6 +340,8 @@ int editorFindByName(char* editor)
  */
 void freeXMLInterface(void)
   {
+    TRACE(99, "freeXMLInterface()", NULL);
+
     if (xmlwalklist)
       {
         memFree(__FILE__, __LINE__, xmlwalklist, maxlevel * sizeof(xmlNode*));
@@ -339,6 +360,8 @@ void freeXMLInterface(void)
  */
 void initXMLInterface(void)
   {
+    TRACE(99, "initXMLInterface()", NULL);
+
     level = 0;
     maxlevel = 0;
 
@@ -362,6 +385,8 @@ xmlNode* nodeFind(char* label)
     xmlNode*            curnode;
     xmlNode*            newnode;
     char*               prop;
+
+    TRACE(99, "nodeFind()", NULL);
 
     if (!level || !label)
       { return 0; }
@@ -402,6 +427,8 @@ static int nodeSort(const void* node1, const void* node2)
     char**              label1 = (char**)node1;
     char**              label2 = (char**)node2;
 
+    TRACE(99, "nodeSort()", NULL);
+
     return strcmp(label1[0], label2[0]);
   }
 
@@ -417,6 +444,8 @@ static int nodeSort(const void* node1, const void* node2)
 void xmlInterfaceAddNode(char* label)
   {
     xmlNode*            node;
+
+    TRACE(99, "xmlInterfaceAddNode()", NULL);
 
     node = xmlNewChild(xmlwalklist[level - 1],
         NULL,
@@ -446,6 +475,8 @@ void xmlInterfaceDeleteNode(char* label)
   {
     xmlNode*            node;
 
+    TRACE(99, "xmlInterfaceDeleteNode()", NULL);
+
     node = nodeFind(label);
     if (!node)
       { return; }
@@ -467,6 +498,8 @@ void xmlInterfaceEditNode(char* label_old, char* label_new)
   {
     xmlNode*            node;
 
+    TRACE(99, "xmlInterfaceEditNode()", NULL);
+
     node = nodeFind(label_old);
     if (!node)
       { return; }
@@ -486,6 +519,8 @@ void xmlInterfaceEditNode(char* label_old, char* label_new)
  */
 void xmlInterfaceFreeNames(char** list)
   {
+    TRACE(99, "xmlInterfaceFreeNames()", NULL);
+
     listFree(list);
   }
 
@@ -505,6 +540,8 @@ char* xmlInterfaceGetComment(char* label)
     xmlNode*            node;
     char*               comment;
     char*               result;
+
+    TRACE(99, "xmlInterfaceGetComment()", NULL);
 
     node = nodeFind(label);
     if (!node)
@@ -550,6 +587,8 @@ void xmlInterfaceGetCreationLabel(char* label, char** by, char**on)
     char*               propby;
     char*               propon;
 
+    TRACE(99, "xmlInterfaceGetCreationLabel()", NULL);
+
     *by = NULL;
     *on = NULL;
 
@@ -560,6 +599,7 @@ void xmlInterfaceGetCreationLabel(char* label, char** by, char**on)
     propby = convert2terminal(xmlGetProp(node, BAD_CAST "created-by"));
     if (!propby || !strlen(propby))
       { propby = "0"; }
+    /* Flawfinder: ignore */
     *by = editorFindById(atoi(propby));
 
     propon = convert2terminal(xmlGetProp(node, BAD_CAST "created-on"));
@@ -586,6 +626,8 @@ void xmlInterfaceGetModificationLabel(char* label, char** by, char**on)
     char*               propby;
     char*               propon;
 
+    TRACE(99, "xmlInterfaceGetModificationLabel()", NULL);
+
     *by = NULL;
     *on = NULL;
 
@@ -596,6 +638,7 @@ void xmlInterfaceGetModificationLabel(char* label, char** by, char**on)
     propby = convert2terminal(xmlGetProp(node, BAD_CAST "modified-by"));
     if (!propby || !strlen(propby))
       { propby = "0"; }
+    /* Flawfinder: ignore */
     *by = editorFindById(atoi(propby));
 
     propon = convert2terminal(xmlGetProp(node, BAD_CAST "modified-on"));
@@ -622,6 +665,8 @@ char** xmlInterfaceGetNames(void)
     char*               pconv;
     int                 counter = 0,
                         i = 0;
+
+    TRACE(99, "xmlInterfaceGetNames()", NULL);
 
     /* first we count how many children there are */
     curnode = xmlwalklist[level - 1] -> children;
@@ -681,6 +726,8 @@ int xmlInterfaceNodeDown(char* label)
   {
     xmlNode*            newnode;
 
+    TRACE(99, "xmlInterfaceNodeDown()", NULL);
+
     if (!level)
       {   /* we start out with the root node */
         newnode = xmlGetDocumentRoot();
@@ -719,6 +766,8 @@ int xmlInterfaceNodeDown(char* label)
  */
 int xmlInterfaceNodeExists(char* label)
   {
+    TRACE(99, "xmlInterfaceNodeExists()", NULL);
+
     if (nodeFind(label))
       { return 1; }
     else
@@ -736,6 +785,8 @@ int xmlInterfaceNodeExists(char* label)
  */
 char* xmlInterfaceNodeGet(int id)
   {
+    TRACE(99, "xmlInterfaceNodeGet()", NULL);
+
     if (id < 1 ||
         id >= level)
       { return NULL; }
@@ -754,6 +805,8 @@ char* xmlInterfaceNodeGet(int id)
  */
 void xmlInterfaceNodeUp(void)
   {
+    TRACE(99, "xmlInterfaceNodeUp()", NULL);
+
     if (level > 0 &&
         xmlwalklist[level - 1])
       { xmlwalklist[level - 1] = NULL; }
@@ -777,6 +830,8 @@ void xmlInterfaceSetComment(char* label, char* comment)
     xmlNode*            commentnode = NULL;
     xmlNode*            curnode;
     xmlNode*            node;
+
+    TRACE(99, "xmlInterfaceSetComment()", NULL);
 
     node = nodeFind(label);
     if (!node)
@@ -848,6 +903,8 @@ char* xmlInterfaceTemplateGet(int id, int* is_static)
     xmlNode*            curnode;
     char*               prop;
 
+    TRACE(99, "xmlInterfaceTemplateGet()", NULL);
+
     *is_static = 1;
 
     if (!templatenode)
@@ -866,6 +923,7 @@ char* xmlInterfaceTemplateGet(int id, int* is_static)
           {
             prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "level"));
             if (prop &&
+                /* Flawfinder: ignore */
                 atoi(prop) == id)
               {   /* we found the title for the id */
                 return convert2terminal(xmlNodeGetContent(curnode));
@@ -900,7 +958,10 @@ char* xmlInterfaceTemplateGet(int id, int* is_static)
 int xmlInterfaceTemplateGetId(char* title)
   {
     xmlNode*            curnode;
+    int                 tid;
     char*               prop;
+
+    TRACE(99, "xmlInterfaceTemplateGetId()", NULL);
 
     if (!templatenode)
       { createTemplateNode(); }
@@ -916,7 +977,14 @@ int xmlInterfaceTemplateGetId(char* title)
           {   /* we found the title */
             prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "level"));
             if (prop)
-              { return atoi(prop); }
+              {
+                /* Flawfinder: ignore */
+                tid = atoi(prop);
+                if (tid > 0)
+                  { return tid; }
+                else
+                  { return -1; }
+              }
           }
 
         curnode = curnode -> next;
@@ -941,6 +1009,8 @@ void xmlInterfaceTemplateSet(char* title)
     /* Flawfinder: ignore */
     char                levelstr[32];
 
+    TRACE(99, "xmlInterfaceTemplateSet()", NULL);
+
     if (!templatenode)
       { createTemplateNode(); }
     if (!templatenode)
@@ -954,6 +1024,7 @@ void xmlInterfaceTemplateSet(char* title)
           {
             prop = convert2terminal(xmlGetProp(curnode, BAD_CAST "level"));
             if (prop &&
+                /* Flawfinder: ignore */
                 atoi(prop) == level)
               {   /* we found the title for the current level */
                 xmlNodeSetContent(curnode, convert2xml(title));
@@ -1001,6 +1072,8 @@ int xmlInterfaceTreeWalk(xmlNode* node, char*** path, WALKFN walker)
     char*               label;
     int                 found = 0,
                         level = listCount(*path);
+
+    TRACE(99, "xmlInterfaceTreeWalk()", NULL);
 
     if (!node)
       {   /* if we did not get a node, we start at the root element */
@@ -1055,6 +1128,8 @@ void xmlInterfaceUpdateTimestamp(xmlChar* uidlabel, xmlChar* timelabel,
     char                tdisplay[21];
     /* Flawfinder: ignore */
     char                udisplay[10];
+
+    TRACE(99, "xmlInterfaceUpdateTimestamp()", NULL);
 
     if (!curnode)
       { return; }

@@ -1,7 +1,7 @@
 /* #############################################################################
  * header information for general.c
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,9 @@
 /* #############################################################################
  * prototypes
  */
+#ifdef TRACE_DEBUG
+void cpm_trace(const char* filename, int line, int level, char* fmt, ...);
+#endif
 int createBackupfile(char* filename, SHOWERROR_FN showerror_cb);
 char* createPassword(int length);
 int fileExists(char* filename);
@@ -37,6 +40,17 @@ int isReadonly(char* filename);
 char* resolveFilelink(char* filename);
 #ifndef HAVE_STRERROR
   char *strerror(int errnum);
+#endif
+
+
+/* #############################################################################
+ * Macro to call the trace routine
+ */
+
+#ifdef TRACE_DEBUG
+#define TRACE(level, fmt, args...) cpm_trace(__FILE__, __LINE__, level, fmt, ##args)
+#else
+#define TRACE(level, fmt, args...) ;
 #endif
 
 

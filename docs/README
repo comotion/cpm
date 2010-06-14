@@ -16,7 +16,7 @@ encrypt and decrypt the data securely.
 Copyright
 ---------
 
-Copyright (C) 2005, 2006 Harry Brueckner
+Copyright (C) 2005-2009 Harry Brueckner
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -73,6 +73,7 @@ Platforms
 ---------
 
 This software has been tested on the following platforms:
+    - Ubuntu Hardy
     - Debian Woody, Sid and Sarge
     - Gentoo Linux
     - SuSE Linux
@@ -120,7 +121,7 @@ Installation requirements
 -------------------------
 
 To install this program, the following libraries are required:
-    - cdk (<= 4.9.10)
+    - cdk (<= 4.9.10 or >= 5.0.20090215)
     - crack
     - dotconf
     - gpgme
@@ -132,13 +133,14 @@ which can not handle empty widgets. I reported to the CDK developers on
 2005-09-08 and it should be fixed in one of the upcoming version 5 releases.
 
 On Debian systems, the package names are:
-    - libcdk4
-    - libcdk-dev
     - cracklib-runtime
-    - cracklib2
-    - cracklib2-dev
+    - libcdk5
+    - libcdk5-dev
+    - libcrack2
+    - libcrack2-dev
     - libdotconf1.0
     - libdotconf-dev
+    - libgpg-error-dev
     - libgpgme11
     - libgpgme11-dev
     - libncurses5
@@ -158,10 +160,11 @@ Installation should be quite simple if all requirements are met:
     3. make check (this only works if it's compiled with -DTEST_OPTION)
     4. make install
 
-In case the constant CRACKLIB_DICTPATH is not defined in your crack.h file,
-you might have to tell configure where the dictionary files of libcrack are.
-This can be done by passing e.g. '--with-crack-dict=/usr/lib/cracklib_dict' to
-configure. Please note, that the file extension must not be specified.
+In case the constant CRACKLIB_DICTPATH is not defined in your crack.h file, you
+might have to tell configure where the dictionary files of libcrack are.  This
+can be done by passing e.g.
+'--with-crack-dict=/var/cache/cracklib/cracklib_dict' to configure.
+Please note, that the file extension must not be specified.
 
 If you don't have cracklib installed, you can turn off it's use by passing
 --without-crack-lib to the configure command.
@@ -178,17 +181,19 @@ For debugging, testing and configuration these labels can be defined:
        it looks like version 5.
     2. -DKEY_DEBUG can be used to get information about the used keys during
        the signing process; it's use is for development only.
-    3. -DMEMDEBUG can be used to find memory leaks and such nasty staff
-       all memory operations show what they do and how much memory they
+    3. -DMEMDEBUG can be used to find memory leaks and such nasty stuff.
+       All memory operations show what they do and how much memory they
        allocate or free.
     4. -DMEMLOCK_LIMIT is used to define the memory limit to be defined for
        the max. locked memory check. See --with-memlock configure argument.
     5. -DNO_CRACKLIB can be used to not use the crack library - this reduces
        the security level of the application though (this gets automatically
        added if configure is started with --without-crack-lib).
-    6. -DTEST_OPTION can be used to run some tests for the final program
-       it enables the command line option --testrun thus 'make check' can
+    6. -DTEST_OPTION can be used to run some tests for the final program.
+       It enables the command line option --testrun thus 'make check' can
        be used.
+    7. -DTRACE_DEBUG enable can be used to enable the TRACE() function for
+       debugging.
 
 
 Configuration
@@ -305,18 +310,6 @@ The following import formats are supported:
     PMS
     ---
         The PMS interface can read CSV files created by pms_export 
-
-
-Important Note
---------------
-
-At the moment it's a little annoying to not be able to automatically reencrypt
-a file to the same recipients. Right now, this feature is available in the
-development version of GpgMe only.
-As soon as this is available, I will add this feature to cpm.
-
-Right now this feature is handled by a wrapper script which extracts the
-necessary information using gpg directly.
 
 
 Structure of the XML file

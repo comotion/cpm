@@ -10,9 +10,9 @@
 CC=@CC@
 # I used to have -Werror here but this breaks the warning which I must have
 # with lib GpgMe. :-(
-CFLAGS=@CFLAGS@ @CPPFLAGS@ @DEFS@ @LIBGPGME_CFLAGS@ @LIBXML_CFLAGS@ -std=c89 -pedantic -Wall -DLOCALEDIR='"@prefix@/share/locale"' @CDK_VERSION_DEF@
+CFLAGS=@CFLAGS@ @CPPFLAGS@ @DEFS@ @LIBGPGME_CFLAGS@ @LIBNCURSES_CFLAGS@ @LIBXML_CFLAGS@ -std=c99 -Wall -Wformat=2 -DLOCALEDIR='"@prefix@/share/locale"' @CDK_VERSION_DEF@
 INSTALL=@INSTALL@
-LDFLAGS=@LDFLAGS@ @LIBS@ @LIBGPGME_LIBS@ @LIBXML_LIBS@
+LDFLAGS=@LDFLAGS@ @LIBS@ @LIBGPGME_LIBS@ @LIBNCURSES_LIBS@ @LIBXML_LIBS@
 SHELL=@SHELL@
 DEBIAN_RELEASE=1
 DEBIAN_BINARY=@PACKAGE_NAME@-@PACKAGE_VERSION@-$(DEBIAN_RELEASE)_i386.deb
@@ -37,10 +37,10 @@ OBJECTS=cpm.o configuration.o general.o gpg.o interface_cli.o interface_gui.o in
 # build rules
 
 .c.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $<
 
 .o:
-	$(CC) $^ $(CFLAGS) $(LDFLAGS) -o $@
+	$(CC) $^ $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@
 
 
 # ##############################################################################
@@ -52,7 +52,7 @@ all: dependencies cpm
 # ##############################################################################
 # run the tests
 .PHONY: check
-check: cpm gettext check_backup check_clisearch check_compress check_configtest check_decrypt check_encrypt check_environment check_garbage check_gettext check_searchpattern
+check: permissions cpm gettext check_backup check_clisearch check_compress check_configtest check_decrypt check_encrypt check_environment check_garbage check_gettext check_searchpattern
 
 OK=\t\t\t\t[1;32mok[0m
 ERROR=\t\t\t\t[1;31mfailed[0m
@@ -226,13 +226,14 @@ check_environment:
 	@echo -n "Testing [1;37menvironment      [0m"; \
 		rm -f check-environment.log; \
 		$(GPG_ENV) ./cpm --config=tests/cpmrc-crypt-tests --testrun=environment > check-environment.log 2>&1 || exit 1; \
-		diff --brief check-environment.log tests/environment-result.txt > /dev/null; \
+		egrep -e "(^general: |^alpha |^numeric |^filename |^path )#[0-9]+: " check-environment.log > check-environment-2.log || exit 1; \
+		diff --brief check-environment-2.log tests/environment-result.txt > /dev/null; \
 		if [ $${?} -ne 0 ]; then \
 			echo -e "$(ERROR)"; \
 			exit 1; \
 		else \
 			echo -e "$(OK)"; \
-			rm -f check-environment.log; \
+			rm -f check-environment.log check-environment-2.log; \
 		fi
 
 .PHONY: check_garbage
@@ -256,8 +257,8 @@ check_garbage:
 .PHONY: check_gettext
 check_gettext:
 	@echo -n "Testing [1;37mgettext 1       [0m"; \
-		INSTALLED=`locale -a | grep -c "^de_DE$$"`; \
-		if [ $${INSTALLED} -ne 1 ]; then \
+		INSTALLED=`locale -a | grep -c "^de_DE"`; \
+		if [ $${INSTALLED} -eq 0 ]; then \
 			echo -e "$(ERROR)"; \
 			exit 1; \
 		else \
@@ -265,7 +266,8 @@ check_gettext:
 		fi
 	@echo -n "Testing [1;37mgettext 2       [0m"; \
 		rm -f check-gettext.log; \
-		$(GPG_ENV) LANG=de_DE ./cpm --version | tail --lines=1 > check-gettext.log 2>&1 || exit 1; \
+		LANGUAGE=`locale -a | grep "^de_DE" | head --lines=1`; \
+		$(GPG_ENV) LANG=$${LANGUAGE} ./cpm --version | tail --lines=1 > check-gettext.log 2>&1 || exit 1; \
 		diff --brief check-gettext.log tests/gettext-result.txt > /dev/null; \
 		if [ $${?} -ne 0 ]; then \
 			echo -e "$(ERROR)"; \
@@ -322,7 +324,7 @@ debug: cpm
 dependencies:
 	@rm -f Makefile.dep; \
 	for FILE in $(OBJECTS); do \
-		$(CC) $(CFLAGS) -MM $${FILE%%.o}.c >> Makefile.dep; \
+		$(CC) $(CFLAGS) $(CPPFLAGS) -MM $${FILE%%.o}.c >> Makefile.dep; \
 	done
 
 
@@ -340,16 +342,14 @@ gettext: gettext_compile
 
 .PHONY: gettext_compile
 gettext_compile: gettext_translate
+	cd po; \
+		tail --lines=+18 de_DE.po > current.txt; \
+		tail --lines=+18 de_DE_new.po > new.txt; \
+		diff -u current.txt new.txt
 	cd po; msgfmt --check --statistics --strict de_DE.po --output=de_DE.mo
 	cd po; \
 		mkdir -p ./de/LC_MESSAGES; \
 		cp de_DE.mo ./de/LC_MESSAGES/cpm.mo
-
-# diff fails
-#	cd po; \
-#		tail --lines=+18 de_DE.po > current.txt; \
-#		tail --lines=+18 de_DE_new.po > new.txt; \
-#		diff -u current.txt new.txt
 
 
 # ##############################################################################
@@ -376,9 +376,12 @@ gettext_update:
 # install everything
 .PHONY: install
 install: cpm gettext
-	$(INSTALL) -D --mode=4755 --owner=root --group=root @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
-	$(INSTALL) -D --mode=644 ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
-	$(INSTALL) -D --mode=644 ./docs/cpm.1.gz $(DESTDIR)$(mandir)/man1/cpm.1.gz
+	$(INSTALL) -d $(DESTDIR)$(bindir)
+	$(INSTALL) -d $(DESTDIR)$(localedir)/de/LC_MESSAGES
+	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
+	$(INSTALL) -m 4755 -o 0 -g 0 @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@	$(INSTALL) -m 644 ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
+	$(INSTALL) -m 644 ./docs/cpm.1.gz $(DESTDIR)$(mandir)/man1/cpm.1.gz
+
 
 
 # ##############################################################################
@@ -386,22 +389,44 @@ install: cpm gettext
 
 .PHONY: man
 man:
-	txt2man -s 1 -r "@PACKAGE_NAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" -T ../docs/cpm.txt | gzip -9 > ../docs/cpm.1.gz
+	txt2man -s 1 -r "@PACKAGE_NAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" -T ../docs/cpm.txt > /tmp/cpm.1
+	cat /tmp/cpm.1 | gzip -9 > ../docs/cpm.1.gz
+	rm -f /tmp/cpm.1
 
 
 # ##############################################################################
 # set all probably missing file permissions
 .PHONY:
 permissions:
-	chmod 755 ../anonymize/cpm2anonymous.pl
-	chmod 755 ../debian/postinst
-	chmod 755 ../import/general/convert.sh
-	chmod 755 ../import/passwordsafe/convert.pl
-	chmod 755 ../import/*.pl ../import/*.sh
-	chmod 755 ../import/pms/convert.pl ../import/pms/convert.sh
-	chmod 755 ./prepare_release.sh ./publish_release.sh
-	chmod 755 ./tests/testxml.pl
-	chmod 755 ../wrapper/cpm-wrapper
+	for FILE in \
+		../anonymize/cpm2anonymous.pl \
+		../debian/postinst \
+		../import/general/convert.sh \
+		../import/passwordsafe/convert.pl \
+		../import/*.pl ../import/*.sh \
+		../import/pms/convert.pl ../import/pms/convert.sh \
+		./prepare_release.sh ./publish_release.sh \
+		./tests/testxml.pl \
+		../wrapper/cpm-wrapper; do \
+		if [ -f "$${FILE}" ]; then \
+			echo "Setting permissions for $${FILE}"; \
+			chmod 755 "$${FILE}"; \
+		fi; \
+	done
+
+
+# ##############################################################################
+# clean the distribution
+.PHONY: distclean
+distclean: clean
+	rm -fr \
+		config.h \
+		config.status \
+		control \
+		*.log \
+		Makefile \
+		Makefile.dep \
+		*.out
 
 
 # ##############################################################################
@@ -522,6 +547,7 @@ tar: clean gettext man permissions
 		../debian/changelog \
 		../ChangeLog \
 		../docs/cpm.1.gz \
+		../docs/cpm.pod \
 		../docs/cpm.txt \
 		../docs/GPLv2 \
 		../docs/README \
@@ -556,7 +582,7 @@ tar: clean gettext man permissions
 	cp ./po/de_DE.mo \
 		./po/de_DE.po \
 		@PACKAGE_TARNAME@-@PACKAGE_VERSION@/po/
-	find tests/ -type f -maxdepth 1 -exec \
+	find tests/ -maxdepth 1 -type f -exec \
 		cp {} @PACKAGE_TARNAME@-@PACKAGE_VERSION@/tests/ \;
 	tar cjf $(BZ2_SOURCE) @PACKAGE_TARNAME@-@PACKAGE_VERSION@/
 	tar czf $(TAR_SOURCE) @PACKAGE_TARNAME@-@PACKAGE_VERSION@/

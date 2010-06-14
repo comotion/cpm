@@ -4,7 +4,7 @@
 # this script calls the specified conversion script and adds the additional
 # XML structure and encryption.
 # ##############################################################################
-# Copyright (C) 2005, 2006 Harry Brueckner
+# Copyright (C) 2005-2009 Harry Brueckner
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software

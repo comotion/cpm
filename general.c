@@ -1,7 +1,7 @@
 /* #############################################################################
  * general functions for all parts of the program
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -27,17 +27,56 @@
 #include "cpm.h"
 #ifdef HAVE_CRACKLIB
   #include <crack.h>
+
+  #ifndef CRACKLIB_DICTPATH
+    #error CRACKLIB_DICTPATH not defined.
+    #define CRACKLIB_DICTPATH ""
+  #endif
 #endif
 #include "configuration.h"
 #include "general.h"
 #include "memory.h"
 #include "string.h"
+#ifdef TRACE_DEBUG
+  #include <stdarg.h>
+#endif
 
 
 /* #############################################################################
  * internal functions
  */
 char* createRealPassword(int length);
+
+
+/* #############################################################################
+ *
+ * Description    print debug information to stderr
+ * Author         Harry Brueckner
+ * Date           2008-09-29
+ * Arguments      char* filename    - filename where the trace call is
+ *                int line          - line number of tha call
+ *                char* fmt         - printf like format string
+ *                ...               - arguments to printf
+ * Return         void
+ */
+#ifdef TRACE_DEBUG
+void cpm_trace(const char* filename, int line, int level, char* fmt, ...)
+  {
+    va_list             ap;
+
+    if (!config ||
+        config -> debuglevel == 0 ||
+        config -> debuglevel < level)
+      { return; }
+
+    fprintf(stderr, "[trace] %s, line %d: ", filename, line);
+    va_start(ap, fmt);
+    /* Flawfinder: ignore */
+    vfprintf(stderr, fmt, ap);
+    va_end(ap);
+    fprintf(stderr, "\n");
+  }
+#endif
 
 
 /* #############################################################################
@@ -59,6 +98,8 @@ int createBackupfile(char* filename, SHOWERROR_FN showerror_cb)
     char*               buffer = NULL;
     char*               newname;
     char*               tmpbuffer;
+
+    TRACE(99, "createBackupfile()", NULL);
 
     if (!config -> createbackup)
       {   /* if we don't want backup files at all, we just do nothing*/
@@ -179,6 +220,8 @@ char* createPassword(int length)
     char*               dictionary;
     char*               password;
 
+    TRACE(99, "createPassword()", NULL);
+
     dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
     strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
 
@@ -203,6 +246,8 @@ char* createPassword(int length)
 #else
 char* createPassword(int length)
   {
+    TRACE(99, "createPassword()", NULL);
+
     return createRealPassword(length);
   }
 #endif
@@ -223,6 +268,8 @@ char* createRealPassword(int length)
                         i,
                         rnd;
     char*               password;
+
+    TRACE(99, "createRealPassword()", NULL);
 
     /* Flawfinder: ignore */
     rnd = open("/dev/random", O_RDONLY);
@@ -262,6 +309,8 @@ int fileExists(char* filename)
   {
     struct stat         filestat;
 
+    TRACE(99, "fileExists()", NULL);
+
     if (stat(filename, &filestat))
       { return 0; }
     else
@@ -284,11 +333,15 @@ int fileExists(char* filename)
 int fileLockCreate(char* filename, char* extension, char** errormsg)
   {
     pid_t               pid;
+    ssize_t             len,
+                        wsize;
     int                 fd,
                         size;
     char*               fullname;
     /* Flawfinder: ignore */
     char                pidstring[32];
+
+    TRACE(99, "fileLockCreate()", NULL);
 
     /* create the filename for the backup */
     size = strlen(filename) + 1 + strlen(extension) + 1;
@@ -324,11 +377,16 @@ int fileLockCreate(char* filename, char* extension, char** errormsg)
         pid = getpid();
         snprintf(pidstring, 32, "%d\n", pid);
 
-        write(fd, pidstring, strlen(pidstring));
+        len = strlen(pidstring);
+        wsize = write(fd, pidstring, len);
 
         lockf(fd, F_ULOCK, 0L);
         close(fd);
-        return 0;
+
+        if (wsize == strlen(pidstring))
+          { return 0; }
+        else
+          { return 1; }
       }
   }
 
@@ -349,6 +407,8 @@ int fileLockOpen(char* filename, int flags, mode_t mode, char** errormsg)
     int                 fd,
                         lockmode,
                         try = 0;
+
+    TRACE(99, "fileLockOpen()", NULL);
 
     *errormsg = NULL;
 
@@ -441,6 +501,8 @@ int fileLockOpen(char* filename, int flags, mode_t mode, char** errormsg)
  */
 int fileLockRemove(char** errormsg)
   {
+    TRACE(99, "fileLockRemove()", NULL);
+
     *errormsg = NULL;
 
     if (!runtime -> lockfile)
@@ -472,6 +534,8 @@ char* isGoodPassword(char* password)
     char*               dictionary;
     char*               result;
 
+    TRACE(99, "isGoodPassword()", NULL);
+
     dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
     strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
 
@@ -484,6 +548,8 @@ char* isGoodPassword(char* password)
 #else
 char* isGoodPassword(char* password)
   {
+    TRACE(99, "isGoodPassword()", NULL);
+
     return NULL;
   }
 #endif
@@ -507,6 +573,8 @@ int isReadonly(char* filename)
     GETGROUPS_T*        grouplist;
     GETGROUPS_T         egid;
     uid_t               euid;
+
+    TRACE(99, "isReadonly()", NULL);
 
 #ifndef HAVE_GETGROUPS
     /* if getgroups() does not exist, we can't check this */
@@ -578,6 +646,8 @@ char* resolveFilelink(char* filename)
     int                 size;
     char*               newfile;
     char*               tmpbuffer;
+
+    TRACE(99, "resolveFilelink()", NULL);
 
     tmpbuffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
 

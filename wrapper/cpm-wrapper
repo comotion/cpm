@@ -1,6 +1,14 @@
 #!/bin/sh
 
-FILE="${HOME}/.cpmdb"
+# check if any of the systemwide RC files contains a database statement
+# Patch provided by ravenx99 at users.sourceforge.net
+for RCFILE in ${HOME}/.cpmrc /etc/cpm/cpmrc /etc/cpmrc; do
+  if [ -r ${RCFILE} ]; then
+    FILE=`grep "^DatabaseFile" ${RCFILE} |cut --delimiter=" " --field="2"`
+    break
+  fi
+done
+FILE="${FILE:-${HOME}/.cpmdb}"
 
 # we keep the original arguments
 ARGUMENTS="${*}"

@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for all things regarding the key list.
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,7 @@
  */
 #include "cpm.h"
 #include "configuration.h"
+#include "general.h"
 #include "gpg.h"
 #include "interface_keys.h"
 #include "interface_utf8.h"
@@ -49,6 +50,8 @@ char**                  encrypttionkeylist;
  */
 void freeKeys(void)
   {
+    TRACE(99, "freeKeys()", NULL);
+
     encrypttionkeylist = listFree(encrypttionkeylist);
   }
 
@@ -63,6 +66,8 @@ void freeKeys(void)
  */
 void initKeys(void)
   {
+    TRACE(99, "initKeys()", NULL);
+
     encrypttionkeylist = NULL;
   }
 
@@ -80,11 +85,14 @@ int keyAdd(char* key)
     char*               identifier;
     char*               tname;
 
+    TRACE(99, "keyAdd()", NULL);
+
     if (!key || !strlen(key))
       { return 0; }
 
     tname = (char*)convert2xml(key);
     identifier = gpgValidateEncryptionKey(tname);
+
     if (identifier)
       {
         if (keyGetId(identifier) == -1)
@@ -117,6 +125,8 @@ int keyChange(int id, char* key)
     int                 entries;
     char*               identifier;
     char*               tname;
+
+    TRACE(99, "keyChange()", NULL);
 
     if (!key || !strlen(key))
       { return 0; }
@@ -159,6 +169,8 @@ int keyChange(int id, char* key)
  */
 int keyCount(void)
   {
+    TRACE(99, "keyCount()", NULL);
+
     return listCount(encrypttionkeylist);
   }
 
@@ -174,6 +186,8 @@ int keyCount(void)
 void keyDefaults(void)
   {
     int                 i;
+
+    TRACE(99, "keyDefaults()", NULL);
 
     for (i = listCount(config -> defaultkeys); i > 0; i--)
       {
@@ -197,6 +211,8 @@ void keyDefaults(void)
  */
 void keyDelete(int id)
   {
+    TRACE(99, "keyDelete()", NULL);
+
     encrypttionkeylist = listDelete(encrypttionkeylist, id);
   }
 
@@ -211,6 +227,8 @@ void keyDelete(int id)
  */
 char* keyGet(int id)
   {
+    TRACE(99, "keyGet()", NULL);
+
     return encrypttionkeylist[id];
   }
 
@@ -226,12 +244,12 @@ char* keyGet(int id)
 int keyGetId(char* key)
   {
     int                 i;
-    char*               tname;
 
-    tname = (char*)convert2xml(key);
+    TRACE(99, "keyGetId()", NULL);
+
     for (i = listCount(encrypttionkeylist); i > 0; i--)
       {
-        if (!strcmp(encrypttionkeylist[i - 1], tname))
+        if (!strcmp(encrypttionkeylist[i - 1], key))
             return i - 1;
       }
 
@@ -249,6 +267,8 @@ int keyGetId(char* key)
  */
 char** keyGetList(int id)
   {
+    TRACE(99, "keyGetList()", NULL);
+
     return encrypttionkeylist;
   }
 

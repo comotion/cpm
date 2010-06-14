@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for handling the GUI interface
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,15 @@
  * includes
  */
 #include "cpm.h"
+#ifdef HAVE_LIBNCURSES
+  #include <ncurses.h>
+#endif
+#ifdef HAVE_LIBNCURSESW
+  #include <ncurses.h>
+#endif
+#ifdef HAVE_TERMIOS_H
+  #include <termios.h>
+#endif
 #include "configuration.h"
 #include "general.h"
 #include "interface_gui.h"
@@ -66,7 +75,6 @@ WINDOW*                 statusline = NULL;
 int checkForSecretKey(void);
 void clearStatusline(void);
 void commentFormat(char** infodata, char* comment);
-void destroyScreen(int line, char* message);
 void drawStatusline(int level);
 int getInfodataLength(void);
 char* getListtitle(int level);
@@ -99,6 +107,8 @@ int guiDialogWrite(EObjectType cdktype, void* object, void* clientdata,
     chtype key);
 int guiDialogYesNo(int level, char** message);
 int guiDialogYesNoCancel(int level, char** message);
+char** guiMessageFormat(char** message);
+void guiMessageClear(char** message);
 void guiUpdateInfo(CDKLABEL* infobox, char** infodata, int id);
 void freshAlphalist(CDKALPHALIST* widget);
 int initializeScreen(void);
@@ -117,18 +127,30 @@ RETSIGTYPE resizehandler(int signum);
 int checkForSecretKey(void)
   {
     int                 i,
-                        secret = 0;
+                        j,
+                        secret = 0,
+                        size;
     char*               key;
+    char*               keyptr;
+
+    TRACE(99, "checkForSecretKey()", NULL);
 
     for (i = keyCount() - 1; i >= 0; i--)
       {
         key = keyGet(i);
-        /* we skip the id at the beginning and start with the name */
-        while (*key && *key != ' ')
-          { key++; }
-        key++;
 
-        switch (gpgIsSecretKey(key))
+        /* we create a copy of the key id string */
+        size = strlen(key) + 1;
+
+        /* extract the mail address listed in <...> at the end of the string */
+        keyptr = key + size;
+        for (j = size; j >= 0; j--, keyptr--)
+          {
+            if (keyptr[0] == '<')
+              { break; }
+          }
+
+        switch (gpgIsSecretKey(keyptr))
           {
             case -1:
             case 0:
@@ -157,6 +179,8 @@ int checkForSecretKey(void)
  */
 void clearStatusline(void)
   {
+    TRACE(99, "clearStatusline()", NULL);
+
     if (statusline)
       {
         werase(statusline);
@@ -185,6 +209,8 @@ void commentFormat(char** infodata, char* comment)
                         size;
     char*               ptr;
     char*               wstart;
+
+    TRACE(99, "commentFormat()", NULL);
 
     if (!comment)
       { return; }
@@ -248,6 +274,8 @@ void commentFormat(char** infodata, char* comment)
  */
 void destroyScreen(int line, char* message)
   {
+    TRACE(99, "destroyScreen()", NULL);
+
     /* clear and destroy the statusline */
     clearStatusline();
 
@@ -292,6 +320,8 @@ void drawStatusline(int level)
                         max_x,
                         max_y;
 
+    TRACE(99, "drawStatusline()", NULL);
+
     getmaxyx(curseswin, max_y, max_x);
     if (!statusline)
       { statusline = newwin(1, max_x, max_y - 1, 0); }
@@ -310,26 +340,29 @@ void drawStatusline(int level)
 
     waddstr(statusline, " | ");
 
-    wattron(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, "^A");
-    wattroff(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, _(" Add"));
+    if (!runtime -> readonly)
+      {
+        wattron(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, "^A");
+        wattroff(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, _(" Add"));
 
-    waddstr(statusline, " | ");
+        waddstr(statusline, " | ");
 
-    wattron(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, "^E");
-    wattroff(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, _(" Edit"));
+        wattron(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, "^E");
+        wattroff(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, _(" Edit"));
 
-    waddstr(statusline, " | ");
+        waddstr(statusline, " | ");
 
-    wattron(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, "^O");
-    wattroff(statusline, A_BOLD | COLOR_PAIR(3));
-    waddstr(statusline, _(" Comment"));
+        wattron(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, "^O");
+        wattroff(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, _(" Comment"));
 
-    waddstr(statusline, " | ");
+        waddstr(statusline, " | ");
+      }
 
     wattron(statusline, A_BOLD | COLOR_PAIR(3));
     waddstr(statusline, "ENTER");
@@ -364,6 +397,8 @@ int getInfodataLength(void)
     int                 max_x,
                         max_y;
 
+    TRACE(99, "getInfodataLength()", NULL);
+
     getmaxyx(curseswin, max_y, max_x);
 
 #ifdef CDK_VERSION_5
@@ -396,6 +431,8 @@ char* getListtitle(int level)
     char*               subtitle;
     char*               templatename;
     char*               title;
+
+    TRACE(99, "getListtitle()", NULL);
 
     title = memAlloc(__FILE__, __LINE__, 7 + 1);
     strStrncpy(title, "</B/24>", 7 + 1);
@@ -481,6 +518,8 @@ int keyPreProcess(EObjectType cdktype, void* object, void* clientdata,
                         nodes;
     char**              nodenames;
 
+    TRACE(99, "keyPreProcess()", NULL);
+
     list = event -> widget;
 
     if (event -> preprocessfunction)
@@ -532,10 +571,18 @@ void freshAlphalist(CDKALPHALIST* widget)
     int                 nodes;
     char**              nodenames;
 
+    TRACE(99, "freshAlphalist()", NULL);
+
     nodenames = xmlInterfaceGetNames();
     nodes = listCount(nodenames);
 
     setCDKAlphalistContents(widget, nodenames, nodes);
+    /* TODO: add support to place the cursor at last added/modified item */
+#ifdef CDK_VERSION_5
+    setCDKScrollCurrentTop(widget -> scrollField, 0);
+    setCDKAlphalistCurrentItem(widget, 0);
+    drawCDKAlphalist(widget, BorderOf(widget));
+#endif
 
     xmlInterfaceFreeNames(nodenames);
   }
@@ -556,6 +603,8 @@ const char* guiDialogPassphrase(int retry, char* realm)
     char*               data;
     char*               trealm;
     char*               title;
+
+    TRACE(99, "guiDialogPassphrase()", NULL);
 
     if (strlen(runtime -> passphrase))
       { return runtime -> passphrase; }
@@ -593,8 +642,7 @@ const char* guiDialogPassphrase(int retry, char* realm)
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(0); }
 
@@ -620,6 +668,8 @@ int guiDialogAddEncryptionKey(EObjectType cdktype, void* object,
     CDKENTRY*           entry = NULL;
     KEYEVENT*           event = (KEYEVENT*)clientdata;
     char*               data;
+
+    TRACE(99, "guiDialogAddEncryptionKey()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -650,8 +700,14 @@ int guiDialogAddEncryptionKey(EObjectType cdktype, void* object,
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+#ifdef CDK_VERSION_5
+    /* tell the widget that it has to exit  */
+    /* I am not sure if this is a bug in CDK or not, but it can be
+     * solved this way. */
+    EarlyExitOf((CDKSCROLL*)object) = vESCAPE_HIT;
+#endif
+
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -681,6 +737,8 @@ int guiDialogAddNode(EObjectType cdktype, void* object, void* clientdata,
     char*               errormsg;
     char*               status = NULL;
     char*               title;
+
+    TRACE(99, "guiDialogAddNode()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -713,7 +771,7 @@ int guiDialogAddNode(EObjectType cdktype, void* object, void* clientdata,
     memFree(__FILE__, __LINE__, title, STDBUFFERLENGTH);
 
     /* set the data of the input field */
-    setCDKEntry(entry, event -> selection, 0, STDSTRINGLENGTH, SHOW_BOX);
+    setCDKEntry(entry, NULL, 0, STDSTRINGLENGTH, SHOW_BOX);
 
     data = activateCDKEntry(entry, (chtype*)NULL);
     if (entry -> exitType == vNORMAL)
@@ -748,8 +806,7 @@ int guiDialogAddNode(EObjectType cdktype, void* object, void* clientdata,
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -777,6 +834,8 @@ int guiDialogDeleteEncryptionKey(EObjectType cdktype, void* object,
     int                 counter,
                         length;
 
+    TRACE(99, "guiDialogDeleteEncryptionKey()", NULL);
+
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
 
@@ -789,12 +848,11 @@ int guiDialogDeleteEncryptionKey(EObjectType cdktype, void* object,
         return 1;
       }
 
-    /* we insert the key's name */
+    /* we ask if this key should be deleted */
     length = strlen(keyGet(counter)) + 9 + 1;
-    msgDeleteNode[0] = _("Are you sure you want to delete the encryption key ");
+    msgDeleteNode[0] = _("Are you sure you want to delete the encryption key");
     msgDeleteNode[1] = memAlloc(__FILE__, __LINE__, length);
-    snprintf(msgDeleteNode[1], length, "</B>%s<!B>?", keyGet(counter));
-
+    snprintf(msgDeleteNode[1], length, "%s?", keyGet(counter));
 
     if (guiDialogYesNo(event -> level, msgDeleteNode) == 1)
       {   /* we really want to delete this key */
@@ -803,6 +861,13 @@ int guiDialogDeleteEncryptionKey(EObjectType cdktype, void* object,
       }
 
     memFree(__FILE__, __LINE__, msgDeleteNode[1], length);
+
+#ifdef CDK_VERSION_5
+    /* tell the widget that it has to exit  */
+    /* I am not sure if this is a bug in CDK or not, but it can be
+     * solved this way. */
+    EarlyExitOf((CDKSCROLL*)object) = vESCAPE_HIT;
+#endif
 
     return 1;
   }
@@ -827,6 +892,8 @@ int guiDialogDeleteNode(EObjectType cdktype, void* object, void* clientdata,
     int                 length;
     char*               label;
 
+    TRACE(99, "guiDialogDeleteNode()", NULL);
+
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
     if (runtime -> readonly)
@@ -845,7 +912,7 @@ int guiDialogDeleteNode(EObjectType cdktype, void* object, void* clientdata,
     length = strlen(label) + 15 + 1;
     msgDeleteNode[0] = _("Are you sure you want to delete");
     msgDeleteNode[1] = memAlloc(__FILE__, __LINE__, length);
-    snprintf(msgDeleteNode[1], length, _("entry </B>%s<!B>?"), label);
+    snprintf(msgDeleteNode[1], length, _("entry %s?"), label);
 
     if (guiDialogYesNo(event -> level, msgDeleteNode) == 1)
       {   /* we really want to delete this node */
@@ -882,6 +949,8 @@ int guiDialogEditComment(EObjectType cdktype, void* object, void* clientdata,
     char**              nodenames;
     char*               comment;
     char*               label;
+
+    TRACE(99, "guiDialogEditComment()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -937,8 +1006,7 @@ int guiDialogEditComment(EObjectType cdktype, void* object, void* clientdata,
     /* free our old comment */
     memFreeString(__FILE__, __LINE__, comment);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -966,6 +1034,8 @@ int guiDialogEditEncryptionKey(EObjectType cdktype, void* object,
     KEYEVENT*           event = (KEYEVENT*)clientdata;
     int                 counter;
     char*               data;
+
+    TRACE(99, "guiDialogEditEncryptionKey()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -1005,8 +1075,14 @@ int guiDialogEditEncryptionKey(EObjectType cdktype, void* object,
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+#ifdef CDK_VERSION_5
+    /* tell the widget that it has to exit  */
+    /* I am not sure if this is a bug in CDK or not, but it can be
+     * solved this way. */
+    EarlyExitOf((CDKSCROLL*)object) = vESCAPE_HIT;
+#endif
+
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -1040,6 +1116,8 @@ int guiDialogEditNode(EObjectType cdktype, void* object, void* clientdata,
     char*               password = NULL;
     char*               status = NULL;
     char*               title;
+
+    TRACE(99, "guiDialogEditNode()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -1094,8 +1172,7 @@ int guiDialogEditNode(EObjectType cdktype, void* object, void* clientdata,
         /* free the infobox */
         destroyCDKLabel(randombox);
 
-        /* redraw the screen */
-        drawCDKScreen(cdkscreen);
+        /* redraw the statusline */
         if (statusline)
           { drawStatusline(event -> level); }
 
@@ -1144,8 +1221,7 @@ int guiDialogEditNode(EObjectType cdktype, void* object, void* clientdata,
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -1174,6 +1250,8 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
                         done = 0,
                         selection;
 
+    TRACE(99, "guiDialogHandleKeys()", NULL);
+
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
     if (runtime -> readonly)
@@ -1187,7 +1265,7 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
         counter = keyCount();
 
         scroll = newCDKScroll(cdkscreen, CENTER, CENTER, RIGHT,
-            LINES * 2 / 3, 60,
+            LINES * 2 / 3, COLS - 20,
             _("</B>Keys to encrypt the database with<!B>"),
             keyGetList(), counter,
             NONUMBERS, A_REVERSE, SHOW_BOX, SHOW_SHADOW);
@@ -1214,7 +1292,6 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
             &keyevent);
 
         selection = activateCDKScroll(scroll, NULL);
-
         if (scroll -> exitType == vNORMAL)
           {
             keyevent.selectionid = scroll -> currentItem;
@@ -1226,8 +1303,7 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
 
         destroyCDKScroll(scroll);
 
-        /* redraw the screen */
-        drawCDKScreen(cdkscreen);
+        /* redraw the statusline */
         if (statusline)
           { drawStatusline(event -> level); }
       }
@@ -1265,6 +1341,8 @@ int guiDialogHelp(EObjectType cdktype, void* object, void* clientdata,
                             };
     KEYEVENT*           event = (KEYEVENT*)clientdata;
 
+    TRACE(99, "guiDialogHelp()", NULL);
+
     msgHelp[ 0] = _(" </B>^A<!B> - add a new node to the current one.");
     msgHelp[ 2] = _(" </B>^D<!B> - delete the currently selected node and all its subnodes.");
     msgHelp[ 4] = _(" </B>^E<!B> - edit the currently selected node.");
@@ -1278,8 +1356,7 @@ int guiDialogHelp(EObjectType cdktype, void* object, void* clientdata,
 
     guiDialogOk(event -> level, msgHelp);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -1307,7 +1384,10 @@ void guiDialogOk(int level, char** message)
                         nlines,
                         selection;
     char**              display = NULL;
+    char**              tmessage;
     char*               ptr;
+
+    TRACE(99, "guiDialogOk()", NULL);
 
     buttons[0] = _("</B>Ok<!B>");
 
@@ -1344,11 +1424,13 @@ void guiDialogOk(int level, char** message)
 
     do
       {
+        tmessage = guiMessageFormat(display);
         question = newCDKDialog(cdkscreen, CENTER, CENTER,
-            display, nlines,
+            tmessage, nlines,
             buttons, 1,
             A_REVERSE,
             TRUE, SHOW_BOX, SHOW_SHADOW);
+        guiMessageClear(tmessage);
         if (!question)
           { destroyScreen(__LINE__, _("can not create dialog.")); }
 
@@ -1361,8 +1443,7 @@ void guiDialogOk(int level, char** message)
 
         destroyCDKDialog(question);
 
-        /* redraw the screen */
-        drawCDKScreen(cdkscreen);
+        /* redraw the statusline */
         if (statusline)
           { drawStatusline(level); }
       }
@@ -1372,8 +1453,7 @@ void guiDialogOk(int level, char** message)
       { memFreeString(__FILE__, __LINE__, display[i]); }
     memFree(__FILE__, __LINE__, display, sizeof(char*) * (nlines + 1));
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(level); }
   }
@@ -1390,6 +1470,8 @@ void guiDialogOk(int level, char** message)
 void guiDialogShowError(const char* headline, const char* message)
   {
     static char*        msgError[] = { NULL, NULL, NULL };
+
+    TRACE(99, "guiDialogShowError()", NULL);
 
     msgError[0] = memAlloc(__FILE__, __LINE__, strlen(headline) + 8 + 1);
     snprintf(msgError[0], strlen(headline) + 8 + 1, "</B>%s<!B>", headline);
@@ -1417,6 +1499,8 @@ int guiDialogTemplateName(EObjectType cdktype, void* object, void* clientdata,
     KEYEVENT*           event = (KEYEVENT*)clientdata;
     int                 is_static;
     char*               data;
+
+    TRACE(99, "guiDialogTemplateName()", NULL);
 
     /* we tell our caller, that an external event modified it's data */
     event -> bindused = 1;
@@ -1452,8 +1536,7 @@ int guiDialogTemplateName(EObjectType cdktype, void* object, void* clientdata,
 
     destroyCDKEntry(entry);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(event -> level); }
 
@@ -1478,6 +1561,9 @@ int guiDialogYesNo(int level, char** message)
     int                 lines = 0,
                         selection,
                         status = 0;
+    char**              tmessage;
+
+    TRACE(99, "guiDialogYesNo()", NULL);
 
     buttons[0] = _("</B>Yes<!B>");
     buttons[1] = _("</B>No<!B>");
@@ -1485,11 +1571,13 @@ int guiDialogYesNo(int level, char** message)
     while (message[lines])
       { lines++; }
 
+    tmessage = guiMessageFormat(message);
     question = newCDKDialog(cdkscreen, CENTER, CENTER,
-        message, lines,
+        tmessage, lines,
         buttons, 2,
         A_REVERSE,
         TRUE, SHOW_BOX, SHOW_SHADOW);
+    guiMessageClear(tmessage);
     if (!question)
       { destroyScreen(__LINE__, _("can not create dialog.")); }
 
@@ -1504,8 +1592,7 @@ int guiDialogYesNo(int level, char** message)
 
     destroyCDKDialog(question);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(level); }
 
@@ -1532,6 +1619,8 @@ int guiDialogWrite(EObjectType cdktype, void* object, void* clientdata,
     static char*        msgSaveDone[] = { NULL, NULL };
     KEYEVENT*           event = (KEYEVENT*)clientdata;
     char*               errormsg;
+
+    TRACE(99, "guiDialogWrite()", NULL);
 
     msgEncryptError[0]  = _("Error encrypting the data.");
     msgNoKeys[0]   = _("You did not specify any encryption keys.");
@@ -1585,6 +1674,9 @@ int guiDialogYesNoCancel(int level, char** message)
     int                 lines = 0,
                         selection,
                         status = 2;
+    char**              tmessage;
+
+    TRACE(99, "guiDialogYesNoCancel()", NULL);
 
     buttons[0] = _("</B>Yes<!B>");
     buttons[1] = _("</B>No<!B>");
@@ -1593,11 +1685,13 @@ int guiDialogYesNoCancel(int level, char** message)
     while (message[lines])
       { lines++; }
 
+    tmessage = guiMessageFormat(message);
     question = newCDKDialog(cdkscreen, CENTER, CENTER,
-        message, lines,
+        tmessage, lines,
         buttons, 3,
         A_REVERSE,
         TRUE, SHOW_BOX, SHOW_SHADOW);
+    guiMessageClear(tmessage);
     if (!question)
       { destroyScreen(__LINE__, _("can not create dialog.")); }
 
@@ -1624,13 +1718,86 @@ int guiDialogYesNoCancel(int level, char** message)
 
     destroyCDKDialog(question);
 
-    /* redraw the screen */
-    drawCDKScreen(cdkscreen);
+    /* redraw the statusline */
     if (statusline)
       { drawStatusline(level); }
 
     return status;
   }
+
+
+/* #############################################################################
+ *
+ * Description    Clear the given message array
+ * Author         Harry Brueckner
+ * Date           2007-01-24
+ * Arguments      char** message  - message array to format, terminated by NULL
+ * Return         void
+ */
+void guiMessageClear(char** message)
+  {
+    int                 lines = 0;
+
+    TRACE(99, "guiMessageClear()", NULL);
+
+    if (!message)
+      { return; }
+
+    /* free all strings */
+    while (message[lines])
+      {
+        memFreeString(__FILE__, __LINE__, message[lines]);
+        lines++;
+      }
+
+    /* free the array of strings */
+    memFree(__FILE__, __LINE__, message, sizeof(char*) * (lines + 1));
+  }
+
+
+/* #############################################################################
+ *
+ * Description    format the given message to match the current terminal width
+ * Author         Harry Brueckner
+ * Date           2007-01-24
+ * Arguments      char** message  - message array to format, terminated by NULL
+ * Return         char** cut off message strings
+ */
+#define WIDTHDELTA      10
+char** guiMessageFormat(char** message)
+  {
+    int                 columns,
+                        i,
+                        lines = 0;
+    char**              nmessage;
+
+    TRACE(99, "guiMessageFormat()", NULL);
+
+    if (!message)
+      { return NULL; }
+
+    /* count strings */
+    while (message[lines])
+      { lines++; }
+
+    nmessage = memAlloc(__FILE__, __LINE__, sizeof(char*) * (lines + 1));
+    nmessage[lines] = NULL;
+
+    columns = getInfodataLength();
+    columns = max(WIDTHDELTA * 2, columns);
+
+    for (i = 0; i < lines; i++)
+      {
+        int             size;
+
+        size = min(columns - WIDTHDELTA + 1, strlen(message[i]) + 1);
+        nmessage[i] = memAlloc(__FILE__, __LINE__, size);
+        strStrncpy(nmessage[i], message[i], size);
+      }
+
+    return nmessage;
+  }
+#undef WIDTHDELTA
 
 
 /* #############################################################################
@@ -1643,6 +1810,8 @@ int guiDialogYesNoCancel(int level, char** message)
  */
 int initializeScreen(void)
   {
+    TRACE(99, "initializeScreen()", NULL);
+
     curseswin = NULL;
     cdkscreen = NULL;
 
@@ -1694,6 +1863,8 @@ void guiUpdateInfo(CDKLABEL* infobox, char** infodata, int id)
     char*               created_on;
     char*               modified_by;
     char*               modified_on;
+
+    TRACE(99, "guiUpdateInfo()", NULL);
 
     /* we have to fit the comment into the infodata array */
     for (i = 2; i < config -> infoheight; i++)
@@ -1768,6 +1939,8 @@ void interfaceLoop(void)
     char*               quicksearch;
     char*               selection;
     char*               title;
+
+    TRACE(99, "interfaceLoop()", NULL);
 
     infodata = memAlloc(__FILE__, __LINE__,
         sizeof(char*) * (config -> infoheight + 1));
@@ -1937,7 +2110,7 @@ void interfaceLoop(void)
                   {
                     xmlInterfaceTemplateGet(++level, &is_static);
                     if (config -> templatelock && !is_static)
-                      {   /* if it's not a static template we can't go there*/
+                      {   /* if it's not a static template we can't go there */
                         xmlInterfaceNodeUp();
                         Beep();
                         level--;
@@ -1948,7 +2121,7 @@ void interfaceLoop(void)
               {
                 xmlInterfaceTemplateGet(++level, &is_static);
                 if (config -> templatelock && !is_static)
-                  {   /* if it's not a static template we can't go there*/
+                  {   /* if it's not a static template we can't go there */
                     Beep();
                     level--;
                   }
@@ -1991,8 +2164,10 @@ char* isNodename(KEYEVENT* event)
     int                 id;
     char*               label = NULL;
 
+    TRACE(99, "isNodename()", NULL);
+
     list = event -> widget;
-    if (list -> scrollField -> lastItem > 0)
+    if (list -> scrollField -> listSize > 0)
       {
         id = list -> scrollField -> currentItem;
         if (id >= 0)
@@ -2050,6 +2225,8 @@ void userInterface(void)
     char**              msgSaveData;
     char*               errormsg;
     char*               errormsg2;
+
+    TRACE(99, "userInterface()", NULL);
 
     msgEncryptError[0]  = _("Error encrypting the data.");
     msgNoKeys[0]        = _("You did not specify any encryption keys.");

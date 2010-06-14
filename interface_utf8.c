@@ -1,7 +1,7 @@
 /* #############################################################################
  * interface to the xml library's UFT-8 conversion
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,7 @@
  * includes
  */
 #include "cpm.h"
+#include "general.h"
 #include "interface_utf8.h"
 #include "memory.h"
 #include "string.h"
@@ -54,6 +55,8 @@ char* convert(int direction, char* instring)
                         outsize,
                         ret,
                         tmp;
+
+    TRACE(199, "convert()", NULL);
 
     if (!instring)
         return NULL;
@@ -110,6 +113,8 @@ char* convert(int direction, char* instring)
  */
 char* convert2terminal(xmlChar* instring)
   {
+    TRACE(199, "convert2terminal()", NULL);
+
     return convert(1, (char*)instring);
   }
 
@@ -124,6 +129,8 @@ char* convert2terminal(xmlChar* instring)
  */
 xmlChar* convert2xml(char* instring)
   {
+    TRACE(199, "convert2xml()", NULL);
+
     return (xmlChar*)convert(0, instring);
   }
 
@@ -138,6 +145,8 @@ xmlChar* convert2xml(char* instring)
  */
 void freeUTF8Interface(void)
   {
+    TRACE(99, "freeUTF8Interface()", NULL);
+
     if (convertbuffer)
       {
         memFreeString(__FILE__, __LINE__, convertbuffer);
@@ -165,6 +174,8 @@ int initUTF8Encoding(char* encoding)
     char*               tmp;
     char*               tstring1 = NULL;
     char*               tstring2 = NULL;
+
+    TRACE(99, "initUTF8Encoding()", NULL);
 
     /* we first try to find the encode by it's name */
     encoder = xmlParseCharEncoding(encoding);

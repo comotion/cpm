@@ -1,7 +1,7 @@
 /* #############################################################################
  * general list handler which handles any NULL terminated lists
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,7 @@
  * includes
  */
 #include "cpm.h"
+#include "general.h"
 #include "memory.h"
 #include "listhandler.h"
 #include "string.h"

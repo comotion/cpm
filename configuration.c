@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for configuration handling
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -29,6 +29,7 @@
   #include <zlib.h>
 #endif
 #include "configuration.h"
+#include "general.h"
 #include "listhandler.h"
 #include "memory.h"
 
@@ -45,6 +46,8 @@
  */
 void clearPassphrase(int final)
   {
+    TRACE(99, "clearPassphrase()", NULL);
+
     if (final || !config -> keeppassphrase)
       {
         memSet(runtime -> passphrase, 0, PASSPHRASE_LENGTH);
@@ -62,6 +65,8 @@ void clearPassphrase(int final)
  */
 void freeConfiguration(void)
   {
+    TRACE(99, "freeConfiguration()", NULL);
+
     if (config)
       {
         config -> defaultkeys = listFree(config -> defaultkeys);
@@ -119,6 +124,8 @@ void freeConfiguration(void)
  */
 void initConfiguration(void)
   {
+    TRACE(99, "initConfiguration()", NULL);
+
     config = memAlloc(__FILE__, __LINE__, sizeof(cpmconfig_t));
     runtime = memAlloc(__FILE__, __LINE__, sizeof(cpmruntime_t));
 
@@ -144,7 +151,9 @@ void initConfiguration(void)
     config -> configtest = 0;
     config -> cracklibstatus = CRACKLIB_ON;
     config -> createbackup = 1;
+    config -> debuglevel = 0;
     config -> encryptdata = 1;
+    config -> environtmentlist = 0;
     config -> help = 0;
     config -> infoheight = 5;
     config -> keeppassphrase = 0;

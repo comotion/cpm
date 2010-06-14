@@ -3,7 +3,7 @@
 
 AC_MSG_NOTICE([general setup])
 AC_PREREQ(2.59)
-AC_INIT(cpm, 0.23beta, harry_b@mm.st)
+AC_INIT(cpm, 0.25beta, harry_b@mm.st)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -15,10 +15,10 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
 # Check --with-XXX configuration
-AC_ARG_WITH(ncurses,
-    [  --with-ncurses=PATH     path to the ncurses installation],
+AC_ARG_WITH(curses-dir,
+    [  --with-curses-dir=PATH  path to the curses installation],
     [
-      CFLAGS="$CFLAGS -I${withval}/include"
+      CFLAGS="${CFLAGS} -I${withval}/include"
       CPPFLAGS="$CPPFLAGS -I${withval}/include"
       LDFLAGS="$LDFLAGS -L${withval}/lib"
       if test -n "${need_dash_r}"; then
@@ -26,10 +26,74 @@ AC_ARG_WITH(ncurses,
       fi
     ]
   )
-AC_ARG_WITH(cdk,
-    [  --with-cdk=PATH         path to the cdk installation],
+
+# this part was originally in the CDKs configure.in
+use_curses_lib=ncursesw
+AC_ARG_WITH(curses,
+    [  --with-curses           use the curses library],
+    [ use_curses_lib=curses ], [
+AC_ARG_WITH(ncurses,
+    [  --with-ncurses          use the ncurses library],
+    [ use_curses_lib=ncurses ], [
+AC_ARG_WITH(ncursesw,
+    [  --with-ncursesw         use the wide-character ncurses library ],
+    [ use_curses_lib=ncursesw ], [
+AC_ARG_WITH(pdcurses,
+    [  --with-pdcurses         use the pdcurses X11 library],
+    [ use_curses_lib=pdcurses ])])])])
+curses_found=0
+curses_config=""
+case ${use_curses_lib} in
+  ncurses)
+      AC_CHECK_LIB(ncurses, initscr)
+      if test "${ac_cv_lib_ncurses_initscr}" == "yes"; then
+        curses_found=1
+        curses_config=ncurses5-config
+      fi
+      ;;
+  ncursesw)
+      AC_CHECK_LIB(ncursesw, wget_wch)
+      if test "${ac_cv_lib_ncursesw_wget_wch}" == "yes"; then
+        curses_found=1
+        curses_config=ncursesw5-config
+      fi
+      ;;
+  pdcurses)
+      AC_CHECK_LIB(pdcurses, initscr)
+      if test "${ac_cv_lib_pdcurses_initscr}" == "yes"; then
+        curses_found=1
+      fi
+      ;;
+  curses)
+      AC_CHECK_LIB(curses, initscr)
+      if test "${ac_cv_lib_curses_initscr}" == "yes"; then
+        curses_found=1
+      fi
+      ;;
+  *)
+      AC_MSG_ERROR([no curses library select.])
+      ;;
+esac
+if test ${curses_found} -ne 1; then
+  AC_MSG_ERROR([can not find the selected ncursesw/ncurses library.])
+fi
+# check if we can call ncurses5-config or ncursesw5-config
+if test -n ${curses_config}; then
+  AC_PATH_PROG([NCURSES_CONFIG], [${curses_config}])
+  if test -z "$ac_cv_path_NCURSES_CONFIG"; then
+    AC_MSG_ERROR([Could not find ${curses_config} anywhere.])
+  fi
+
+  LIBNCURSES_LIBS="`$NCURSES_CONFIG --libs`"
+  LIBNCURSES_CFLAGS="`$NCURSES_CONFIG --cflags`"
+  AC_SUBST(LIBNCURSES_LIBS)
+  AC_SUBST(LIBNCURSES_CFLAGS)
+fi
+
+AC_ARG_WITH(cdk-dir,
+    [  --with-cdk-dir=PATH     path to the cdk installation],
     [
-      CFLAGS="$CFLAGS -I${withval}/include -I${withval}/include/cdk"
+      CFLAGS="${CFLAGS} -I${withval}/include -I${withval}/include/cdk"
       CPPFLAGS="$CPPFLAGS -I${withval}/include -I${withval}/include/cdk"
       LDFLAGS="$LDFLAGS -L${withval}/lib"
       if test -n "${need_dash_r}"; then
@@ -38,22 +102,22 @@ AC_ARG_WITH(cdk,
     ]
   )
 AC_ARG_WITH(cdk-v4,
-    [  --with-cdk-v4           Force the usage of CDK version 4 ],
+    [  --with-cdk-v4           force the usage of CDK version 4 ],
     [
       if test "${withval}" != "no"; then
-        CFLAGS="$CFLAGS -DFORCE_CDK_V4"
+        CFLAGS="${CFLAGS} -DFORCE_CDK_V4"
       fi
     ]
   )
 USE_CRACKLIB=1
-AC_ARG_WITH(crack-lib,
-    [  --with-crack-lib=PATH   path to the libcrack installation],
+AC_ARG_WITH(cracklib-dir,
+    [  --with-cracklib-dir=PATH   path to the libcrack installation],
     [
       if test "${withval}" == "no"; then
-        CFLAGS="$CFLAGS -DNO_CRACKLIB"
+        CFLAGS="${CFLAGS} -DNO_CRACKLIB"
         USE_CRACKLIB=0
       else
-        CFLAGS="$CFLAGS -I${withval}/include"
+        CFLAGS="${CFLAGS} -I${withval}/include"
         CPPFLAGS="$CPPFLAGS -I${withval}/include"
         LDFLAGS="$LDFLAGS -L${withval}/lib"
         if test -n "${need_dash_r}"; then
@@ -62,8 +126,9 @@ AC_ARG_WITH(crack-lib,
       fi
     ]
   )
-AC_ARG_WITH(crack-dict,
-    [  --with-crack-dict=FILE  filename of the dictionaries (without extension)],
+CRACKLIB_DICTPATH=""
+AC_ARG_WITH(cracklib-dict,
+    [  --with-cracklib-dict=FILE  filename of the dictionaries (without extension)],
     [
       if test ! -f "${withval}.hwm"; then
         AC_MSG_ERROR([cracklib dictionary ${withval}.hwm does not exist])
@@ -74,13 +139,14 @@ AC_ARG_WITH(crack-dict,
       if test ! -f "${withval}.pwi"; then
         AC_MSG_ERROR([cracklib dictionary ${withval}.pwi does not exist])
       fi
-      CFLAGS="$CFLAGS -DCRACKLIB_DICTPATH='\"${withval}\"'"
+      CFLAGS="${CFLAGS} -DCRACKLIB_DICTPATH='\"${withval}\"'"
+      CRACKLIB_DICTPATH="${withval}"
     ]
   )
-AC_ARG_WITH(dotconf,
-    [  --with-dotconf=PATH     path to the dotconf installation],
+AC_ARG_WITH(dotconf-dir,
+    [  --with-dotconf-dir=PATH path to the dotconf installation],
     [
-      CFLAGS="$CFLAGS -I${withval}/include"
+      CFLAGS="${CFLAGS} -I${withval}/include"
       CPPFLAGS="$CPPFLAGS -I${withval}/include"
       LDFLAGS="$LDFLAGS -L${withval}/lib"
       if test -n "${need_dash_r}"; then
@@ -88,10 +154,10 @@ AC_ARG_WITH(dotconf,
       fi
     ]
   )
-AC_ARG_WITH(gpgme,
-    [  --with-gpgme=PATH       path to the gpgme installation],
+AC_ARG_WITH(gpgme-dir,
+    [  --with-gpgme-dir=PATH   path to the gpgme installation],
     [
-      CFLAGS="$CFLAGS -I${withval}/include"
+      CFLAGS="${CFLAGS} -I${withval}/include"
       CPPFLAGS="$CPPFLAGS -I${withval}/include"
       LDFLAGS="$LDFLAGS -L${withval}/lib"
       if test -n "${need_dash_r}"; then
@@ -104,22 +170,22 @@ AC_ARG_WITH(memlock,
                           WARNING: It is NOT recommended to turn this off! ],
     [
       if test "${withval}" == "no"; then
-        CFLAGS="$CFLAGS -DNO_MEMLOCK"
+        CFLAGS="${CFLAGS} -DNO_MEMLOCK"
       else
-        CFLAGS="$CFLAGS -DMEMLOCK_LIMIT=${withval}"
+        CFLAGS="${CFLAGS} -DMEMLOCK_LIMIT=${withval}"
       fi
     ]
   )
-AC_ARG_WITH(xml2,
-    [  --with-xml2=PATH        path to the xml2 installation],
+AC_ARG_WITH(xml2-dir,
+    [  --with-xml2-dir=PATH    path to the xml2 installation],
     [
       PATH="${withval}/bin:${withval}:${PATH}"
     ]
   )
-AC_ARG_WITH(zlib,
-    [  --with-zlib=PATH        path to the zlib installation],
+AC_ARG_WITH(zlib-dir,
+    [  --with-zlib-dir=PATH    path to the zlib installation],
     [
-      CFLAGS="$CFLAGS -I${withval}/include"
+      CFLAGS="${CFLAGS} -I${withval}/include"
       CPPFLAGS="$CPPFLAGS -I${withval}/include"
       LDFLAGS="$LDFLAGS -L${withval}/lib"
       if test -n "${need_dash_r}"; then
@@ -128,19 +194,15 @@ AC_ARG_WITH(zlib,
     ]
   )
 
-# echo "CFLAGS: $CFLAGS"
-# echo "CPPFLAGS: $CPPFLAGS"
-# echo "LDFLAGS: $LDFLAGS"
+# echo "CFLAGS: ${CFLAGS}"
+# echo "CPPFLAGS: ${CPPFLAGS}"
+# echo "LDFLAGS: ${LDFLAGS}"
 
 # Checks for libraries.
 AC_MSG_NOTICE([checking libraries])
 AC_CHECK_LIB(m, main)
 if test "${ac_cv_lib_m_main}" != "yes"; then
   AC_MSG_ERROR([can not find the m library.])
-fi
-AC_CHECK_LIB(ncurses, initscr)
-if test "${ac_cv_lib_ncurses_initscr}" != "yes"; then
-  AC_MSG_ERROR([can not find the ncurses library.])
 fi
 AC_CHECK_LIB(cdk, initCDKScreen)
 if test "${ac_cv_lib_cdk_initCDKScreen}" != "yes"; then
@@ -170,12 +232,73 @@ AC_CHECK_LIB(z, compress)
 if test "${ac_cv_lib_z_compress}" != "yes"; then
   AC_MSG_ERROR([can not find the zlib library.])
 fi
+# Check if we find a separate libintl library
+AC_CHECK_LIB(intl, gettext)
+
+
+# ------------------------------------------------------------------------------
+# try to find the cracklib dictionary
+if test ${USE_CRACKLIB} == 1; then
+  if test -z ${CRACKLIB_DICTPATH}; then
+    # the -D setting here is necessary, because general.c would not compile
+    # without this definition
+    CRACK_H=`${CC} -DCRACKLIB_DICTPATH='\"/\"' ${CFLAGS} ${CPPFLAGS} -M -MG general.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/crack\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
+    if test "${CRACK_H}" == ""; then
+      AC_MSG_ERROR([could not locate the cracklib header file.])
+    else
+      AC_MSG_NOTICE([cracklib header found at ${CRACK_H}.])
+    fi
+
+    grep CRACKLIB_DICTPATH ${CRACK_H} > /dev/null 2>&1
+    if test ${?} -eq 0; then
+      AC_MSG_NOTICE([CRACKLIB_DICTPATH probably defined in ${CRACK_H}.])
+    elif test ${?} -eq 1; then
+      AC_MSG_NOTICE([CRACKLIB_DICTPATH not defined in ${CRACK_H}.])
+      if test -z "${CRACKLIB_DICTPATH}"; then
+        for withval in /var/cache/cracklib/cracklib_dict
+        do
+          COUNT=0
+          if test -f "${withval}.hwm"; then
+            COUNT=$((${COUNT}+1))
+          fi
+          if test -f "${withval}.pwd"; then
+            COUNT=$((${COUNT}+1))
+          fi
+          if test -f "${withval}.pwi"; then
+            COUNT=$((${COUNT}+1))
+          fi
+
+          if test ${COUNT} -eq 3; then
+            # all three files exist, this is a correct version
+            CFLAGS="${CFLAGS} -DCRACKLIB_DICTPATH='\"${withval}\"'"
+            CRACKLIB_DICTPATH="${withval}"
+            break
+          fi
+        done
+
+        if test ${COUNT} -eq 3; then
+          AC_MSG_NOTICE([CRACKLIB_DICTPATH detected as ${CRACKLIB_DICTPATH}.])
+        else
+          AC_MSG_ERROR([CRACKLIB_DICTPATH could not be auto-detected. Please use --with-cracklib-dict to specify.])
+        fi
+      else
+        AC_MSG_NOTICE([using CRACKLIB_DICTPATH=${CRACKLIB_DICTPATH}.])
+      fi
+    else
+      AC_MSG_ERROR([grep failed for file ${CRACK_H}.])
+    fi
+  else
+    AC_MSG_NOTICE([using CRACKLIB_DICTPATH=${CRACKLIB_DICTPATH}.])
+  fi
+fi
 
 # ------------------------------------------------------------------------------
 # we check if we can use this CDK version
-CDK_H=`gcc ${CFLAGS} -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
+CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
 if test "${CDK_H}" == ""; then
   AC_MSG_ERROR([could not locate CDK header file.])
+else
+  AC_MSG_NOTICE([CDK header found at ${CDK_H}.])
 fi
 INCOMPATIBLE=`grep "^#define MAX_ITEMS" "${CDK_H}" | grep -c "unused by widgets"`
 CDK_UNUSABLE=0
@@ -192,20 +315,20 @@ if test ${INCOMPATIBLE} -gt 0; then
     CDK_VERSION=`grep "CDK_VERSION_PATCH" ${CDK_VERSION_H} | cut -d " " -f 3 | sed -e 's/"//g'`
     AC_MSG_NOTICE([CDK version patch: ${CDK_VERSION}])
 
-    # only versions newer than 20060220 can be used since Thomas E. Dickey
+    # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    if test ${CDK_VERSION} -ge 20060220; then
+    if test ${CDK_VERSION} -ge 20090215; then
       CDK_UNUSABLE=0
       CDK_VERSION_DEF="-DCDK_VERSION_5"
-      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20050424-2)"
+      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
     fi
   fi
 fi
 
 if test ${CDK_UNUSABLE} -gt 0; then
-  AC_MSG_NOTICE([Sorry, this version of CDK can not handle empty lists.])
+  AC_MSG_NOTICE([Sorry, CPM is not compatible with the current verion of CDK.])
   AC_MSG_NOTICE([You must downgrade to a version older than cdk-4.9.11-20031210])
-  AC_MSG_NOTICE([or newer than cdk-5.0.20060220.])
+  AC_MSG_NOTICE([or newer than cdk-5.0.20090215.])
   AC_MSG_ERROR([Incompatible libcdk version found.])
 fi
 AC_SUBST(CDK_VERSION_DEF)
@@ -233,7 +356,7 @@ if test -z "$ac_cv_path_GPGME_CONFIG"; then
   AC_MSG_ERROR([Could not find gpgme anywhere.])
 fi
 
-LIBGPGME_VERSION="`$GPGME_CONFIG --version | cut --delimiter='.' --fields 1,2 | sed -e 's/\\.//g'`"
+LIBGPGME_VERSION="`$GPGME_CONFIG --version | cut -d '.' -f 1,2 | sed -e 's/\\.//g'`"
 if test $LIBGPGME_VERSION -lt 10; then
   AC_MSG_ERROR([GPGME must be version 1.0 or higher.])
 fi
@@ -242,7 +365,7 @@ if test $LIBGPGME_VERSION -lt 11; then
   WRAPPER_NECESSARY=1
 else
   AC_MSG_NOTICE([GpgME version 1.1+ found. Enabling automatic recipient detection.])
-  CFLAGS="$CFLAGS -DGPGME_HAS_RECIPIENT"
+  CFLAGS="${CFLAGS} -DGPGME_HAS_RECIPIENT"
   WRAPPER_NECESSARY=0
 fi
 AC_SUBST(WRAPPER_NECESSARY)
@@ -261,13 +384,14 @@ AC_CHECK_HEADERS([fcntl.h getopt.h libintl.h locale.h stdlib.h sys/fsuid.h sys/i
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_MSG_NOTICE([checking typedefs, structures, and compiler characteristics])
-AC_CHECK_FUNCS([clearenv environ memset mlockall putenv regcomp setlocale strcasecmp strchr strerror tcgetattr])
+AC_CHECK_FUNCS([clearenv memset mlockall putenv regcomp setlocale strcasecmp strchr strerror tcgetattr unsetenv])
 AC_C_CONST
 AC_C_VOLATILE
 AC_FUNC_FSEEKO
 AC_FUNC_GETGROUPS
 AC_FUNC_MEMCMP
 AC_FUNC_STAT
+AC_FUNC_VPRINTF
 AC_STRUCT_TM
 AC_SYS_LARGEFILE
 AC_TYPE_MODE_T
@@ -275,11 +399,32 @@ AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 AC_TYPE_UID_T
 
+# Check what we need to do about the environ extern
+AC_CACHE_CHECK([for environ in unistd.h],pac_cv_environ_in_unistd,
+    [AC_TRY_COMPILE([#include <unistd.h>],[#define __USE_GNU=1; char **x = environ;],
+    pac_cv_environ_in_unistd=yes,pac_cv_environ_in_unistd=no)])
+if test "$pac_cv_environ_in_unistd" = "yes" ; then
+  # We have environ defined in unistd.h; we are done
+  AC_DEFINE(HAVE_EXTERN_ENVIRON,1,[Define if environ extern is available])
+else
+  # See if we can declare it
+  AC_CACHE_CHECK([for manually declared extern environ], pac_cv_manual_extern_environ,
+    [AC_TRY_LINK([#include <unistd.h>],[extern char ** environ; char **x = environ;],
+    pac_cv_manual_extern_environ=yes,pac_cv_manual_extern_environ=no)])
+  if test "$pac_cv_manual_extern_environ" = "yes" ; then
+    # We can manually declare the extern
+    AC_DEFINE(MANUAL_EXTERN_ENVIRON,1,[Define if environ decl needed])
+    AC_DEFINE(HAVE_EXTERN_ENVIRON,1,[Define if environ extern is available])
+  fi
+fi
+
 # to compile on AMD64 systems we can't use these checks
-# AC_FUNC_MALLOC
-# AC_FUNC_REALLOC
+# I reenable these until I can find out why exactly it fails on AMD64 systems
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
 
 AC_MSG_NOTICE([generating files])
 AC_CONFIG_FILES([control Makefile tests/decrypt-result.txt tests/encrypt-result.txt])

@@ -1,0 +1,195 @@
+=head1 NAME
+
+cpm - Console Password Manager
+
+=head1 SYNOPSIS
+
+cpm [--config FILE] [--configtest] [--encoding] [--file FILE] [--help]
+    [--key KEY] [--noencryption] [--readonly] [--security] [--testrun TYPE]
+    [--version] [PATH]
+
+=head1 DESCRIPTION
+
+Keep a password database safe and encrypted.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-c>, B<--config>
+
+configuration file to use [~/.cpmrc]
+
+=item B<--configtest>
+
+verify the configuration file and exit
+
+=item B<-e>, B<--encoding>
+
+the encoding in which keyboard input arrives [ISO-8859-1]
+
+=item B<-f>, B<--file>
+
+database file to use [~/.cpmdb]
+
+=item B<-h>, B<--help>
+
+display this help
+
+=item B<--key>
+
+overwrite the default encryption keys and use this key instead; repeat for several keys
+
+=item B<--noencryption>
+
+turn off file encryption WARNING: THIS IS  FOR  DEVELOPMENT  AND TESTING ONLY!
+
+=item B<-r>, B<--readonly>
+
+open the database in read-only mode
+
+=item B<-s>, B<--security>
+
+run a security check and show the current security status
+
+=item B<--testrun>
+
+run one of the testmodes
+
+backup run test on the backupfile creation
+
+compress[fB-6]
+     run compression test 1-6
+
+decrypt
+     run test on the decryption code
+
+encrypt
+     run test on the encryption code
+
+environment
+     run test on the environment validation
+
+garbage
+     run test on garbage input files
+
+searchpattern
+     run  test on the search patterns This only works when the
+     application has been compiled with the compiler flag - DTEST_OPTION.
+
+=item B<--version>
+
+display the version and exit
+
+=head1 KEYS
+
+=over 8
+
+=item B<^A>
+
+add a new node to the current node.
+
+=item B<^D>
+
+delete  the currently selected node and all its subnodes.
+
+=item B<^E>
+
+edit the currently selected node.
+
+=item B<^H>
+
+show the help screen.
+
+=item B<^K>
+
+edit the currently used encryption keys.
+
+=item B<^N>
+
+edit the name of the current level.
+
+=item B<^O>
+
+edit the comment of the selected node.
+
+=item B<^P>
+
+edit the current node and suggest a password.
+
+=item B<^W>
+
+write the database to disk.
+
+=head1 ENVIRONMENT
+
+The following environment variables are used by the application,
+all other variables are discarded at program startup:
+
+=item B<GNUPGHOME>
+
+If set directory used instead of "~/.gnupg".
+
+=item B<GPG_AGENT_INFO>
+
+Used  to  locate the gpg-agent
+
+=item B<HOME>
+
+Used to locate the default home directory.
+
+=item B<LANG>
+
+Used to determine the user’s language.
+
+=item B<COLUMNS>
+
+Used to size some displays to the full size of the screen.
+
+=item B<LINES>
+
+Used to size some displays to the full size of the screen.
+
+=item B<TERMCAP>
+
+Terminal settings of the currently used terminal.
+
+=item B<TERM>
+
+Terminal settings of the currently used terminal.
+
+=head1 IMPORT
+
+The data import utilities are installed in /usr/share/cpm and the following formats can be imported:
+
+=item . csv
+
+=item . passwordsafe
+
+=item . pms
+
+=head1 SEE ALSO
+
+gpg(1)
+
+=head1 REPORTING BUGS
+
+Report bugs to <harry_b@mm.st>.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005, 2006 Harry Brueckner
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published  by  the
+Free Software Foundation; either version 2 of the License, or any later
+version.  This program is distributed in the hope that it will be  use-
+ful,  but  WITHOUT  ANY  WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  GNU  Gen-
+eral  Public License for more details.  You should have received a copy
+of the GNU General Public License along  with  this  program;  if  not,
+write  to  the  Free  Software  Foundation, Inc., 51 Franklin St, Fifth
+Floor, Boston, MA 02110-1301, USA.
+
+Contact: Harry Brueckner <harry_b@mm.st> Muenchener Strasse  12a  85253
+Kleinberghofen Germany

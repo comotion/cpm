@@ -13,3 +13,5 @@ Description: This program is a ncurses based console tool to manage passwords
  the data for some other purpose.
  This package is currently in beta stage.
  You can find more information about cpm at http://www.harry-b.de/
+Homepage: http://www.harry-b.de/dokuwiki/doku.php?id=harry:cpm
+Bugs: https://sourceforge.net/tracker2/?group_id=62803&atid=501859

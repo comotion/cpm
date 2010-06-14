@@ -1,7 +1,7 @@
 /* #############################################################################
  * header information for security.c
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -28,16 +28,26 @@
  */
 int checkSecurity(int silent);
 int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe, rlim_t* memlock_limit);
+void listEnvironment(void);
 void testEnvironment(void);
 
 #ifndef MEMLOCK_LIMIT
   #define MEMLOCK_LIMIT 5120
 #endif
 
-#ifndef NO_MEMLOCK
-  #define MAX_SECURITY_LEVEL  6
+#ifdef __sun__
+  /* Solaris does not have the max. memory lock check */
+  #ifndef NO_MEMLOCK
+    #define MAX_SECURITY_LEVEL  5
+  #else
+    #define MAX_SECURITY_LEVEL  3
+  #endif
 #else
-  #define MAX_SECURITY_LEVEL  4
+  #ifndef NO_MEMLOCK
+    #define MAX_SECURITY_LEVEL  6
+  #else
+    #define MAX_SECURITY_LEVEL  4
+  #endif
 #endif
 
 

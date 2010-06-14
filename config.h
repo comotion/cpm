@@ -8,8 +8,11 @@
 /* Define to 1 if you have the `clearenv' function. */
 #define HAVE_CLEARENV 1
 
-/* Define to 1 if you have the `environ' function. */
-#define HAVE_ENVIRON 1
+/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+/* #undef HAVE_DOPRNT */
+
+/* Define if environ extern is available */
+#define HAVE_EXTERN_ENVIRON 1
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
@@ -32,11 +35,17 @@
 /* Define to 1 if you have the `crack' library (-lcrack). */
 #define HAVE_LIBCRACK 1
 
+/* Define to 1 if you have the `curses' library (-lcurses). */
+/* #undef HAVE_LIBCURSES */
+
 /* Define to 1 if you have the `dotconf' library (-ldotconf). */
 #define HAVE_LIBDOTCONF 1
 
 /* Define to 1 if you have the `gpgme' library (-lgpgme). */
 #define HAVE_LIBGPGME 1
+
+/* Define to 1 if you have the `intl' library (-lintl). */
+/* #undef HAVE_LIBINTL */
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #define HAVE_LIBINTL_H 1
@@ -45,7 +54,13 @@
 #define HAVE_LIBM 1
 
 /* Define to 1 if you have the `ncurses' library (-lncurses). */
-#define HAVE_LIBNCURSES 1
+/* #undef HAVE_LIBNCURSES */
+
+/* Define to 1 if you have the `ncursesw' library (-lncursesw). */
+#define HAVE_LIBNCURSESW 1
+
+/* Define to 1 if you have the `pdcurses' library (-lpdcurses). */
+/* #undef HAVE_LIBPDCURSES */
 
 /* Define to 1 if you have the `xml2' library (-lxml2). */
 #define HAVE_LIBXML2 1
@@ -55,6 +70,10 @@
 
 /* Define to 1 if you have the <locale.h> header file. */
 #define HAVE_LOCALE_H 1
+
+/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+   to 0 otherwise. */
+#define HAVE_MALLOC 1
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
@@ -67,6 +86,10 @@
 
 /* Define to 1 if you have the `putenv' function. */
 #define HAVE_PUTENV 1
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#define HAVE_REALLOC 1
 
 /* Define to 1 if you have the `regcomp' function. */
 #define HAVE_REGCOMP 1
@@ -120,9 +143,18 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to 1 if you have the `unsetenv' function. */
+#define HAVE_UNSETENV 1
+
+/* Define to 1 if you have the `vprintf' function. */
+#define HAVE_VPRINTF 1
+
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 #define LSTAT_FOLLOWS_SLASHED_SYMLINK 1
+
+/* Define if environ decl needed */
+/* #undef MANUAL_EXTERN_ENVIRON */
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "harry_b@mm.st"
@@ -131,13 +163,13 @@
 #define PACKAGE_NAME "cpm"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "cpm 0.23beta"
+#define PACKAGE_STRING "cpm 0.25beta"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "cpm"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.23beta"
+#define PACKAGE_VERSION "0.25beta"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -152,7 +184,7 @@
 #define _FILE_OFFSET_BITS 64
 
 /* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
-#define _LARGEFILE_SOURCE 1
+/* #undef _LARGEFILE_SOURCE */
 
 /* Define for large files, on AIX-style hosts. */
 /* #undef _LARGE_FILES */
@@ -163,6 +195,9 @@
 /* Define to `int' if <sys/types.h> doesn't define. */
 /* #undef gid_t */
 
+/* Define to rpl_malloc if the replacement function should be used. */
+/* #undef malloc */
+
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef mode_t */
 
@@ -172,8 +207,14 @@
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef pid_t */
 
+/* Define to rpl_realloc if the replacement function should be used. */
+/* #undef realloc */
+
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
+
+/* Define to `int' if <sys/types.h> does not define. */
+/* #undef ssize_t */
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 /* #undef uid_t */

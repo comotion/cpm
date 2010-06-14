@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for all xml stuff
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -131,6 +131,8 @@ int checkDtd(SHOWERROR_FN showerror_cb)
     xmlValidCtxt*       context = xmlNewValidCtxt();
     char*               dtdbuffer;
 
+    TRACE(99, "checkDtd()", NULL);
+
     if (!xmldoc)
       { return -1; }
 
@@ -184,6 +186,8 @@ int checkDtd(SHOWERROR_FN showerror_cb)
  */
 void freeXML(void)
   {
+    TRACE(99, "freeXML()", NULL);
+
     if (xmldoc)
       { xmlFreeDoc(xmldoc); }
 
@@ -205,6 +209,8 @@ void freeXML(void)
  */
 void initXML(void)
   {
+    TRACE(99, "initXML()", NULL);
+
     xmldoc = NULL;
 
     /* this initialize the library and check potential ABI mismatches
@@ -239,6 +245,8 @@ int xmlDataFileRead(char* filename, char** errormsg,
     char*               buffer = NULL;
     char*               gpgbuffer = NULL;
     char*               tmpbuffer = NULL;
+
+    TRACE(99, "xmlDataFileRead()", NULL);
 
     /* we initialize the error message */
     *errormsg = NULL;
@@ -558,6 +566,8 @@ int xmlDataFileWrite(char* filename, char** errormsg,
  */
 xmlChar* xmlEncodeCommentEntities(xmlChar* string)
   {
+    TRACE(99, "xmlEncodeCommentEntities()", NULL);
+
     return xmlEncodeEntitiesReentrant(xmldoc, string);
   }
 
@@ -572,6 +582,8 @@ xmlChar* xmlEncodeCommentEntities(xmlChar* string)
  */
 xmlNode* xmlGetDocumentRoot(void)
   {
+    TRACE(99, "xmlGetDocumentRoot()", NULL);
+
     if (xmldoc)
       { return xmlDocGetRootElement(xmldoc); }
     else
@@ -591,6 +603,8 @@ void xmlRemoveDtd(void)
   {
     xmlNode*            curnode;
     xmlNode*            delnode = NULL;
+
+    TRACE(99, "xmlRemoveDtd()", NULL);
 
     if (!xmldoc)
       { return; }
@@ -629,6 +643,8 @@ void xmlValidateError(void* context, const char* msg, ...)
     int                 size;
     char*               tmpbuffer;
 
+    TRACE(99, "xmlValidateError()", NULL);
+
     tmpbuffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
 
     va_start(list, msg);
@@ -663,6 +679,8 @@ void xmlValidateWarning(void* context, const char* msg, ...)
     int                 size;
     char*               tmpbuffer;
 
+    TRACE(99, "xmlValidateWarning()", NULL);
+
     tmpbuffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
 
     va_start(list, msg);
@@ -693,6 +711,8 @@ void xmlValidateWarning(void* context, const char* msg, ...)
 void xmlVersionNodeUpdate(long oldversion, xmlNode* rootnode)
   {
     xmlNode*            curnode;
+
+    TRACE(99, "xmlVersionNodeUpdate()", NULL);
 
     if (!rootnode)
       { return; }
@@ -736,6 +756,8 @@ void xmlVersionUpdate(int silent)
     char*               old;
     char*               ptr;
 
+    TRACE(99, "xmlVersionUpdate()", NULL);
+
     rootnode = xmlDocGetRootElement(xmldoc);
     if (!rootnode)
       { return; }
@@ -765,6 +787,7 @@ void xmlVersionUpdate(int silent)
           {
             *ptr = '\x0';
           }
+        /* Flawfinder: ignore */
         version = (atoi(old) << 16) + atoi(ptr + 1);
 
         xmlSetProp(rootnode, BAD_CAST "version", BAD_CAST curversion);

@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for all the cryptography, handled via the GPGME library
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,7 @@
  */
 #include "cpm.h"
 #include "configuration.h"
+#include "general.h"
 #include "gpg.h"
 #include "interface_keys.h"
 #include "interface_utf8.h"
@@ -79,6 +80,8 @@ char*                   lastrealm = NULL;
  */
 void freeGPG(void)
   {
+    TRACE(99, "freeGPG()", NULL);
+
     if (lastrealm)
       {
         memFreeString(__FILE__, __LINE__, lastrealm);
@@ -106,6 +109,8 @@ int gpgCheckSignResult(SHOWERROR_FN showerror_cb, gpgme_sign_result_t result,
                         counter = 0;
     char*               buffer;
     char*               hashname;
+
+    TRACE(99, "gpgCheckSignResult()", NULL);
 
     buffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
 
@@ -256,6 +261,8 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
     char*               buffer;
     char*               validity;
 
+    TRACE(99, "gpgCheckVerifyResult()", NULL);
+
     buffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
 
     if (!result)
@@ -364,6 +371,8 @@ char* gpgData2Char(gpgme_data_t dh, int* newsize)
     char*               newbuffer;
     char*               tmpbuffer;
 
+    TRACE(99, "gpgData2Char()", NULL);
+
     newbuffer = NULL;
     *newsize = 0;
 
@@ -406,6 +415,8 @@ char* gpgData2Char(gpgme_data_t dh, int* newsize)
 #ifdef TEST_OPTION
 void gpgDebugKey(gpgme_key_t key)
   {
+    TRACE(99, "gpgDebugKey()", NULL);
+
     gpgme_subkey_t      skey;
     gpgme_user_id_t     uid;
 
@@ -540,6 +551,8 @@ int gpgDecrypt(char* buffer, int size, char** newbuffer, int* newsize,
     char*               agent;
     char*               tmpbuffer = NULL;
 
+    TRACE(99, "gpgDecrypt()", NULL);
+
     /* we set our passphrase callback function */
     passphrase_callback = password_cb;
 
@@ -667,6 +680,8 @@ int gpgEncrypt(char* buffer, int size, char** newbuffer, int* newsize,
     char*               agent;
     char*               fpr;
     char*               tmpbuffer = NULL;
+
+    TRACE(99, "gpgEncrypt()", NULL);
 
     /* we set our passphrase callback function */
     passphrase_callback = password_cb;
@@ -813,6 +828,8 @@ char* gpgGetFingerprint(char* keyname, int secret_only)
     gpgme_error_t       error;
     char*               identifier = NULL;
 
+    TRACE(99, "gpgGetFingerprint()", NULL);
+
     if (!config -> encryptdata)
       { return NULL; }
 
@@ -893,6 +910,8 @@ char* gpgGetRealm(const char* desc)
     char*               start;
     int                 size = 0;
 
+    TRACE(99, "gpgGetRealm()", NULL);
+
     if (!desc)
       { return NULL; }
 
@@ -931,6 +950,8 @@ int gpgGetRecipients(gpgme_recipient_t recipients,
     gpgme_recipient_t   recipient = recipients;
     char*               keyname = NULL;
     char*               tmpbuffer = NULL;
+
+    TRACE(99, "gpgGetRecipients()", NULL);
 
     while (recipient)
       {
@@ -983,7 +1004,11 @@ int gpgGetRecipients(gpgme_recipient_t recipients,
 gpgme_error_t gpgRequestPassphrase(void *hook, const char *uid_hint,
     const char *passphrase_info, int last_was_bad, int fd)
   {
+    ssize_t             len,
+                        wsize;
     char*               ptr;
+
+    TRACE(99, "gpgRequestPassphrase()", NULL);
 
     if (!uid_hint)
       { return GPG_ERR_GENERAL; }
@@ -1030,10 +1055,14 @@ gpgme_error_t gpgRequestPassphrase(void *hook, const char *uid_hint,
     ptr = memAlloc(__FILE__, __LINE__, strlen(runtime -> passphrase) + 2);
     snprintf(ptr, strlen(runtime -> passphrase) + 2, "%s\n",
         runtime -> passphrase);
-    write(fd, ptr, strlen(ptr));
+    len = strlen(ptr);
+    wsize = write(fd, ptr, len);
     memFreeString(__FILE__, __LINE__, ptr);
 
-    return GPG_ERR_NO_ERROR;
+    if (wsize == len)
+      { return GPG_ERR_NO_ERROR; }
+    else
+      { return GPG_ERR_GENERAL; }
   }
 
 
@@ -1052,6 +1081,8 @@ int gpgIsSecretKey(char* keyname)
     gpgme_key_t         key;
     gpgme_error_t       error;
     int                 secret = 0;
+
+    TRACE(99, "gpgIsSecretKey()", NULL);
 
     if (!config -> encryptdata)
       { return 0; }
@@ -1135,6 +1166,8 @@ char* gpgValidateEncryptionKey(char* keyname)
     char*               tcomment;
     char*               tname;
 
+    TRACE(99, "gpgValidateEncryptionKey()", NULL);
+
     if (!config -> encryptdata)
       { return NULL; }
 
@@ -1181,9 +1214,9 @@ char* gpgValidateEncryptionKey(char* keyname)
                 if (tcomment && strlen(tcomment))
                   {   /* a comment exists for this key */
                     size = strlen(key -> subkeys -> keyid) + 1 +
-                        strlen(tname) + 2 +
-                        strlen(tcomment) + 2 +
-                        strlen(key -> uids -> email) + 1 + 1;
+                        strlen(tname) + 1 +
+                        strlen(tcomment) + 2 + 1 +
+                        strlen(key -> uids -> email) + 2 + 1;
                     identifier = memAlloc(__FILE__, __LINE__, size);
                     snprintf(identifier, size, "%s %s (%s) <%s>",
                         key -> subkeys -> keyid,
@@ -1194,8 +1227,8 @@ char* gpgValidateEncryptionKey(char* keyname)
                 else
                   {   /* no comment exists */
                     size = strlen(key -> subkeys -> keyid) + 1 +
-                        strlen(tname) + 2 +
-                        strlen(key -> uids -> email) + 1 + 1;
+                        strlen(tname) + 1 +
+                        strlen(key -> uids -> email) + 2 + 1;
                     identifier = memAlloc(__FILE__, __LINE__, size);
                     snprintf(identifier, size, "%s %s <%s>",
                         key -> subkeys -> keyid,
@@ -1247,6 +1280,8 @@ void initGPG(void)
     gpgme_error_t       error;
 
     gpgme_check_version(NULL);
+
+    TRACE(99, "initGPG()", NULL);
 
     error = gpgme_engine_check_version(GPGME_PROTOCOL_OpenPGP);
     if (error)

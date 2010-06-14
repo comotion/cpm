@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for general security like handling the memory protection
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -71,6 +71,8 @@ int checkEnvValue(int showerror, int type, char* value)
     int                 result;
     char*               errormsg;
     char*               pattern;
+
+    TRACE(99, "checkEnvValue()", NULL);
 
     if (!value)
       {
@@ -154,6 +156,8 @@ int checkSecurity(int silent)
     /* Flawfinder: ignore */
     char                memlimit[24];
 
+    TRACE(99, "checkSecurity()", NULL);
+
     if (runtime -> memlock_limit == -2)
       { snprintf(memlimit, 24, "%s", "---"); }
     else if (runtime -> memlock_limit == -1)
@@ -217,6 +221,7 @@ int checkSecurity(int silent)
           { printf("%s%s%s\n", STAT_RED, _("no"), STAT_OFF); }
       }
 
+#ifdef __linux__
     if (!silent)
       { printf("%-50s", _("Max. memory lock ok:")); }
     if (runtime -> max_mem_lock)
@@ -230,6 +235,7 @@ int checkSecurity(int silent)
         if (!silent)
           { printf("%s%s%s (%s)\n", STAT_RED, _("no"), STAT_OFF, memlimit); }
       }
+#endif
 #endif
 #endif
 
@@ -248,15 +254,11 @@ int checkSecurity(int silent)
       }
 
     if (!silent)
-      { printf("%-50s", _("Validation of environment variables:")); }
-#if (defined(HAVE_CLEARENV) || defined(HAVE_ENVIRON))
-    if (!silent)
-      { printf("%s%s%s\n", STAT_GREEN, _("yes"), STAT_OFF); }
+      {
+        printf("%-50s", _("Validation of environment variables:"));
+        printf("%s%s%s\n", STAT_GREEN, _("yes"), STAT_OFF);
+      }
     level++;
-#else
-    if (!silent)
-      { printf("%s%s%s\n", STAT_RED, _("no"), STAT_OFF); }
-#endif
 
     return level;
   }
@@ -285,7 +287,17 @@ int checkSecurity(int silent)
           { \
             /* Flawfinder: ignore */ \
             strcpy(eptr, ptr); \
-            putenv(eptr); \
+            if (putenv(eptr)) \
+              { \
+                fprintf(stderr, "%s (%s, %s, %d)\n", \
+                    _("Unable to set the environment"), \
+                    eptr, \
+                    strerror(errno), \
+                    errno \
+                    ); \
+                memFreeString(__FILE__, __LINE__, ptr); \
+                return 1; \
+              } \
           } \
         else \
           { \
@@ -297,17 +309,22 @@ int checkSecurity(int silent)
 
 int clearEnvironment(void)
   {
+    int                 i;
+    extern char**       environ;
     char*               columns;
     char*               gnupghome;
     char*               gpg_agent_info;
     char*               home;
     char*               lang;
     char*               lines;
+    char*               no_utf8_acs;
     char*               term;
     char*               termcap;
 
     char*               eptr;
     char*               ptr;
+
+    TRACE(99, "clearEnvironment()", NULL);
 
     /* Flawfinder: ignore */
     columns = getenv("COLUMNS");
@@ -322,20 +339,48 @@ int clearEnvironment(void)
     /* Flawfinder: ignore */
     lines = getenv("LINES");
     /* Flawfinder: ignore */
+    no_utf8_acs = getenv("NCURSES_NO_UTF8_ACS");
+    /* Flawfinder: ignore */
     termcap = getenv("TERMCAP");
     /* Flawfinder: ignore */
     term = getenv("TERM");
 
     /* we clear the environment */
 #ifdef HAVE_CLEARENV
-    clearenv ();
-#else
-#ifdef HAVE_ENVIRON
-    {
-      extern char **environ;
-      environ = NULL;
-    }
-#endif
+    if (clearenv())
+      {
+        fprintf(stderr, _("clearenv() reported an error.\n"));
+        return 1;
+      }
+#elif HAVE_UNSETENV
+    while (environ && environ[0])
+      {
+        ptr = environ[0];
+
+        i = 0;
+        /* count how many chars the variable name has */
+        while (ptr[i] && ptr[i] != '=')
+          { i++; }
+
+        if (ptr[i] == '=')
+          {   /* we really found a variable */
+            eptr = memAlloc(__FILE__, __LINE__, i + 1);
+            strStrncpy(eptr, ptr, i + 1);
+
+            /* unset the variable */
+            if (unsetenv(eptr))
+              {
+                fprintf(stderr, "%s (%s, %s, %d)\n",
+                    _("Unable to unset the environment"),
+                    eptr,
+                    strerror(errno),
+                    errno
+                    );
+              }
+
+            memFree(__FILE__, __LINE__, eptr, i + 1);
+          }
+      }
 #endif
 
     /* general */
@@ -345,6 +390,7 @@ int clearEnvironment(void)
     /* terminal */
     PutEnv(eptr, ptr, STRTYPE_NUMERIC, "COLUMNS=", columns);
     PutEnv(eptr, ptr, STRTYPE_NUMERIC, "LINES=", lines);
+    PutEnv(eptr, ptr, STRTYPE_NUMERIC, "NCURSES_NO_UTF8_ACS=", no_utf8_acs);
     PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "TERM=", term);
     PutEnv(eptr, ptr, STRTYPE_NOCHECK, "TERMCAP=", termcap);
 
@@ -373,12 +419,17 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     rlim_t* memlock_limit)
   {
     struct rlimit       rl;
+#ifdef __linux__
+    rlim_t              rl_old;
+#endif
     int                 canary;
 #ifndef NO_MEMLOCK
 #ifdef HAVE_MLOCKALL
     int                 result;
 #endif
 #endif
+
+    TRACE(99, "initSecurity()", NULL);
 
     /* we initialize our flags */
     *memlock_limit = -2;
@@ -402,6 +453,7 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
          */
 #ifndef NO_MEMLOCK
 #ifdef HAVE_MLOCKALL
+#ifdef __linux__
       /* check if our max memory lock size is acceptable */
       if (getrlimit(RLIMIT_MEMLOCK, &rl) == -1)
         {
@@ -412,6 +464,33 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
               );
           return 1;
         }
+
+      /* we try to raise the current limit to the maximum, in case it */
+      /* is not there yet. */
+      /* This patch was provided by Kurt Neufeld */
+      /* <kneufeld at burgundywall.com> */
+      if(rl.rlim_cur < rl.rlim_max)
+        {
+          fprintf(stderr, _("Max. memory lock, curr: %d kB, max: %d kB\n"),
+              (int)rl.rlim_cur / 1024, (int)rl.rlim_max / 1024);
+          fprintf(stderr, _("Attempting to set limit to: %d kB"),
+              (int)rl.rlim_max / 1024);
+
+          rl_old = rl.rlim_cur;
+          rl.rlim_cur = rl.rlim_max;
+          if (setrlimit(RLIMIT_MEMLOCK, &rl) < 0)
+            {
+              rl.rlim_cur = rl_old;
+              fprintf(stderr, _(" %sfailed%s\n"), STAT_RED, STAT_OFF);
+              fprintf(stderr, _("Unable to increase the limit to: %d kB"),
+                  (int)rl.rlim_max / 1024);
+            }
+          else
+            {
+              fprintf(stderr, _(" %ssuccess%s\n"), STAT_GREEN, STAT_OFF);
+            }
+        }
+
       *memlock_limit = rl.rlim_cur;
       if (rl.rlim_cur == -1 || rl.rlim_cur >= MEMLOCK_LIMIT * 1024)
         {   /* we only lock memory if the limit is high enough */
@@ -429,6 +508,22 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
           else
             { *memory_safe = 1; }
         }
+#elif __sun__
+      /* we dont have any limit, so locking should always work */
+      *max_mem_lock = 1;
+
+      /* lock the memory */
+      result = mlockall(MCL_CURRENT | MCL_FUTURE);
+      if (result)
+        {
+          fprintf(stderr, "%s\n",
+              _("The process is suid root, but memory paging can't be locked.")
+              );
+          return 1;
+        }
+      else
+        { *memory_safe = 1; }
+#endif
 #endif
 #endif
 
@@ -494,18 +589,44 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
 
     /* check that stderr, stdin and stdout are opened */
     /* NOTE: no file must be opened before this test! */
-    /* Flawfinder: ignore */
-    canary = open("/dev/null", O_CREAT, 0700);
-    if ((canary >= 0) && (canary <= 2))
+    canary = dup(0);
+    close(canary);
+    if (canary != 3)
       {
         fprintf(stderr, "%s\n",
             _("stdin, stdout and/or stderr are invalid."));
-        close (canary);
         return 1;
       }
-    close (canary);
 
     return clearEnvironment();
+  }
+
+
+/* #############################################################################
+ *
+ * Description    display the current environment, displayed after cleanup
+ * Author         Harry Brueckner
+ * Date           2008-09-28
+ * Arguments      void
+ * Return         void
+ */
+void listEnvironment(void)
+  {
+    int                 i;
+    extern char**       environ;
+
+    TRACE(99, "listEnvironment()", NULL);
+
+    printf("Environment:\n");
+
+    if (!environ)
+      {
+        printf("No environment found.\n");
+        return;
+      }
+
+    for (i = 0; environ[i] && environ[i]; i++)
+      { printf("%s\n", environ[i]); }
   }
 
 
@@ -530,6 +651,8 @@ void testEnvironment(void)
   {
     int                 id,
                         result;
+
+    TRACE(99, "testEnvironment()", NULL);
 
     /* a general variable might contain everything except the '=' sign */
     id = 0;

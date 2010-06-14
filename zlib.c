@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for string handling
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -29,6 +29,7 @@
   #include <zlib.h>
 #endif
 #include "configuration.h"
+#include "general.h"
 #include "memory.h"
 #include "zlib.h"
 
@@ -59,6 +60,8 @@ void testCompress(void)
     char*               c_buffer;
     char*               errormsg;
     char*               u_buffer;
+
+    TRACE(99, "testCompress()", NULL);
 
     /* each test tries a different buffer size*/
     if (!strcmp(config -> testrun, "compress1"))
@@ -129,6 +132,8 @@ int zlibCompress(char* srcbuffer, int srclen, char** dstbuffer, int* dstlen,
     z_stream            zh;
     int                 error,
                         extrasize = srclen;
+
+    TRACE(99, "zlibCompress()", NULL);
 
     *errormsg = NULL;
 
@@ -212,6 +217,8 @@ int zlibDecompress(char* srcbuffer, int srclen, char** dstbuffer, int* dstlen,
     z_stream            zh;
     int                 error,
                         offset = 0;
+
+    TRACE(99, "zlibDecompress()", NULL);
 
     *errormsg = NULL;
     *dstbuffer = NULL;

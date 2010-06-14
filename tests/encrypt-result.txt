@@ -38,4 +38,4 @@
 <!ATTLIST user uid CDATA #REQUIRED>
 <!ATTLIST user created-on CDATA #REQUIRED>
 ]>
-<root version="0.23beta"><editor><user uid="1">unknown</user></editor><template/></root>
+<root version="0.25beta"><editor><user uid="1">unknown</user></editor><template/></root>

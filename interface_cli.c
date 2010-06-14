@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for handling the CLI interface
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -26,7 +26,9 @@
  */
 #include "cpm.h"
 #include <regex.h>
-#include <termios.h>
+#ifdef HAVE_TERMIOS_H
+  #include <termios.h>
+#endif
 #include "configuration.h"
 #include "general.h"
 #include "interface_cli.h"
@@ -74,6 +76,8 @@ const char* cliDialogPassphrase(int retry, char* realm)
     int                 ret,
                         size = 0;
 
+    TRACE(99, "cliDialogPassphrase()", NULL);
+
     printf(_("enter your passphrase (try #%d)\n%s\n"),
         retry,
         realm);
@@ -108,6 +112,8 @@ void cliEchoOff(void)
   {
     struct termios new_settings;
 
+    TRACE(99, "cliEchoOff()", NULL);
+
     tcgetattr(0, &terminalsettings);
 
     new_settings = terminalsettings;
@@ -127,6 +133,8 @@ void cliEchoOff(void)
  */
 void cliEchoOn(void)
   {
+    TRACE(99, "cliEchoOn()", NULL);
+
     if(terminalsettings.c_lflag){
     tcsetattr(0, TCSANOW, &terminalsettings);
   }
@@ -151,6 +159,8 @@ int cliInterface(void)
     char***             path = NULL;
     char*               errormsg;
 
+    TRACE(99, "cliInterface()", NULL);
+
     if (!initUTF8Encoding(config -> encoding))
       {
         fprintf(stderr, _("error: %s\n"),
@@ -161,6 +171,8 @@ int cliInterface(void)
     if (xmlDataFileRead(runtime -> dbfile, &errormsg,
         cliDialogPassphrase, cliShowError))
       {
+        if (!errormsg)
+          { errormsg = "(null)"; }
         fprintf(stderr, _("error: %s\n"), errormsg);
         exit(1);
       }
@@ -190,6 +202,8 @@ int cliInterface(void)
         if (xmlDataFileWrite(runtime -> dbfile, &errormsg,
             cliDialogPassphrase, cliShowError))
           {
+            if (!errormsg)
+              { errormsg = "(null)"; }
             fprintf(stderr, _("error: %s\n"), errormsg);
             exit(1);
           }
@@ -298,6 +312,8 @@ int cliInterface(void)
  */
 void cliShowError(const char* headline, const char* message)
   {
+    TRACE(99, "cliShowError()", NULL);
+
     fprintf(stderr, _("error: %s %s\n"), headline, message);
   }
 
@@ -322,6 +338,8 @@ int cliTreeWalk(char** path)
     char**              pattern = runtime -> searchpatterns;
     char*               cstring = NULL;
     char*               cresult = NULL;
+
+    TRACE(99, "cliTreeWalk()", NULL);
 
     while (pattern && pattern[i])
       {
@@ -392,6 +410,8 @@ int prepareSearchexpression(void)
     int                 eflags,
                         result;
     char*               errormsg;
+
+    TRACE(99, "prepareSearchexpression()", NULL);
 
     if (runtime -> searchtype == SEARCH_REGULAR)
       {   /* for the regular search we don't need anything */

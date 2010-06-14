@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for all commandline argument handling
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,9 @@
  * includes
  */
 #include "cpm.h"
+#ifdef __linux__
+  #include <bits/wordsize.h>
+#endif
 #ifdef HAVE_GETOPT_H
   #include <getopt.h>
 #endif
@@ -59,6 +62,8 @@ void getDefaultOptions(void)
   {
     int                 found = 0;
     char*               home;
+
+    TRACE(99, "getDefaultOptions()", NULL);
 
     /* Flawfinder: ignore */
     home = getenv("HOME");
@@ -122,6 +127,8 @@ char* getFilePath(char* path, char* filename)
   {
     char*               result;
 
+    TRACE(99, "getFilePath()", NULL);
+
     if (path)
       {   /* we got a path and a filename */
         result = memAlloc(__FILE__, __LINE__,
@@ -153,6 +160,8 @@ int getOptions(int argc, char **argv)
   {
     int                 error = 0;
 
+    TRACE(99, "getOptions()", NULL);
+
     while (1)
       {
         int             code;
@@ -165,19 +174,21 @@ int getOptions(int argc, char **argv)
           {
             { "config",       required_argument,  0, 0 },   /*  0 */
             { "configtest",   no_argument,        0, 0 },   /*  1 */
-            { "encoding",     required_argument,  0, 0 },   /*  2 */
-            { "file",         required_argument,  0, 0 },   /*  3 */
-            { "help",         no_argument,        0, 0 },   /*  4 */
-            { "ignore",       no_argument,        0, 0 },   /*  5 */
-            { "key",          required_argument,  0, 0 },   /*  6 */
-            { "noencryption", no_argument,        0, 0 },   /*  7 */
-            { "noignore",     no_argument,        0, 0 },   /*  8 */
-            { "readonly",     no_argument,        0, 0 },   /*  9 */
-            { "regex",        no_argument,        0, 0 },   /* 10 */
-            { "regular",      no_argument,        0, 0 },   /* 11 */
-            { "security",     no_argument,        0, 0 },   /* 12 */
-            { "testrun",      required_argument,  0, 0 },   /* 13 */
-            { "version",      no_argument,        0, 0 },   /* 14 */
+            { "debuglevel",   optional_argument,  0, 0 },   /*  2 */
+            { "encoding",     required_argument,  0, 0 },   /*  3 */
+            { "environment",  no_argument,        0, 0 },   /*  4 */
+            { "file",         required_argument,  0, 0 },   /*  5 */
+            { "help",         no_argument,        0, 0 },   /*  6 */
+            { "ignore",       no_argument,        0, 0 },   /*  7 */
+            { "key",          required_argument,  0, 0 },   /*  8 */
+            { "noencryption", no_argument,        0, 0 },   /*  9 */
+            { "noignore",     no_argument,        0, 0 },   /* 10 */
+            { "readonly",     no_argument,        0, 0 },   /* 11 */
+            { "regex",        no_argument,        0, 0 },   /* 12 */
+            { "regular",      no_argument,        0, 0 },   /* 13 */
+            { "security",     no_argument,        0, 0 },   /* 14 */
+            { "testrun",      optional_argument,  0, 0 },   /* 15 */
+            { "version",      no_argument,        0, 0 },   /* 16 */
             { 0,              0,                  0, 0 }
           };
 
@@ -196,19 +207,25 @@ int getOptions(int argc, char **argv)
                 case 1:   /* configtest */
                     config -> configtest = 1;
                     break;
-                case 2:   /* encoding */
+                case 2:   /* debuglevel */
+                    code = 'd';
+                    break;
+                case 3:   /* encoding */
                     code = 'e';
                     break;
-                case 3:   /* file */
+                case 4:   /* environment */
+                    config -> environtmentlist = 1;
+                    break;
+                case 5:   /* file */
                     code = 'f';
                     break;
-                case 4:   /* help */
+                case 6:   /* help */
                     code = 'h';
                     break;
-                case 5:   /* ignore */
+                case 7:   /* ignore */
                     code = 'i';
                     break;
-                case 6:   /* key */
+                case 8:   /* key */
                     if (!runtime -> commandlinekeys)
                       {   /* if we find the first key on the commandline, we
                            * free the list and start collecting those keys
@@ -219,28 +236,28 @@ int getOptions(int argc, char **argv)
                     config -> defaultkeys = listAdd(config -> defaultkeys,
                         optarg);
                     break;
-                case 7:   /* noencryption */
+                case 9:   /* noencryption */
                     config -> encryptdata = 0;
                     break;
-                case 8:   /* noignore */
+                case 10:   /* noignore */
                     runtime -> casesensitive = 1;
                     break;
-                case 9:   /* readonly */
+                case 11:   /* readonly */
                     config -> readonly = 1;
                     break;
-                case 10:   /* regex */
+                case 12:   /* regex */
                     code = 'r';
                     break;
-                case 11:   /* regular */
+                case 13:   /* regular */
                     runtime -> searchtype = SEARCH_REGULAR;
                     break;
-                case 12:   /* security */
+                case 14:   /* security */
                     code = 's';
                     break;
-                case 14:   /* version */
+                case 16:   /* version */
                     config -> version = 1;
                     break;
-                case 13:   /* testrun */
+                case 15:   /* testrun */
 #ifdef TEST_OPTION
                     if (!optarg)
                       {
@@ -299,6 +316,28 @@ int getOptions(int argc, char **argv)
                     config -> rcfile = memAlloc(__FILE__, __LINE__,
                         strlen(optarg) + 1);
                     strStrncpy(config -> rcfile, optarg, strlen(optarg) + 1);
+                  }
+                break;
+            case 'd':
+                if (!optarg)
+                  { config -> debuglevel = 1; }
+                else if (strlen(optarg) > 3)
+                  {
+                    fprintf(stderr,
+                        _("error: --debuglevel argument too long.\n"));
+                    error = 1;
+                  }
+                else
+                  {
+                    /* Flawfinder: ignore */
+                    config -> debuglevel = atoi(optarg);
+                    if (config -> debuglevel < 0 ||
+                        config -> debuglevel > 999)
+                      {
+                        fprintf(stderr,
+                            _("error: --debuglevel must be 0-999.\n"));
+                        error = 1;
+                      }
                   }
                 break;
             case 'e':
@@ -411,12 +450,18 @@ int getOptions(int argc, char **argv)
  */
 void showHelp(void)
   {
+    TRACE(99, "showHelp()", NULL);
+
     printf(_("usage: cpm [--config FILE] [--help] [PATH] ...\n"));
     printf(_("    --config, -c    configuration file to use [~/%s]\n"),
         DEFAULT_RC_FILE);
     printf(_("    --configtest    verify the configuration file and exit\n"));
+#ifdef TRACE_DEBUG
+    printf(_("    --debuglevel    debuglevel (0=off, 1 - 999)\n"));
+#endif
     printf(_("    --encoding, -e  the encoding in which keyboard input arrives [%s]\n"),
         DEFAULT_ENCODING);
+    printf(_("    --environment   list the environment after cleanup\n"));
     printf(_("    --file, -f      database file to use [~/%s]\n"),
         DEFAULT_DB_FILE);
     printf(_("    --help, -h      display this help\n"));
@@ -455,7 +500,26 @@ void showHelp(void)
  */
 void showVersion(void)
   {
-    printf("%s\n", PACKAGE_STRING);
+    TRACE(99, "showVersion()", NULL);
+
+#ifdef __linux__
+/* we just want to make 32- and 64-bit systems visible */
+#ifdef __WORDSIZE
+    #define CPM_WORDSIZE __WORDSIZE
+#elif _MIPS_SZPTR
+    #define CPM_WORDSIZE _MIPS_SZPTR
+#elif _LP64
+    #define CPM_WORDSIZE 64
+#else
+    #define CPM_WORDSIZE 32
+#endif
+
+    printf("%s (%d bit)\n", PACKAGE_STRING, CPM_WORDSIZE);
+#elif __sun__
+    printf("%s (solaris)\n", PACKAGE_STRING);
+#else
+    printf("%s (unknown)\n", PACKAGE_STRING);
+#endif
 #ifdef CDK_VERSION_H
     printf(_("CDK version %s.%s (%s).\n"),
         CDK_VERSION_MAJOR,
@@ -469,8 +533,14 @@ void showVersion(void)
 #else
     printf(_("GpgME version %s.\n"), GPGME_VERSION);
 #endif
-    printf(_("ncurses version %s (%ld).\n"),
+#ifdef HAVE_LIBNCURSESW
+    printf(_("ncursesw version %s (%d).\n"),
         NCURSES_VERSION, NCURSES_VERSION_PATCH);
+#endif
+#ifdef HAVE_LIBNCURSES
+    printf(_("ncurses version %s (%d).\n"),
+        NCURSES_VERSION, NCURSES_VERSION_PATCH);
+#endif
     printf(_("XML2 version %s.\n"), LIBXML_DOTTED_VERSION);
     printf(_("zlib version %s.\n"), ZLIB_VERSION);
 #ifdef HAVE_CRACKLIB
@@ -479,6 +549,8 @@ void showVersion(void)
     printf(_("cracklib is disabled.\n"));
 #endif
     printf(_("Written by Harry Brueckner <harry_b@mm.st>.\n"));
+
+#undef CPM_WORDSIZE
   }
 
 

@@ -1,7 +1,7 @@
 /* #############################################################################
  * program to manage passwords from the commandline
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -51,6 +51,14 @@ RETSIGTYPE sighandler(int signum);
   void testMemset(void);
 #endif
 
+
+/* #############################################################################
+ * global variables
+ */
+#ifdef MANUAL_EXTERN_ENVIRON
+char**                  environ;
+#endif
+
 static struct termios tcsaved;
 void savetermios(void)
 {
@@ -68,9 +76,21 @@ void restoretermios(void)
  * Date           2005-03-16
  * Arguments      int     argc    - argument counter
  *                char**  argv    - commandline arguments
+ *                char**  envp    - process environment (only on Solaris)
  * Return         return code of the program
  */
+#ifdef HAVE_EXTERN_ENVIRON
+/* everything is in place, we have the environ variable */
 int main(int argc, char **argv)
+#else
+#ifdef MANUAL_EXTERN_ENVIRON
+/* we can manually declare the variable */
+int main(int argc, char **argv)
+#else
+/* if don't have any envorin variable at all */
+int main(int argc, char **argv, char **envp)
+#endif
+#endif
   {
     rlim_t              memlock_limit = -2;
     int                 error = 0,
@@ -80,8 +100,17 @@ int main(int argc, char **argv)
 #ifdef TEST_OPTION
     int                 testrun = 0;
 #endif
+    char*               binaryname;
 
     savetermios();
+    TRACE(99, "main()", NULL);
+
+#ifndef HAVE_EXTERN_ENVIRON
+#ifndef MANUAL_EXTERN_ENVIRON
+    /* since in solaris environ does not exist, we manually pass it along */
+    environ = envp;
+#endif
+#endif
 
     if (initSecurity(&max_mem_lock, &memory_safe, &ptrace_safe, &memlock_limit))
       { exit(1); }
@@ -110,7 +139,7 @@ int main(int argc, char **argv)
      */
     signal(SIGINT, sighandler);
     signal(SIGTERM, sighandler);
-    /* the SIGWINCH handler is used in set in userInterface() */
+    /* the SIGWINCH handler is set in userInterface() */
 
     initConfiguration();
 
@@ -155,6 +184,11 @@ int main(int argc, char **argv)
     if (config -> readonly)
       { runtime -> readonly = 1; }
 
+    /* in case our basename is cpmv, we switch to read-only mode */
+    binaryname = basename(argv[0]);
+    if (!strcmp(binaryname, "cpmv"))
+      { runtime -> readonly = 1; }
+
     initGPG();
 
     if (!error && config -> security)
@@ -187,8 +221,13 @@ int main(int argc, char **argv)
         !error)
       { fprintf(stderr, _("configuration ok.\n")); }
 
+    if (config -> environtmentlist &&
+        !error)
+      { listEnvironment(); }
+
     if (!error &&
         !config -> configtest &&
+        !config -> environtmentlist &&
         !config -> help &&
         !config -> security &&
         !config -> version)
@@ -204,7 +243,7 @@ int main(int argc, char **argv)
             printf("\n%s %s\n%s\n",
                 _("Maximum security level not reached."),
                 _("Are you sure you want to continue?"),
-                _("Press CTRL+C to stop now or any other key to continue."));
+                _("Press CTRL+C to stop now or ENTER to continue."));
 
             fgetc(stdin);
           }

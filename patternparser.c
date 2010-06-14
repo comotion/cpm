@@ -1,7 +1,7 @@
 /* #############################################################################
  * code for handling the pattern parsing for the search patterns.
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -26,6 +26,7 @@
  */
 #include "cpm.h"
 #include "configuration.h"
+#include "general.h"
 #include "interface_xml.h"
 #include "listhandler.h"
 #include "memory.h"
@@ -63,6 +64,8 @@ void freePatternparser(void)
     SEARCHPATTERN*      cur;
     SEARCHPATTERN*      next;
     int                 i;
+
+    TRACE(99, "freePatternparser()", NULL);
 
     if (patterndata || resultdata)
       {
@@ -119,6 +122,8 @@ void freePatternparser(void)
  */
 int getPatternResultString(int id, char** path, char** string)
   {
+    TRACE(99, "getPatternResultString()", NULL);
+
     return getPatternString(resultdata[id], path, string);
   }
 
@@ -136,6 +141,8 @@ int getPatternResultString(int id, char** path, char** string)
  */
 int getPatternSearchString(int id, char** path, char** string)
   {
+    TRACE(99, "getPatternSearchString()", NULL);
+
     return getPatternString(patterndata[id], path, string);
   }
 
@@ -157,6 +164,8 @@ int getPatternString(SEARCHPATTERN* pattern, char** path, char** string)
     SEARCHPATTERN*      cpattern = pattern;
     int                 maxlevel = listCount(path);
     char*               concat;
+
+    TRACE(99, "getPatternString()", NULL);
 
     *string = NULL;
     while (cpattern)
@@ -210,6 +219,8 @@ int getPatternString(SEARCHPATTERN* pattern, char** path, char** string)
  */
 void initPatternparser(void)
   {
+    TRACE(99, "initPatternparser()", NULL);
+
     patterndata = NULL;
     resultdata = NULL;
     patterncount = 0;
@@ -235,6 +246,8 @@ int patternCreate(char* patternstring, SEARCHPATTERN* pattern)
                         size = 0;
     char*               cbuffer;
     char*               ptr;
+
+    TRACE(99, "patternCreate()", NULL);
 
     if (!patternstring)
         return 1;
@@ -401,6 +414,8 @@ void patternDump(SEARCHPATTERN* pattern)
   {
     SEARCHPATTERN*      cur = pattern;
 
+    TRACE(99, "patternDump()", NULL);
+
     printf("pattern");
     while (cur)
       {
@@ -435,6 +450,8 @@ int patternParse(void)
   {
     int                 error = 0,
                         i;
+
+    TRACE(99, "patternParse()", NULL);
 
     patterncount = listCount(runtime -> searchpatterns);
     patterndata = memAlloc(__FILE__, __LINE__,
@@ -481,6 +498,8 @@ int patternTemplateId(char* template)
   {
     int                 i,
                         id;
+
+    TRACE(99, "patternTemplateId()", NULL);
 
     /* first we look into the database templates */
     id = xmlInterfaceTemplateGetId(template);

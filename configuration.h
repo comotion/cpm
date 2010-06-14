@@ -1,7 +1,7 @@
 /* #############################################################################
  * header information for configuration.c
  * #############################################################################
- * Copyright (C) 2005, 2006 Harry Brueckner
+ * Copyright (C) 2005-2009 Harry Brueckner
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -57,7 +57,9 @@ typedef struct
     int                 configtest;
     int                 cracklibstatus;
     int                 createbackup;
+    int                 debuglevel;
     int                 encryptdata;
+    int                 environtmentlist;
     int                 help;
     int                 infoheight;
     int                 keeppassphrase;

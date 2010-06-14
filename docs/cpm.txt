@@ -11,7 +11,9 @@ DESCRIPTION
 
   --config, -c    configuration file to use [~/.cpmrc]
   --configtest    verify the configuration file and exit
+  --debuglevel    debuglevel (0=off, 1 - 99)
   --encoding, -e  the encoding in which keyboard input arrives [ISO-8859-1]
+  --environment   list the environment after cleanup
   --file, -f      database file to use [~/.cpmdb]
   --help, -h      display this help
   --key           overwrite the default encryption keys and use this key
@@ -55,6 +57,9 @@ ENVIRONMENT
 
     * COLUMNS         Used to size some displays to the full size of the screen.
     * LINES           Used to size some displays to the full size of the screen.
+    * NCURSES_NO_UTF8_ACS
+                      Used to configure terminal behaviour with special
+                      charaters, see ncurses(3).
     * TERMCAP         Terminal settings of the currently used terminal.
     * TERM            Terminal settings of the currently used terminal.
 
@@ -68,13 +73,13 @@ IMPORT
     * pms
 
 SEE ALSO
-  gpg(1)
+  gpg(1), ncurses(3)
 
 REPORTING BUGS
   Report bugs to <harry_b@mm.st>.
 
 COPYRIGHT
-  Copyright (C) 2005, 2006 Harry Brueckner
+  Copyright (C) 2005-2009 Harry Brueckner
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free Software

@@ -2,9 +2,9 @@ Source: cpm
 Section: unknown
 Priority: extra
 Maintainer: Kacper Wysocki <comotion@users.sf.net>
-Build-Depends: debhelper (>= 7), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, dpatch
+Build-Depends: debhelper (>= 5), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, dpatch
 Standards-Version: 3.7.3
-Homepage: http://www.harry-b.de/dokuwiki/doku.php?id=harry:cpm
+Homepage: http://github.com/comotion/cpm
 
 Package: cpm
 Architecture: any

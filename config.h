@@ -157,19 +157,19 @@
 /* #undef MANUAL_EXTERN_ENVIRON */
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "harry_b@mm.st"
+#define PACKAGE_BUGREPORT "kwy@redpill-linpro.com"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "cpm"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "cpm 0.25beta"
+#define PACKAGE_STRING "cpm 0.25.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "cpm"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.25beta"
+#define PACKAGE_VERSION "0.25.2"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void

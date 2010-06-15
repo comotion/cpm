@@ -548,7 +548,8 @@ void showVersion(void)
 #else
     printf(_("cracklib is disabled.\n"));
 #endif
-    printf(_("Written by Harry Brueckner <harry_b@mm.st>.\n"));
+    printf(_("Written by Harry Brueckner <harry_b@mm.st> 2005-2009.\n"));
+    printf(_("Maintained by Kacper Wysocki <kwy@redpill-linpro.com> 2010.\n"));
 
 #undef CPM_WORDSIZE
   }

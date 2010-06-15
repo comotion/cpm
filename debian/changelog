@@ -1,14 +1,15 @@
-cpm (0.25~beta-2) lucid; urgency=low
+cpm (0.25~beta-2ubuntu1) lucid; urgency=low
 
-  [ Kacper Wysocki (Redpill-Linpro) ]
+  * lucid packaging
+
+ -- Kacper Wysocki <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:14:06 +0000
+
+cpm (0.25~beta-2) unstable; urgency=low
+
   * Console garble fixes
   * Multiple-key management fixes
 
-  [ Kacper Wysocki ]
-  * lucid packaging fixes
-  * 
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:03:15 +0000
+ -- Kacper Wysocki <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:13:44 +0000
 
 cpm (0.25~beta-1) unstable; urgency=low
 

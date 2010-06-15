@@ -59,13 +59,8 @@ install: build
 	dh_installdirs
 	# Add here commands to install the package into debian/cpm.
 	$(MAKE) prefix=$(CURDIR)/debian/cpm/usr localedir=$(CURDIR)/debian/cpm/usr/share/locale mandir=$(CURDIR)/debian/cpm/usr/share/man install
-	chmod +s debian/cpm/usr/bin/cpm
-	ls -al debian/cpm/usr/bin/cpm
-
 	# install the helper scripts
 	cp -a share/cpm debian/cpm/usr/share/cpm
-	mkdir -p debian/cpm/usr/share/lintian/overrides
-	echo cpm binary: setuid-gid-binary usr/bin/cpm 6755 root/root > debian/cpm/usr/share/lintian/overrides/cpm
 
 # Build architecture-independent files here.
 binary-indep: build install

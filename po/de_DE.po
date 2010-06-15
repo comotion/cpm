@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpm 0.4beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-14 15:56+0000\n"
+"POT-Creation-Date: 2010-06-15 10:55+0000\n"
 "PO-Revision-Date: 2005-04-20 14:19+001\n"
 "Last-Translator: Harry Brueckner <harry_b@mm.st>\n"
 "Language-Team: de_DE <harry_b@mm.st>\n"
@@ -66,37 +66,37 @@ msgstr ""
 "Bitte senden Sie einen Bericht über dieses Problem an Harry Brueckner "
 "<harry_b@mm.st>.\n"
 
-#: general.c:124
+#: general.c:121
 #, c-format
 msgid "error %d (%s) removing file '%s'."
 msgstr "Fehler %d (%s) beim Löschen der Datei '%s'."
 
-#: general.c:128 general.c:171 general.c:188 xml.c:257 xml.c:388 xml.c:412
+#: general.c:125 general.c:168 general.c:185 xml.c:257 xml.c:388 xml.c:412
 #: xml.c:522 xml.c:539
 msgid "file error"
 msgstr "Dateifehler"
 
-#: general.c:184 xml.c:535
+#: general.c:181 xml.c:535
 #, c-format
 msgid "error %d (%s) writing file '%s'."
 msgstr "Fehler %d (%s) beim Schreiben der Datei '%s'."
 
-#: general.c:436
+#: general.c:433
 #, c-format
 msgid "error %d (%s) opening file '%s'."
 msgstr "Fehler %d (%s) beim Öffnen von '%s'."
 
-#: general.c:449
+#: general.c:446
 #, c-format
 msgid "error %d (%s) seeking in file '%s'."
 msgstr "Fehler %d (%s) beim Positionieren in Datei '%s'."
 
-#: general.c:476
+#: general.c:473
 #, c-format
 msgid "could not exclusively open '%s'."
 msgstr "Datei '%s' konnte nicht exklusiv geöffnet werden."
 
-#: general.c:485
+#: general.c:482
 #, c-format
 msgid "error %d (%s) locking file '%s'."
 msgstr "Fehler %d (%s) beim exklusiven Öffnen von '%s'."

@@ -6,8 +6,9 @@ cpm (0.25~beta-2) lucid; urgency=low
 
   [ Kacper Wysocki ]
   * lucid packaging fixes
+  * 
 
- -- Kacper Wysocki <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:00:09 +0000
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:03:15 +0000
 
 cpm (0.25~beta-1) unstable; urgency=low
 

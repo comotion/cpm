@@ -299,6 +299,8 @@ clean:
 	find . -name "*~" -exec rm {} \;
 	rm -fr *.o check-*.data check-*.log debug.log cpm core
 	cd ./po; rm -fr cpm.po current.txt new.txt de_DE_new.po *.mo ./de/*
+	rm -f docs/cpm.1 docs/cpm.1.gz
+
 
 
 # ##############################################################################
@@ -357,7 +359,6 @@ gettext_compile: gettext_translate
 .PHONY: gettext_translate
 gettext_translate:
 	xgettext -p ./po -o cpm.po --language=C --indent --width=80 --keyword=_ *.c
-	cd ./po; \
 		mv cpm.po cpm.tmp; \
 		sed -e 's/; charset=CHARSET/; charset=iso-8859-1/' cpm.tmp > cpm.po; \
 		rm -f cpm.tmp
@@ -376,22 +377,21 @@ gettext_update:
 # install everything
 .PHONY: install
 install: cpm gettext
-	$(INSTALL) -d $(DESTDIR)$(bindir)
-	$(INSTALL) -d $(DESTDIR)$(localedir)/de/LC_MESSAGES
-	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
-	$(INSTALL) -m 4755 -o 0 -g 0 @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@	$(INSTALL) -m 644 ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
-	$(INSTALL) -m 644 ./docs/cpm.1.gz $(DESTDIR)$(mandir)/man1/cpm.1.gz
-
+	$(INSTALL) -m 4755 -o 0 -g 0 -T @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
+	$(INSTALL) -m 644 -T ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
 
 
 # ##############################################################################
 # create the manual
 
 .PHONY: man
-man:
-	txt2man -s 1 -r "@PACKAGE_NAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" -T ../docs/cpm.txt > /tmp/cpm.1
-	cat /tmp/cpm.1 | gzip -9 > ../docs/cpm.1.gz
-	rm -f /tmp/cpm.1
+man: docs/cpm.1.gz
+
+docs/cpm.1.gz: docs/cpm.1
+	@>$@<$< gzip -9
+
+docs/cpm.1: docs/cpm.txt
+	txt2man -s 1 -r "cpm 0.25beta" -v "User Commands" -t "cpm" $< > $@
 
 
 # ##############################################################################

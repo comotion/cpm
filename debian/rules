@@ -9,7 +9,6 @@
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
 
-include /usr/share/dpatch/dpatch.make
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
@@ -22,7 +21,7 @@ CROSS= --build $(DEB_BUILD_GNU_TYPE)
 endif
 
 
-config.status: patch
+config.status:
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
 	cp -f /usr/share/misc/config.sub config.sub
 endif
@@ -35,15 +34,12 @@ build: config.status
 
 build-stamp:  config.status
 	dh_testdir
-
 	# Add here commands to compile the package.
 	$(MAKE) all
 	#docbook-to-man debian/cpm.sgml > cpm.1
-
 	touch $@
 
-clean: unpatch
-
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp 
@@ -59,7 +55,6 @@ install: build
 	dh_testroot
 	dh_clean -k 
 	dh_installdirs
-
 	# Add here commands to install the package into debian/cpm.
 	$(MAKE) prefix=$(CURDIR)/debian/cpm/usr localedir=$(CURDIR)/debian/cpm/usr/share/locale mandir=$(CURDIR)/debian/cpm/usr/share/man install
 

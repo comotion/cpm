@@ -1,3 +1,9 @@
+cpm (0.25~beta-2hardy1) unstable; urgency=low
+
+  * hardy packaging
+
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:30:14 +0000
+
 cpm (0.25~beta-2) unstable; urgency=low
 
   * Console garble fixes

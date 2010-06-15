@@ -3,7 +3,7 @@ Section: utils
 Priority: extra
 Maintainer: Kacper Wysocki <comotion@users.sf.net>
 Build-Depends: debhelper (>= 6), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5-dev, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, dpatch
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://github.com/comotion/cpm
 
 Package: cpm

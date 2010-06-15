@@ -376,7 +376,7 @@ gettext_update:
 # ##############################################################################
 # install everything
 .PHONY: install
-install: cpm gettext
+install: cpm gettext man
 	$(INSTALL) -m 4755 -o 0 -g 0 -T @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
 	$(INSTALL) -m 644 -T ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
 

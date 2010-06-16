@@ -1,15 +1,8 @@
-cpm (0.25~beta-2debian2) stable; urgency=low
+cpm (0.25~beta-2lucid1) lucid; urgency=low
 
-  * fix statusbar by using CDK5 define
-  * bump version and grab ownership
+  * lucid packaging
 
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Wed, 16 Jun 2010 15:26:51 +0200
-
-cpm (0.25~beta-2debian1) stable; urgency=low
-
-  * debian packaging
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 17:51:59 +0200
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:25:42 +0000
 
 cpm (0.25~beta-2) unstable; urgency=low
 

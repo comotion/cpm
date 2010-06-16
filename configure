@@ -3656,9 +3656,12 @@ fi
 
 
   if test -z "$ac_cv_path_NCURSES_CONFIG"; then
-    { { echo "$as_me:$LINENO: error: Could not find ${curses_config} anywhere." >&5
-echo "$as_me: error: Could not find ${curses_config} anywhere." >&2;}
-   { (exit 1); exit 1; }; }
+    # etch hack
+    LIBNCURSES_LIBS="-L/usr/lib -lncursesw"
+    LIBNCURSES_CFLAGS="-I/usr/include/ncursesw"
+
+
+    #AC_MSG_ERROR([Could not find ${curses_config} anywhere.])
   fi
 
   LIBNCURSES_LIBS="`$NCURSES_CONFIG --libs`"
@@ -4512,11 +4515,10 @@ echo "$as_me: CDK version patch: ${CDK_VERSION}" >&6;}
 
     # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    if test ${CDK_VERSION} -ge 20090215; then
+      # etch hack
       CDK_UNUSABLE=0
-      CDK_VERSION_DEF="-DCDK_VERSION_5"
+      CDK_VERSION_DEF="-DCDK_VERSION_5 -I/usr/include/cdk"
       CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
-    fi
   fi
 fi
 

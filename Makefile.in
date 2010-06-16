@@ -256,6 +256,11 @@ check_garbage:
 
 .PHONY: check_gettext
 check_gettext:
+	@echo -n "Checking [1;37mgettext 1       [0m"; \
+	@cd po; \
+		tail --lines=+18 de_DE_old.po > current.txt; \
+		tail --lines=+18 de_DE.po > new.txt; \
+		diff -u current.txt new.txt
 	@echo -n "Testing [1;37mgettext 1       [0m"; \
 		INSTALLED=`locale -a | grep -c "^de_DE"`; \
 		if [ $${INSTALLED} -eq 0 ]; then \
@@ -344,10 +349,6 @@ gettext: gettext_compile
 
 .PHONY: gettext_compile
 gettext_compile: gettext_translate
-	cd po; \
-		tail --lines=+18 de_DE.po > current.txt; \
-		tail --lines=+18 de_DE_new.po > new.txt; \
-		diff -u current.txt new.txt
 	cd po; msgfmt --check --statistics --strict de_DE.po --output=de_DE.mo
 	cd po; \
 		mkdir -p ./de/LC_MESSAGES; \
@@ -363,7 +364,8 @@ gettext_translate:
 		sed -e 's/; charset=CHARSET/; charset=iso-8859-1/' cpm.tmp > cpm.po; \
 		rm -f cpm.tmp
 	cd ./po; \
-		msgmerge --no-fuzzy-matching de_DE.po cpm.po > de_DE_new.po
+		cp de_DE.po de_DE_old.po; \
+		msgmerge --no-fuzzy-matching de_DE_old.po cpm.po > de_DE.po
 
 
 # ##############################################################################

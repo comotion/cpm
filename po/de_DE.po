@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpm 0.4beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-16 15:05+0200\n"
+"POT-Creation-Date: 2010-06-16 15:24+0200\n"
 "PO-Revision-Date: 2005-04-20 14:19+001\n"
 "Last-Translator: Harry Brueckner <harry_b@mm.st>\n"
 "Language-Team: de_DE <harry_b@mm.st>\n"
@@ -857,8 +857,13 @@ msgstr "cracklib ist nicht aktiv.\n"
 
 #: options.c:551
 #, c-format
-msgid "Written by Harry Brueckner <harry_b@mm.st>.\n"
-msgstr "Verfasst von Harry Brueckner <harry_b@mm.st>.\n"
+msgid "Written by Harry Brueckner <harry_b@mm.st> 2005-2009.\n"
+msgstr ""
+
+#: options.c:552
+#, c-format
+msgid "Maintained by Kacper Wysocki <kwy@redpill-linpro.com> 2010.\n"
+msgstr ""
 
 #: patternparser.c:273 patternparser.c:360
 #, c-format
@@ -1083,6 +1088,9 @@ msgstr "Validierungsfehler"
 #: xml.c:696
 msgid "validation warning"
 msgstr "Validierungswarning"
+
+#~ msgid "Written by Harry Brueckner <harry_b@mm.st>.\n"
+#~ msgstr "Verfasst von Harry Brueckner <harry_b@mm.st>.\n"
 
 #~ msgid "error: --debuglevel must be 0-99.\n"
 #~ msgstr "error: --debuglevel muss 0-99 sein.\n"

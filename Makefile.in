@@ -52,7 +52,7 @@ all: dependencies cpm
 # ##############################################################################
 # run the tests
 .PHONY: check
-check: permissions cpm gettext check_backup check_clisearch check_compress check_configtest check_decrypt check_encrypt check_environment check_garbage check_gettext check_searchpattern
+check: permissions cpm gettext check_backup check_clisearch check_compress check_configtest check_decrypt check_encrypt check_environment check_garbage check_searchpattern check_gettext
 
 OK=\t\t\t\t[1;32mok[0m
 ERROR=\t\t\t\t[1;31mfailed[0m
@@ -391,7 +391,7 @@ docs/cpm.1.gz: docs/cpm.1
 	@>$@<$< gzip -9
 
 docs/cpm.1: docs/cpm.txt
-	txt2man -s 1 -r "cpm 0.25beta" -v "User Commands" -t "cpm" $< > $@
+	txt2man -s 1 -r "@PACKAGE_TARNAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" $< > $@
 
 
 # ##############################################################################

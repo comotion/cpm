@@ -307,7 +307,7 @@ CDK_DEBIAN_DEP="libcdk4 (<= 4.9.10)"
 if test ${INCOMPATIBLE} -gt 0; then
   # seems like an incompatible version; we have to check the detailed
   # version to be sure
-  CDK_UNUSABLE=0
+  CDK_UNUSABLE=1
 
   # this file only exists in v5
   CDK_VERSION_H=`dirname "${CDK_H}"`"/cdk_version.h"
@@ -317,11 +317,11 @@ if test ${INCOMPATIBLE} -gt 0; then
 
     # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    if test ${CDK_VERSION} -ge 20090215; then
+    #if test ${CDK_VERSION} -ge 20090215; then
       CDK_UNUSABLE=0
       CDK_VERSION_DEF="-DCDK_VERSION_5"
-      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
-    fi
+      #CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
+    #fi
   fi
 fi
 

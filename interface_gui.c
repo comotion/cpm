@@ -2012,9 +2012,6 @@ void interfaceLoop(void)
             maxlevel = level;
           }
 
-        /* we redraw the statusline to update exit/back comments */
-        drawStatusline(level);
-
         id = level - 1;
         if (!listwidget[id])
           {
@@ -2082,6 +2079,8 @@ void interfaceLoop(void)
 
         /* we update the infobox */
         guiUpdateInfo(infobox, infodata, 0);
+        /* we redraw the statusline to update exit/back comments */
+        drawStatusline(level);
 
         /* we bind the keys to the dialog */
         bindCDKObject(vALPHALIST, listwidget[id], '', guiDialogAddNode,
@@ -2105,6 +2104,7 @@ void interfaceLoop(void)
             bindCDKObject(vALPHALIST, listwidget[id], '', guiDialogHandleKeys,
                 keyevent[id]);
           }
+
 
         selection = activateCDKAlphalist(listwidget[id], NULL);
 

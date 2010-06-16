@@ -1,8 +1,8 @@
-cpm (0.25~beta-2debian1) stable; urgency=low
+cpm (0.25~beta-2lenny1) stable; urgency=low
 
-  * debian packaging
+  * lenny packaging
 
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 17:51:59 +0200
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Wed, 16 Jun 2010 11:41:37 +0000
 
 cpm (0.25~beta-2) unstable; urgency=low
 

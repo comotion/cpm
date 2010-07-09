@@ -60,7 +60,7 @@ install: build
 	# install the helper scripts
 	cp -a share/cpm debian/cpm/usr/share/cpm
 	cp anonymize/* debian/cpm/usr/share/cpm
-	cp conf/cpmrc-default debian/cpm/etc/cpmrc
+	$(INSTALL) -m 644 -T ./conf/cpmrc-default debian/cpm/etc/cpmrc
 	cp conf/cpmrc-default debian/cpm/usr/share/doc/cpm
 	# clean up a bit
 	rm -r debian/cpm/usr/share/doc/cpm/anonymize

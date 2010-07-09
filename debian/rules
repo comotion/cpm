@@ -59,6 +59,11 @@ install: build
 	$(MAKE) prefix=$(CURDIR)/debian/cpm/usr localedir=$(CURDIR)/debian/cpm/usr/share/locale mandir=$(CURDIR)/debian/cpm/usr/share/man install
 	# install the helper scripts
 	cp -a share/cpm debian/cpm/usr/share/cpm
+	cp anonymize/* debian/cpm/usr/share/cpm
+	cp conf/cpmrc-default debian/cpm/etc/cpmrc
+	cp conf/cpmrc-default debian/cpm/usr/share/doc/cpm
+	rm -r debian/cpm/usr/share/doc/cpm/anonymize
+	rm -r debian/cpm/usr/share/doc/cpm/passwordsafe
 
 # Build architecture-independent files here.
 binary-indep: build install

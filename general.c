@@ -26,7 +26,6 @@
  */
 #include "cpm.h"
 #ifdef HAVE_CRACKLIB
-  // big hack because CRACKLIB_DICTPATH is used in crack.h
   #include <crack.h>
 
   #ifndef CRACKLIB_DICTPATH

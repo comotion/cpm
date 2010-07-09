@@ -62,8 +62,10 @@ install: build
 	cp anonymize/* debian/cpm/usr/share/cpm
 	cp conf/cpmrc-default debian/cpm/etc/cpmrc
 	cp conf/cpmrc-default debian/cpm/usr/share/doc/cpm
+	# clean up a bit
 	rm -r debian/cpm/usr/share/doc/cpm/anonymize
 	rm -r debian/cpm/usr/share/doc/cpm/passwordsafe
+	rm debian/cpm/usr/share/cpm/create-cpmdb
 
 # Build architecture-independent files here.
 binary-indep: build install

@@ -4299,7 +4299,7 @@ fi
 
 # ------------------------------------------------------------------------------
 # we check if we can use this CDK version
-CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
+CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
 if test "${CDK_H}" == ""; then
   as_fn_error "could not locate CDK header file." "$LINENO" 5
 else

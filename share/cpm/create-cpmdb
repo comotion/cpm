@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Create an empty CPM db for the user
+# Kacper Wysocki, 2010-07-09
+
+if [ -f ~/.cpmdb ]
+    then
+    echo "You already have a ~/.cpmdb file. If you want a new, empty password"
+    echo "database, then you should delete ~/.cpmdb and rerun this script."
+    exit 1
+fi
+cd /tmp/
+tmp=`mktemp /tmp/cpm.XXXXX || echo mktemp failed && exit 1`
+/usr/share/cpm/import.sh general $tmp
+mv -v cpm_convert.db ~/.cpmdb
+rm $tmp

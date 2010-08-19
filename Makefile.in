@@ -303,10 +303,11 @@ check_searchpattern:
 clean:
 	find . -name "*~" -exec rm {} \;
 	rm -fr *.o check-*.data check-*.log debug.log cpm core
-	cd ./po; rm -fr cpm.po current.txt new.txt de_DE_new.po *.mo ./de/*
+	rm -f cpm.po
+	cd ./po; rm -fr cpm.po current.txt new.txt de_DE_old.po *.mo ./de/*
 	rm -f docs/cpm.1 docs/cpm.1.gz
-
-
+	rm -f docs/create-cpmdb.1 docs/create-cpmdb.1.gz
+	rm -f config.log
 
 # ##############################################################################
 # dependencies
@@ -380,6 +381,7 @@ gettext_update:
 .PHONY: install
 install: cpm gettext man
 	$(INSTALL) -m 4755 -o 0 -g 0 -T @PACKAGE_NAME@ $(DESTDIR)$(bindir)/@PACKAGE_NAME@
+	$(INSTALL) -m 0755 -o 0 -g 0 -T share/cpm/create-cpmdb $(DESTDIR)$(bindir)/create-cpmdb
 	$(INSTALL) -m 644 -T ./po/de_DE.mo $(DESTDIR)$(localedir)/de/LC_MESSAGES/@PACKAGE_NAME@.mo
 
 
@@ -387,10 +389,16 @@ install: cpm gettext man
 # create the manual
 
 .PHONY: man
-man: docs/cpm.1.gz
+man: docs/cpm.1.gz docs/create-cpmdb.1.gz
+
+docs/create-cpmdb.1.gz: docs/create-cpmdb.1
+	@>$@<$< gzip -9
 
 docs/cpm.1.gz: docs/cpm.1
 	@>$@<$< gzip -9
+
+docs/create-cpmdb.1: docs/create-cpmdb.txt
+	txt2man -s 1 -r "create-cpmdb @PACKAGE_VERSION@" -v "User Commands" -t "create-cpmdb" $< > $@
 
 docs/cpm.1: docs/cpm.txt
 	txt2man -s 1 -r "@PACKAGE_TARNAME@ @PACKAGE_VERSION@" -v "User Commands" -t "cpm" $< > $@

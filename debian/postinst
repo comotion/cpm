@@ -20,7 +20,7 @@ set -e
 
 case "$1" in
     configure)
-    dpkg-statoverride --add root root 4755 /usr/bin/cpm
+    dpkg-statoverride --add --update root root 4755 /usr/bin/cpm
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

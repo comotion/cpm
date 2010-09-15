@@ -66,7 +66,7 @@ install: build
 	rm -r debian/cpm/usr/share/doc/cpm/anonymize
 	rm -r debian/cpm/usr/share/doc/cpm/passwordsafe
 	rm debian/cpm/usr/share/cpm/create-cpmdb
-	rm debian/cpm/usr/sbin
+	rm -r debian/cpm/usr/sbin
 
 # Build architecture-independent files here.
 binary-indep: build install

@@ -161,7 +161,8 @@ int gpgCheckSignResult(SHOWERROR_FN showerror_cb, gpgme_sign_result_t result,
         error = 1;
       }
     if (!error &&
-        result -> signatures -> pubkey_algo != GPGME_PK_DSA)
+        (result -> signatures -> pubkey_algo != GPGME_PK_DSA&&
+         result -> signatures -> pubkey_algo != GPGME_PK_RSA))
       {
         snprintf(buffer, STDBUFFERLENGTH,
             _("Wrong pubkey algorithm reported: %i"),

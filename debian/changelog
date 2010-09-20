@@ -1,3 +1,9 @@
+cpm (0.25~beta-3debian1) stable; urgency=low
+
+  * support RSA keys
+
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Mon, 20 Sep 2010 12:31:58 +0000
+
 cpm (0.25~beta-2debian3) stable; urgency=low
 
   * provide create-cpmdb

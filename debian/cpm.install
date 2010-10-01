@@ -1,0 +1,3 @@
+share/cpm/*                usr/share/cpm
+anonymize/cpm2anonymous.pl usr/share/cpm
+

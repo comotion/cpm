@@ -1,1 +1,31 @@
-To setup your cpm database, see /usr/share/cpm scripts.
+               ============================
+                 Console Password Manager
+               ============================
+
+
+Setting it up
+=============
+
+- initialize an empty database
+- add keys to it
+- sign and crypt it
+
+::
+
+  me@mine:~$ create-cpmdb
+
+
+Using it
+========
+
+::
+
+  me@mine:~$ cpm
+
+  - Cursor keys + enter navigates
+  - Ctrl-A Adds
+  - Ctrl-E Edits
+  - Ctrl-P Password generator
+  - Ctrl-K View/edit keys
+
+

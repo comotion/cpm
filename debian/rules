@@ -56,17 +56,8 @@ install: build
 	dh_clean -k 
 	dh_installdirs
 	# Add here commands to install the package into debian/cpm.
-	$(MAKE) prefix=$(CURDIR)/debian/cpm/usr localedir=$(CURDIR)/debian/cpm/usr/share/locale mandir=$(CURDIR)/debian/cpm/usr/share/man install
-	# install the helper scripts
-	cp -a share/cpm debian/cpm/usr/share/cpm
-	cp anonymize/* debian/cpm/usr/share/cpm
+	$(MAKE) DESTDIR=$(CURDIR)/debian/cpm install
 	install -m 644 -T ./conf/cpmrc-default debian/cpm/etc/cpmrc
-	cp conf/cpmrc-default debian/cpm/usr/share/doc/cpm
-	# clean up a bit
-	rm -r debian/cpm/usr/share/doc/cpm/anonymize
-	rm -r debian/cpm/usr/share/doc/cpm/passwordsafe
-	rm debian/cpm/usr/share/cpm/create-cpmdb
-	rm -r debian/cpm/usr/sbin
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -77,9 +68,9 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs 
-	dh_installdocs
+	dh_installdocs -Xanonymize -Xpasswordsafe -Xcpm.pod
 	dh_installexamples
-#	dh_install
+	dh_install --list-missing -Xcreate-cpmdb
 #	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate

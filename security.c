@@ -260,6 +260,31 @@ int checkSecurity(int silent)
       }
     level++;
 
+#if defined(HAVE_CRACKLIB) && defined(CRACKLIB_DICTPATH)
+    struct stat buf;
+
+    if (stat(CRACKLIB_DICTPATH ".pwd", &buf) == -1) {
+        config->cracklibstatus = CRACKLIB_OFF;
+    } else {
+        level++;
+    }
+    
+    if (!silent) {
+        printf("%-50s", _("Cracklib dictionary (" CRACKLIB_DICTPATH"):"));
+      if (config->cracklibstatus == CRACKLIB_ON) {
+          printf("%s%s%s\n", STAT_GREEN, _("yes"), STAT_OFF);
+      } else {
+          printf("%s%s%s\n", STAT_RED, _("no"), STAT_OFF);
+      }
+    }
+#else
+    if (!silent) {
+        printf("%-50s", _("Cracklib dictionary:"));
+        printf("%s%s%s\n", STAT_YELLOW, _("not_"), STAT_OFF);
+    }
+    level++;
+#endif
+
     return level;
   }
 
@@ -309,7 +334,6 @@ int checkSecurity(int silent)
 
 int clearEnvironment(void)
   {
-    int                 i;
     extern char**       environ;
     char*               columns;
     char*               gnupghome;
@@ -355,6 +379,7 @@ int clearEnvironment(void)
 #elif HAVE_UNSETENV
     while (environ && environ[0])
       {
+        int                 i;
         ptr = environ[0];
 
         i = 0;

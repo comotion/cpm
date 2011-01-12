@@ -130,15 +130,6 @@ CRACKLIB_DICTPATH=""
 AC_ARG_WITH(cracklib-dict,
     [  --with-cracklib-dict=FILE  filename of the dictionaries (without extension)],
     [
-      if test ! -f "${withval}.hwm"; then
-        AC_MSG_ERROR([cracklib dictionary ${withval}.hwm does not exist])
-      fi
-      if test ! -f "${withval}.pwd"; then
-        AC_MSG_ERROR([cracklib dictionary ${withval}.pwd does not exist])
-      fi
-      if test ! -f "${withval}.pwi"; then
-        AC_MSG_ERROR([cracklib dictionary ${withval}.pwi does not exist])
-      fi
       CFLAGS="${CFLAGS} -DCRACKLIB_DICTPATH='\"${withval}\"'"
       CRACKLIB_DICTPATH="${withval}"
     ]

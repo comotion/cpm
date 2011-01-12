@@ -533,11 +533,25 @@ char* isGoodPassword(char* password)
   {
     char*               dictionary;
     char*               result;
+    struct stat buf;
 
     TRACE(99, "isGoodPassword()", NULL);
 
+    if (config->cracklibstatus == CRACKLIB_OFF) {
+        return 0;
+    } else {
+        if(stat(CRACKLIB_DICTPATH ".pwd", &buf) == -1) {
+            // dictionary does not exist, or something..
+            printf("Cracklib disabled!\n\n");
+            config->cracklibstatus = CRACKLIB_OFF;
+            return 0;
+        }
+    }
+
     dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
     strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
+
+
 
     result = (char*)FascistCheck(password, dictionary);
 

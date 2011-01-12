@@ -38,15 +38,15 @@ void testEnvironment(void);
 #ifdef __sun__
   /* Solaris does not have the max. memory lock check */
   #ifndef NO_MEMLOCK
-    #define MAX_SECURITY_LEVEL  5
-  #else
-    #define MAX_SECURITY_LEVEL  3
-  #endif
-#else
-  #ifndef NO_MEMLOCK
     #define MAX_SECURITY_LEVEL  6
   #else
     #define MAX_SECURITY_LEVEL  4
+  #endif
+#else
+  #ifndef NO_MEMLOCK
+    #define MAX_SECURITY_LEVEL  7
+  #else
+    #define MAX_SECURITY_LEVEL  5
   #endif
 #endif
 

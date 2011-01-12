@@ -1,3 +1,10 @@
+cpm (0.25~beta-3debian2) stable; urgency=low
+
+  * depends properly on libxml2-utils for import script
+  * check cracklib dictionary on runtime
+
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Wed, 12 Jan 2011 17:14:50 +0100
+
 cpm (0.25~beta-3debian1) stable; urgency=low
 
   * support RSA keys

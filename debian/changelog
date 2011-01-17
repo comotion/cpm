@@ -1,45 +1,5 @@
-cpm (0.25~beta-3debian2) stable; urgency=low
+cpm (0.25-1) unstable; urgency=low
 
-  * depends properly on libxml2-utils for import script
-  * check cracklib dictionary on runtime
+  * Initial release (Closes: #522225, #588526) 
 
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Wed, 12 Jan 2011 17:14:50 +0100
-
-cpm (0.25~beta-3debian1) stable; urgency=low
-
-  * support RSA keys
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Mon, 20 Sep 2010 12:31:58 +0000
-
-cpm (0.25~beta-2debian3) stable; urgency=low
-
-  * provide create-cpmdb
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Wed, 15 Sep 2010 11:59:51 +0000
-
-cpm (0.25~beta-2debian2) stable; urgency=low
-
-  * fix statusbar by using CDK5 define
-  * bump version and grab ownership
-  * provide cpmrc and cpmdb
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Fri, 09 Jul 2010 15:16:54 +0200
-
-cpm (0.25~beta-2debian1) stable; urgency=low
-
-  * debian packaging
-
- -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 17:51:59 +0200
-
-cpm (0.25~beta-2) unstable; urgency=low
-
-  * Console garble fixes
-  * Multiple-key management fixes
-
- -- Kacper Wysocki <kwy@redpill-linpro.com>  Tue, 15 Jun 2010 11:13:44 +0000
-
-cpm (0.25~beta-1) unstable; urgency=low
-
-  * Initial release (Closes: #522225) 
-
- -- Lars Bahner <bahner@debian.org>  Fri, 03 Apr 2009 15:35:31 +0200
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Mon, 17 Jan 2011 17:40:55 +0100

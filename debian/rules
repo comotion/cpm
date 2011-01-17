@@ -1,10 +1,19 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-export DH_VERBOSE=1
-
 %:
 	dh $@
 
 override_dh_auto_configure:
-	./configure --with-cracklib-dict=/var/cache/cracklib/cracklib_dict LDFLAGS="-Wl,-z,defs"
+	dh_auto_configure -- \
+	  --with-cracklib-dict=/var/cache/cracklib/cracklib_dict
+
+override_dh_auto_clean:
+	rm -f debian/cpmrc
+	dh_auto_clean
+
+override_dh_auto_test:
+
+override_dh_auto_install:
+	install -m 0644 $(CURDIR)/conf/cpmrc-default $(CURDIR)/debian/cpmrc
+	dh_auto_install

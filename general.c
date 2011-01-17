@@ -213,43 +213,61 @@ int createBackupfile(char* filename, SHOWERROR_FN showerror_cb)
  * Return         char* containing the password; it must be freed by the caller
  */
 #ifdef HAVE_CRACKLIB
+/* check if the cracklib dictionary exists */
+int dictionaryCheck(void) {
+    if (config->cracklibstatus == CRACKLIB_OFF) {
+        return 0;
+    } else {
+        if(fileExists(CRACKLIB_DICTPATH ".pwd")) {
+            // dictionary does not exist, or something..
+            fprintf(stderr, "Cracklib disabled: missing dictionary.\n");
+            config->cracklibstatus = CRACKLIB_OFF;
+            return 0;
+        }
+    }
+    return 1;
+}
+
 char* createPassword(int length)
-  {
+{
     int                 i = 0;
-    char const*         errormsg;
+    char const*         errormsg = 0;
     char*               dictionary;
     char*               password;
 
     TRACE(99, "createPassword()", NULL);
 
-    dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
-    strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
+    if (dictionaryCheck()) {
+        dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
+        strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
+    } else {
+        dictionary = NULL;
+    }
 
-    while (i++ < 10)
-      {
+    while (i++ < 10) {
         password = createRealPassword(length);
-        errormsg = FascistCheck(password, dictionary);
+        if(dictionary)
+            errormsg = FascistCheck(password, dictionary);
 
-        if (errormsg)
-          {
+        if (errormsg) {
             memFreeString(__FILE__, __LINE__, password);
             password = NULL;
-          }
-        else
-          { break; }
-      }
+        } else {
+            break;
+        }
+    }
 
     memFreeString(__FILE__, __LINE__, dictionary);
 
     return password;
-  }
+}
 #else
 char* createPassword(int length)
-  {
+{
     TRACE(99, "createPassword()", NULL);
 
     return createRealPassword(length);
-  }
+}
 #endif
 
 
@@ -311,10 +329,11 @@ int fileExists(char* filename)
 
     TRACE(99, "fileExists()", NULL);
 
-    if (stat(filename, &filestat))
-      { return 0; }
-    else
-      { return 1; }
+    if (stat(filename, &filestat) == -1) {
+        return 0;
+    } else {
+        return 1;
+    }
   }
 
 
@@ -519,6 +538,7 @@ int fileLockRemove(char** errormsg)
   }
 
 
+
 /* #############################################################################
  *
  * Description    validate the given password and return the cracklib
@@ -530,42 +550,30 @@ int fileLockRemove(char** errormsg)
  */
 #ifdef HAVE_CRACKLIB
 char* isGoodPassword(char* password)
-  {
+{
     char*               dictionary;
     char*               result;
-    struct stat buf;
 
     TRACE(99, "isGoodPassword()", NULL);
-
-    if (config->cracklibstatus == CRACKLIB_OFF) {
-        return 0;
-    } else {
-        if(stat(CRACKLIB_DICTPATH ".pwd", &buf) == -1) {
-            // dictionary does not exist, or something..
-            printf("Cracklib disabled!\n\n");
-            config->cracklibstatus = CRACKLIB_OFF;
-            return 0;
-        }
+    if(!dictionaryCheck()) {
+        return NULL;
     }
 
     dictionary = memAlloc(__FILE__, __LINE__, strlen(CRACKLIB_DICTPATH) + 1);
     strStrncpy(dictionary, CRACKLIB_DICTPATH, strlen(CRACKLIB_DICTPATH) + 1);
 
-
-
     result = (char*)FascistCheck(password, dictionary);
-
     memFreeString(__FILE__, __LINE__, dictionary);
 
     return result;
-  }
+}
 #else
 char* isGoodPassword(char* password)
-  {
+{
     TRACE(99, "isGoodPassword()", NULL);
 
     return NULL;
-  }
+}
 #endif
 
 

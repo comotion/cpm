@@ -170,7 +170,11 @@ int gpgCheckSignResult(SHOWERROR_FN showerror_cb, gpgme_sign_result_t result,
         error = 1;
       }
     if (!error &&
-        result -> signatures -> hash_algo != GPGME_MD_SHA1)
+        result -> signatures -> hash_algo != GPGME_MD_SHA1 &&
+        result -> signatures -> hash_algo != GPGME_MD_SHA256 &&
+        result -> signatures -> hash_algo != GPGME_MD_SHA384 &&
+        result -> signatures -> hash_algo != GPGME_MD_SHA512
+        )
       {
         switch (result -> signatures -> hash_algo)
           {

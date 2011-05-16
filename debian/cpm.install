@@ -1,3 +1,9 @@
-share/cpm/*                usr/share/cpm
 anonymize/cpm2anonymous.pl usr/share/cpm
-
+debian/cpmrc               etc
+share/cpm/convert2cpm.sh   usr/share/cpm
+share/cpm/cpmdb.dtd        usr/share/cpm
+share/cpm/csv2cpm.pl       usr/share/cpm
+share/cpm/general          usr/share/cpm
+share/cpm/import.sh        usr/share/cpm
+share/cpm/passwordsafe     usr/share/cpm
+share/cpm/pms              usr/share/cpm

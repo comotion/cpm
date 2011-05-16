@@ -1,3 +1,30 @@
+cpm (0.26) unstable; urgency=medium
+  * support SHA256, SHA384 and SHA512 hashing algorithms
+  * conversion failed for empty string
+
+ -- Kacper Wysocki <kwy@redpill-linpro.com>  Mon, 16 May 2011 13:48:41 +0100
+
+cpm (0.25) unstable; urgency=medium
+  * depends properly on libxml2-utils for import script
+  * check cracklib dictionary on runtime
+  * adopted orphaned package
+  * support RSA keys
+  * Usability:
+    + reset the terminal when quitting
+    + update dialog when adding/deleting encryption keys
+    + max compression
+    + provide create-cpmdb
+  * Bugs:
+    + fix statusbar by using CDK5 define
+    + Multiple-key management fixes
+    + bump version and grab ownership
+    + bugfix: missing arg to creat
+    + fix gettext on install
+    + handle manpages sanely
+    + better key error handling
+
+ -- Kacper Wysocki <kwy@redpill-linpro.com>  Wed Jan 12 17:14:27 2011 +0100
+
 cpm (0.25beta) unstable; urgency=medium
   * Security
     + The result of the cleanenv() call was not used for further error

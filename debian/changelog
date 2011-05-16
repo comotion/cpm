@@ -1,3 +1,10 @@
+cpm (0.26-1) unstable; urgency=low
+
+  * Support SHA256, SHA384 and SHA512 (Closes: #626783)
+  * Bugfix for conversion failure.
+
+ -- Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>  Mon, 16 May 2011 14:25:07 +0200
+
 cpm (0.25-1) unstable; urgency=low
 
   * Initial release (Closes: #522225, #588526) 

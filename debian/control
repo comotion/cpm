@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>
 Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5-dev, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, txt2man
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Vcs-Git: git://github.com/comotion/cpm.git
 Vcs-Browser: https://github.com/comotion/cpm
 Homepage: http://github.com/comotion/cpm

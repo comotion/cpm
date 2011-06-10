@@ -1,4 +1,4 @@
-cpm (0.26-1) UNRELEASED; urgency=low
+cpm (0.26-1) unstable; urgency=low
 
   [ Kacper Wysocki (Redpill-Linpro) ]
   * Support SHA256, SHA384 and SHA512 (Closes: #626783)
@@ -8,7 +8,7 @@ cpm (0.26-1) UNRELEASED; urgency=low
   * Revert upstream l10n metadata change committed to the debian branch
   * Bump Standards-Version (no changes)
 
- -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 10 Jun 2011 15:37:01 +0200
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 10 Jun 2011 15:45:32 +0200
 
 cpm (0.25-1) unstable; urgency=low
 

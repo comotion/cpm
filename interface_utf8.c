@@ -70,6 +70,9 @@ char* convert(int direction, char* instring)
     insize = strlen((char*)instring) + 1;
     outsize = insize * 2 - 1;
     convertbuffer = memAlloc(__FILE__, __LINE__, outsize);
+    // (xml)encodingHandler doesn't handle empty strings
+    if(insize == 1)
+       return convertbuffer;
 
     tmp = insize - 1;
     if (direction)

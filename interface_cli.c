@@ -164,7 +164,7 @@ int cliInterface(void)
     if (!initUTF8Encoding(config -> encoding))
       {
         fprintf(stderr, _("error: %s\n"),
-            _("failed to initialize the character encoding."));
+            _("cli failed to initialize the character encoding."));
         exit(1);
       }
 

@@ -340,6 +340,8 @@ int clearEnvironment(void)
     char*               gpg_agent_info;
     char*               home;
     char*               lang;
+    char*               lc;
+    char*               lcm;
     char*               lines;
     char*               no_utf8_acs;
     char*               term;
@@ -360,6 +362,10 @@ int clearEnvironment(void)
     home = getenv("HOME");
     /* Flawfinder: ignore */
     lang = getenv("LANG");
+    /* Flawfinder: ignore */
+    lc = getenv("LC_ALL");
+    /* Flawfinder: ignore */
+    lcm = getenv("LC_MESSAGES");
     /* Flawfinder: ignore */
     lines = getenv("LINES");
     /* Flawfinder: ignore */
@@ -410,6 +416,8 @@ int clearEnvironment(void)
 
     /* general */
     PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LANG=", lang);
+    PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LC_ALL=", lc);
+    PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LC_MESSAGES=", lcm);
     PutEnv(eptr, ptr, STRTYPE_FILENAME, "HOME=", home);
 
     /* terminal */

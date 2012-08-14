@@ -32,7 +32,7 @@ void listEnvironment(void);
 void testEnvironment(void);
 
 #ifndef MEMLOCK_LIMIT
-  #define MEMLOCK_LIMIT 5120
+  #define MEMLOCK_LIMIT 512
 #endif
 
 #ifdef __sun__

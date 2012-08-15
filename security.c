@@ -24,6 +24,7 @@
 /* #############################################################################
  * includes
  */
+#include <sys/utsname.h>
 #include "cpm.h"
 #include <sys/ptrace.h>
 #include <sys/prctl.h>
@@ -344,6 +345,8 @@ int clearEnvironment(void)
     char*               gpg_agent_info;
     char*               home;
     char*               lang;
+    char*               lc;
+    char*               lcm;
     char*               lines;
     char*               no_utf8_acs;
     char*               term;
@@ -364,6 +367,10 @@ int clearEnvironment(void)
     home = getenv("HOME");
     /* Flawfinder: ignore */
     lang = getenv("LANG");
+    /* Flawfinder: ignore */
+    lc = getenv("LC_ALL");
+    /* Flawfinder: ignore */
+    lcm = getenv("LC_MESSAGES");
     /* Flawfinder: ignore */
     lines = getenv("LINES");
     /* Flawfinder: ignore */
@@ -414,6 +421,8 @@ int clearEnvironment(void)
 
     /* general */
     PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LANG=", lang);
+    PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LC_ALL=", lc);
+    PutEnv(eptr, ptr, STRTYPE_ALPHANUMERIC, "LC_MESSAGES=", lcm);
     PutEnv(eptr, ptr, STRTYPE_FILENAME, "HOME=", home);
 
     /* terminal */
@@ -432,6 +441,29 @@ int clearEnvironment(void)
 
 #undef PutEnv
 
+int check_kernel_version()
+{
+  struct utsname uts;
+  if(uname(&uts) == -1){
+    fprintf(stderr, "%s (%s, %d)\n",
+            _("Failed to discover kernel version."),
+            strerror(errno), errno);
+  }else if(!strncmp(uts.sysname, "Linux", 5)){
+    int maj,min,rel;
+    if(sscanf(uts.release, "%d.%d.%d", &maj, &min, &rel) != 3) {
+      fprintf(stderr, "%s (%s, %d)\n",
+              _("Failed to scan kernel release."),
+              strerror(errno),errno);
+    }else{
+      //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
+      if(maj > 2 ||
+        (maj == 2 && min > 6) ||
+        (maj == 2 && min == 6 && rel >= 9))
+        return 1;
+    }
+  }
+  return 0;
+}
 
 /* #############################################################################
  *
@@ -448,9 +480,6 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     rlim_t* memlock_limit)
   {
     struct rlimit       rl;
-#ifdef __linux__
-    rlim_t              rl_old;
-#endif
     int                 canary;
 #ifndef NO_MEMLOCK
 #ifdef HAVE_MLOCKALL
@@ -476,86 +505,105 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     setfsgid(getgid());
 #endif
 
-  if (!geteuid())
-    {   /* the process is (suid) root. mlockall() can be used to
-         * avoid swapping
-         */
+  /* mlockall() can be used to avoid swapping
+   * check if rlimits are fungible 
+   * >= 2.6.9: privileged users dont get limited, regular users get limit
+   * <  2.6.9: users cant mlock, privileged users can lock up to mlock limit
+   */
+  int euid = geteuid();
 #ifndef NO_MEMLOCK
 #ifdef HAVE_MLOCKALL
 #ifdef __linux__
-      /* check if our max memory lock size is acceptable */
-      if (getrlimit(RLIMIT_MEMLOCK, &rl) == -1)
-        {
-          fprintf(stderr, "%s (%s, %d)\n",
-              _("Can not read RLIMIT_MEMLOCK resources."),
-              strerror(errno),
-              errno
-              );
-          return 1;
-        }
+  int user_can_mlock = check_kernel_version();
+  if(getrlimit(RLIMIT_MEMLOCK, &rl) == -1){
+    fprintf(stderr, "getting memlock limits:%s\n",
+            strerror(errno));
+  }else{
+    int orig_limit = rl.rlim_cur;
 
-      /* we try to raise the current limit to the maximum, in case it */
-      /* is not there yet. */
-      /* This patch was provided by Kurt Neufeld */
-      /* <kneufeld at burgundywall.com> */
-      if(rl.rlim_cur < rl.rlim_max)
-        {
-          fprintf(stderr, _("Max. memory lock, curr: %d kB, max: %d kB\n"),
-              (int)rl.rlim_cur / 1024, (int)rl.rlim_max / 1024);
-          fprintf(stderr, _("Attempting to set limit to: %d kB"),
-              (int)rl.rlim_max / 1024);
-
-          rl_old = rl.rlim_cur;
+    if(user_can_mlock){
+      // 2.6.9
+      int do_setrlim = 0;
+      if(rl.rlim_cur == -1){
+        // unlimited
+        *max_mem_lock = 1;
+      }else if(!euid){
+        // root
+        rl.rlim_max = -1;
+        rl.rlim_cur = -1;
+        do_setrlim = 1;
+      }else if(
+        rl.rlim_max >= MEMLOCK_LIMIT * 1024){
+        // we have enough
+        if(rl.rlim_cur < rl.rlim_max){
           rl.rlim_cur = rl.rlim_max;
-          if (setrlimit(RLIMIT_MEMLOCK, &rl) < 0)
-            {
-              rl.rlim_cur = rl_old;
-              fprintf(stderr, _(" %sfailed%s\n"), STAT_RED, STAT_OFF);
-              fprintf(stderr, _("Unable to increase the limit to: %d kB"),
-                  (int)rl.rlim_max / 1024);
-            }
-          else
-            {
-              fprintf(stderr, _(" %ssuccess%s\n"), STAT_GREEN, STAT_OFF);
-            }
-        }
-
-      *memlock_limit = rl.rlim_cur;
-      if (rl.rlim_cur == -1 || rl.rlim_cur >= MEMLOCK_LIMIT * 1024)
-        {   /* we only lock memory if the limit is high enough */
+          do_setrlim = 1;
+        }else{
           *max_mem_lock = 1;
-
-          /* lock the memory */
-          result = mlockall(MCL_CURRENT | MCL_FUTURE);
-          if (result)
-            {
-              fprintf(stderr, "%s\n",
-                  _("The process is suid root, but memory paging can't be locked.")
-                  );
-              return 1;
-            }
-          else
-            { *memory_safe = 1; }
         }
-#elif __sun__
-      /* we dont have any limit, so locking should always work */
-      *max_mem_lock = 1;
-
-      /* lock the memory */
+      }
+      if(do_setrlim){
+        if(setrlimit(RLIMIT_MEMLOCK, &rl) == -1){
+          fprintf(stderr, "setting memlock limits:%s\n",
+                  strerror(errno));
+          rl.rlim_cur = orig_limit;
+        }else{
+          *max_mem_lock = 1;
+        }
+      }
+    }else if(!euid){ // <2.6.9, user cant mlock but we are root
+      // root can mlock and raise up to max, but has to obey
+      if( rl.rlim_max >= MEMLOCK_LIMIT * 1024){
+        // we have enough
+        if(rl.rlim_cur == rl.rlim_max) {
+          *max_mem_lock = 1;
+        }else{
+          // raise to max
+          rl.rlim_cur = rl.rlim_max;
+          if(setrlimit(RLIMIT_MEMLOCK, &rl) == -1){
+            fprintf(stderr, "root setting memlock limits:%s\n",
+                    strerror(errno));
+            rl.rlim_cur = orig_limit;
+          }else{
+            *max_mem_lock = 1;
+          }
+        }
+      }
+    }
+    *memlock_limit = rl.rlim_cur;
+    if(*max_mem_lock){
+      /* pointcut: limit is ok, do the memlock */
       result = mlockall(MCL_CURRENT | MCL_FUTURE);
-      if (result)
-        {
-          fprintf(stderr, "%s\n",
-              _("The process is suid root, but memory paging can't be locked.")
-              );
-          return 1;
-        }
-      else
-        { *memory_safe = 1; }
-#endif
-#endif
-#endif
+      if(result){
+        fprintf(stderr, "memlock:%s\n",
+                strerror(errno));
+        return 1;
+      }else{
+        *memory_safe = 1; // win!
+      }
+    }
+  }
+#elif __sun__
+  if(!euid){ 
+    /* not so much root, actually it's more like PRIV_SYS_CONFIG, but
+     * well cross that bridge when we reach it.
+     * we dont have any limit, so locking should always work */
+    *max_mem_lock = 1;
 
+    /* lock the memory */
+    result = mlockall(MCL_CURRENT | MCL_FUTURE);
+    if (result) {
+      fprintf(stderr, "%s\n",
+              _("The process is suid root, but memory paging can't be locked."));
+      return 1;
+    } else {
+      *memory_safe = 1;
+    }
+  }
+#endif
+#endif
+#endif
+    if(!euid){
       /* drop root privileges */
       setuid(getuid());
       setuid(getuid());

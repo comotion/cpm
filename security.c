@@ -495,6 +495,46 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     *memory_safe = 0;
     *ptrace_safe = 0;
 
+#ifdef _SYS_PTRACE_H
+    /* Try to fork a child which then ptrace attaches to it's parent
+     * This will safely prevent other processes (even root) to be able to attach to us */
+    {
+       pid_t p0, p;
+       int status;
+
+       p0 = getpid();
+       p = fork();
+       if (p == -1) {
+           fprintf(stderr, "Could not fork: %s\n", strerror(errno));
+           _exit(1);
+       }
+
+       if (p == 0) {
+           // makes the child unattachable
+           if (prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) != 0) {
+               fprintf(stderr, "Can not set child non dumpable\n");
+               _exit(1);
+           }
+
+           if (ptrace(PTRACE_ATTACH, p0, 0, 0) != 0) {
+               // someone is already attached to us; shoot the parent in the head
+               fprintf(stderr, "Can't attach to parent!\n");
+               kill(p0, SIGKILL);
+               _exit(1);
+           }
+           while (1) {
+               if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
+                   waitpid(p0, &status, 0);
+           }
+
+           _exit(0);
+       }
+
+       *ptrace_safe = 1;
+    }
+#endif
+
+
     /* drop eventual group root privileges; this must be done twice to
      * counter "saved IDs" see Secure Programming HowTo
      */
@@ -625,45 +665,6 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
 
       *ptrace_safe = 1;
     }
-
-#ifdef _SYS_PTRACE_H
-    /* Try to fork a child which then ptrace attaches to it's parent
-     * This will safely prevent other processes (even root) to be able to attach to us */
-    {
-       pid_t p0, p;
-       int status;
-
-       p0 = getpid();
-       p = fork();
-       if (p == -1) {
-           fprintf(stderr, "Could not fork: %s\n", strerror(errno));
-           _exit(1);
-       }
-
-       if (p == 0) {
-           // makes the child unattachable
-           if (prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) != 0) {
-               fprintf(stderr, "Can not set child non dumpable\n");
-               _exit(1);
-           }
-
-           if (ptrace(PTRACE_ATTACH, p0, 0, 0) != 0) {
-               // someone is already attached to us; shoot the parent in the head
-               fprintf(stderr, "Can't attach to parent!\n");
-               kill(p0, SIGKILL);
-               _exit(1);
-           }
-           while (1) {
-               if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
-                   waitpid(p0, &status, 0);
-           }
-
-           _exit(0);
-       }
-
-       *ptrace_safe = 1;
-    }
-#endif
 
 #ifdef HAVE_SYS_FSUID_H
     if (getuid() && (!setgid(0) || !setfsgid(0)))

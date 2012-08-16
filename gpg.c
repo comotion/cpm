@@ -979,6 +979,8 @@ int gpgGetRecipients(gpgme_recipient_t recipients,
                 _("unknown recipient id %s"), recipient -> keyid);
             (showerror_cb)(_("GpgMe recipient error"), tmpbuffer);
             memFree(__FILE__, __LINE__, tmpbuffer, STDBUFFERLENGTH);
+            /* user shouldn't write db when she is missing keys */
+            runtime->readonly = 1;
           }
 
         recipient = recipient -> next;

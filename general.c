@@ -220,7 +220,7 @@ int dictionaryCheck(void) {
     } else {
         if(fileExists(CRACKLIB_DICTPATH ".pwd")) {
             // dictionary does not exist, or something..
-            fprintf(stderr, "Cracklib disabled: missing dictionary.\n");
+            fprintf(stderr, "Cracklib disabled: missing dictionary. Get cracklib and run create-cracklib-dict\n");
             config->cracklibstatus = CRACKLIB_OFF;
             return 0;
         }

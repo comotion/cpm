@@ -525,6 +525,9 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
            while (1) {
                if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
                    waitpid(p0, &status, 0);
+               if(errno == ESRCH && kill(p0, 0) == -1)
+                   exit(0); // parent is dead
+
            }
 
            _exit(0);

@@ -26,8 +26,10 @@
  */
 #include <sys/utsname.h>
 #include "cpm.h"
+#if defined(HAVE_SYS_PRCTL_H)
 #include <sys/ptrace.h>
 #include <sys/prctl.h>
+#endif
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <regex.h>
@@ -510,20 +512,22 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
        }
 
        if (p == 0) {
+#if defined(HAVE_SYS_PRCTL_H)
            // makes the child unattachable
            if (prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) != 0) {
                fprintf(stderr, "Can not set child non dumpable\n");
                _exit(1);
            }
+#endif
 
-           if (ptrace(PTRACE_ATTACH, p0, 0, 0) != 0) {
+           if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {
                // someone is already attached to us; shoot the parent in the head
                fprintf(stderr, "Can't attach to parent!\n");
                kill(p0, SIGKILL);
                _exit(1);
            }
            while (1) {
-               if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
+               if(ptrace(PT_SYSCALL, p0, 0, 0) == 0)
                    waitpid(p0, &status, 0);
                if(errno == ESRCH && kill(p0, 0) == -1)
                    exit(0); // parent is dead

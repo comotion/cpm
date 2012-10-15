@@ -372,6 +372,7 @@ AC_SUBST(LIBGPGME_CFLAGS)
 AC_MSG_NOTICE([checking header files])
 AC_HEADER_STDC
 AC_CHECK_HEADERS([fcntl.h getopt.h libintl.h locale.h stdlib.h sys/fsuid.h sys/ioctl.h termios.h])
+AC_CHECK_HEADERS(sys/prctl.h)
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_MSG_NOTICE([checking typedefs, structures, and compiler characteristics])

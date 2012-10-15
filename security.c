@@ -516,14 +516,14 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
                _exit(1);
            }
 
-           if (ptrace(PTRACE_ATTACH, p0, 0, 0) != 0) {
+           if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {
                // someone is already attached to us; shoot the parent in the head
                fprintf(stderr, "Can't attach to parent!\n");
                kill(p0, SIGKILL);
                _exit(1);
            }
            while (1) {
-               if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
+               if(ptrace(PT_SYSCALL, p0, 0, 0) == 0)
                    waitpid(p0, &status, 0);
                if(errno == ESRCH && kill(p0, 0) == -1)
                    exit(0); // parent is dead

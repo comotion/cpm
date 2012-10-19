@@ -432,6 +432,7 @@ int getInfodataLength(void)
         return max_x;
     else
         return STDBUFFERLENGTH;
+    (void)max_y; // remove unused var warning
   }
 
 
@@ -1337,6 +1338,7 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
     while (!done);
 
     return 1;
+    (void) selection; // unused
   }
 
 

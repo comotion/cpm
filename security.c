@@ -24,8 +24,9 @@
 /* #############################################################################
  * includes
  */
-#include <sys/utsname.h>
+
 #include "cpm.h"
+#include <sys/utsname.h>
 #if defined(HAVE_SYS_PRCTL_H)
 #include <sys/ptrace.h>
 #include <sys/prctl.h>
@@ -497,7 +498,7 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     *memory_safe = 0;
     *ptrace_safe = 0;
 
-#ifdef _SYS_PTRACE_H
+#if defined(_SYS_PTRACE_H) && !defined(TRACE_DEBUG)
     /* Try to fork a child which then ptrace attaches to it's parent
      * This will safely prevent other processes (even root) to be able to attach to us */
     {

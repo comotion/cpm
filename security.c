@@ -716,10 +716,9 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     /* NOTE: no file must be opened before this test! */
     canary = dup(0);
     close(canary);
-    if (canary != 3)
+    if (canary < 3)
       {
-        fprintf(stderr, "%s\n",
-            _("stdin, stdout and/or stderr are invalid."));
+        fprintf(stderr, "%s\n", _("stdin, stdout and/or stderr are invalid."));
         return 1;
       }
 

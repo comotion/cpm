@@ -432,6 +432,7 @@ int getInfodataLength(void)
         return max_x;
     else
         return STDBUFFERLENGTH;
+    (void)max_y; // remove unused var warning
   }
 
 
@@ -1337,6 +1338,7 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
     while (!done);
 
     return 1;
+    (void) selection; // unused
   }
 
 
@@ -2026,7 +2028,7 @@ void interfaceLoop(void)
             nodenames = xmlInterfaceGetNames();
             nodes = listCount(nodenames);
 
-            listwidget[id] = newCDKAlphalist(cdkscreen, CENTER, 0,
+            listwidget[id] = newCDKAlphalist(cdkscreen, RIGHT, 0,
 #ifdef CDK_VERSION_5
                 LINES - infobox -> boxHeight - 1, 0,
 #else
@@ -2281,7 +2283,7 @@ void userInterface(void)
     if (!initUTF8Encoding(config -> encoding))
       {
         destroyScreen(__LINE__,
-            _("failed to initialize the character encoding."));
+            _("gui failed to initialize the character encoding."));
       }
 
     if (xmlDataFileRead(runtime -> dbfile, &errormsg, guiDialogPassphrase,

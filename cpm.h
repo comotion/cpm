@@ -30,6 +30,12 @@
 #include "config.h"
 #define _GNU_SOURCE
 
+#ifdef HAVE_STDLIB_H
+  #ifndef _SVID_SOURCE
+   #define _SVID_SOURCE
+  #endif
+  #include <stdlib.h>
+#endif
 #include <errno.h>
 #ifdef HAVE_FCNTL_H
   #include <fcntl.h>
@@ -43,9 +49,6 @@
 #endif
 #include <signal.h>
 #include <stdio.h>
-#ifdef HAVE_STDLIB_H
-  #include <stdlib.h>
-#endif
 #ifdef HAVE_STRINGS_H
   #include <string.h>
 #endif

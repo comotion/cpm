@@ -60,6 +60,8 @@ char* convert(int direction, char* instring)
 
     if (!instring)
         return NULL;
+    if (!encodingHandler || !encodingHandler->output)
+       return instring; // NULL handler, return instring
 
     if (convertbuffer)
       {
@@ -70,6 +72,11 @@ char* convert(int direction, char* instring)
     insize = strlen((char*)instring) + 1;
     outsize = insize * 2 - 1;
     convertbuffer = memAlloc(__FILE__, __LINE__, outsize);
+    // (xml)encodingHandler doesn't handle empty strings
+    if(insize == 1){
+       convertbuffer[0] = '\0';
+       return convertbuffer;
+    }
 
     tmp = insize - 1;
     if (direction)
@@ -105,9 +112,7 @@ char* convert(int direction, char* instring)
 
 /* #############################################################################
  *
- * Description    convert the given string to the terminal display type (latin1)
- * Author         Harry Brueckner
- * Date           2005-07-01
+ * Description    convert the given string to the terminal display type
  * Arguments      char* instring  - string to convert
  * Return         converted string
  */
@@ -180,13 +185,22 @@ int initUTF8Encoding(char* encoding)
     /* we first try to find the encode by it's name */
     encoder = xmlParseCharEncoding(encoding);
     if (encoder <= 0)
-      { return 0; }
+      {fprintf(stderr,"parse char\n"); return 0; }
 
     /* and then load it by using it's id */
     encodingHandler = xmlGetCharEncodingHandler(encoder);
 
-    if (!encodingHandler)
-      { return 0; }
+    if (!encodingHandler) {
+        switch(encoder) {
+            case XML_CHAR_ENCODING_NONE:
+            case XML_CHAR_ENCODING_UTF8:
+                // null handler, no encoder.
+                return 1;
+            default:
+                fprintf(stderr,"Failed to init character handler.\n"); 
+                return 0;
+        }
+    }
 
     tmp = convert(0, TSTRING);
     if (tmp)

@@ -601,3 +601,6 @@ tar: clean gettext man permissions
 
 # ##############################################################################
 
+.PHONY: tags
+tags: 
+	ctags -R .

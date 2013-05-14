@@ -240,7 +240,7 @@ argument.
     the case e.g. on Gentoo and SuSE systems.
     In this case the limit is set to something like 32k which you can see using
     the command 'ulimit -l'. The interesting part of it's output is the line
-    'max locked memory' - it should be at least 5120k.
+    'max locked memory' - it should be at least 32M due to buffer bloat.
     I have no idea why this limit is used at all (except for some special
     purpose machines) and especially at this low limit. If anyone has an idea
     why it is used and set to such a small value please send me an email.

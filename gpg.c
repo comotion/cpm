@@ -239,7 +239,7 @@ int gpgCheckSignResult(SHOWERROR_FN showerror_cb, gpgme_sign_result_t result,
       }
 
     if (error)
-      { showerror_cb(_("GpgMe error"), buffer); }
+      { showerror_cb(_("GpgMe sign error"), buffer); }
 
     memFree(__FILE__, __LINE__, buffer, STDBUFFERLENGTH);
 
@@ -352,7 +352,7 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
       }
 
     if (error)
-      { showerror_cb(_("GpgMe error"), buffer); }
+      { showerror_cb(_("GpgMe verify error"), buffer); }
 
     memFree(__FILE__, __LINE__, buffer, STDBUFFERLENGTH);
 
@@ -567,7 +567,7 @@ int gpgDecrypt(char* buffer, int size, char** newbuffer, int* newsize,
     error = gpgme_new(&context);
     if (error)
       {
-        (showerror_cb)(_("GpgMe error"), gpgme_strerror(error));
+        (showerror_cb)(_("GpgMe context error"), gpgme_strerror(error));
         return 1;
       }
     else
@@ -643,7 +643,7 @@ int gpgDecrypt(char* buffer, int size, char** newbuffer, int* newsize,
     if (error)
       {
         if (showerror)
-          { (showerror_cb)(_("GpgMe error"), gpgme_strerror(error)); }
+          { (showerror_cb)(_("GpgMe decrypt error"), gpgme_strerror(error)); }
         return 1;
       }
     else
@@ -808,7 +808,7 @@ int gpgEncrypt(char* buffer, int size, char** newbuffer, int* newsize,
     if (error)
       {
         if (showerror)
-          { (showerror_cb)(_("GpgMe error"), gpgme_strerror(error)); }
+          { (showerror_cb)(_("GpgMe encrypt error"), gpgme_strerror(error)); }
         return 1;
       }
     else
@@ -977,8 +977,10 @@ int gpgGetRecipients(gpgme_recipient_t recipients,
             tmpbuffer = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
             snprintf(tmpbuffer, STDBUFFERLENGTH,
                 _("unknown recipient id %s"), recipient -> keyid);
-            (showerror_cb)(_("GpgMe error"), tmpbuffer);
+            (showerror_cb)(_("GpgMe recipient error"), tmpbuffer);
             memFree(__FILE__, __LINE__, tmpbuffer, STDBUFFERLENGTH);
+            /* user shouldn't write db when she is missing keys */
+            runtime->readonly = 1;
           }
 
         recipient = recipient -> next;

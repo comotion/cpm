@@ -1,8 +1,8 @@
-cpm (0.28-1) UNRELEASED; urgency=low
+cpm (0.28-1) unstable; urgency=low
 
   * New upstream release
 
- -- Stig Sandbeck Mathisen <ssm@debian.org>  Tue, 14 May 2013 15:52:06 +0200
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Tue, 14 May 2013 16:31:20 +0200
 
 cpm (0.26-1) unstable; urgency=low
 

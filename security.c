@@ -24,10 +24,13 @@
 /* #############################################################################
  * includes
  */
-#include <sys/utsname.h>
+
 #include "cpm.h"
+#include <sys/utsname.h>
+#if defined(HAVE_SYS_PRCTL_H)
 #include <sys/ptrace.h>
 #include <sys/prctl.h>
+#endif
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <regex.h>
@@ -495,7 +498,7 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     *memory_safe = 0;
     *ptrace_safe = 0;
 
-#ifdef _SYS_PTRACE_H
+#if defined(_SYS_PTRACE_H) && !defined(TRACE_DEBUG)
     /* Try to fork a child which then ptrace attaches to it's parent
      * This will safely prevent other processes (even root) to be able to attach to us */
     {
@@ -510,20 +513,22 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
        }
 
        if (p == 0) {
+#if defined(HAVE_SYS_PRCTL_H)
            // makes the child unattachable
            if (prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) != 0) {
                fprintf(stderr, "Can not set child non dumpable\n");
                _exit(1);
            }
+#endif
 
-           if (ptrace(PTRACE_ATTACH, p0, 0, 0) != 0) {
+           if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {
                // someone is already attached to us; shoot the parent in the head
                fprintf(stderr, "Can't attach to parent!\n");
                kill(p0, SIGKILL);
                _exit(1);
            }
            while (1) {
-               if(ptrace(PTRACE_SYSCALL, p0, 0, 0) == 0)
+               if(ptrace(PT_SYSCALL, p0, 0, 0) == 0)
                    waitpid(p0, &status, 0);
                if(errno == ESRCH && kill(p0, 0) == -1)
                    exit(0); // parent is dead
@@ -711,10 +716,9 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
     /* NOTE: no file must be opened before this test! */
     canary = dup(0);
     close(canary);
-    if (canary != 3)
+    if (canary < 3)
       {
-        fprintf(stderr, "%s\n",
-            _("stdin, stdout and/or stderr are invalid."));
+        fprintf(stderr, "%s\n", _("stdin, stdout and/or stderr are invalid."));
         return 1;
       }
 

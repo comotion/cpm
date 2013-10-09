@@ -383,7 +383,6 @@ void initXMLInterface(void)
 xmlNode* nodeFind(char* label)
   {
     xmlNode*            curnode;
-    xmlNode*            newnode;
     char*               prop;
 
     TRACE(99, "nodeFind()", NULL);
@@ -392,7 +391,6 @@ xmlNode* nodeFind(char* label)
       { return 0; }
 
     curnode = xmlwalklist[level - 1] -> children;
-    newnode = NULL;
     while (curnode)
       {
         if (curnode -> type == XML_ELEMENT_NODE &&

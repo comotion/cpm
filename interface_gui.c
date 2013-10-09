@@ -1843,6 +1843,7 @@ int initializeScreen(void)
     cdkscreen = NULL;
 
     /* initialize ncurses */
+    clear_screen();
     curseswin = initscr();
     if (!curseswin)
       { return 1; }

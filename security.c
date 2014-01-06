@@ -454,9 +454,14 @@ int check_kernel_version()
   }else if(!strncmp(uts.sysname, "Linux", 5)){
     int maj,min,rel;
     if(sscanf(uts.release, "%d.%d.%d", &maj, &min, &rel) != 3) {
-      fprintf(stderr, "%s (%s, %d)\n",
-              _("Failed to scan kernel release."),
-              strerror(errno),errno);
+      // maybe it's a 3.10-rc3 release.
+      if(sscanf(uts.release, "%d.%d", &maj, &min) != 2) {
+         fprintf(stderr, "%s (%s, %d)\n",
+                 _("Failed to scan kernel release."),
+                 strerror(errno),errno);
+         return 0;
+      }
+      rel = 9; // instead of passing garbage
     }else{
       //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
       if(maj > 2 ||

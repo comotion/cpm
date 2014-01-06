@@ -521,6 +521,11 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
            }
 #endif
 
+// kFreeBSD wants PT_*, while SPARC doesn't have these
+#if !defined(PT_ATTACH)
+#define PT_ATTACH PTRACE_ATTACH
+#define PT_SYSCALL PTRACE_SYSCALL
+#endif
            if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {
                // someone is already attached to us; shoot the parent in the head
                fprintf(stderr, "Can't attach to parent!\n");

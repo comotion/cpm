@@ -1,3 +1,9 @@
+cpm (0.29-1) UNRELEASED; urgency=medium
+
+  * Imported upstream release 0.29
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 12 Feb 2014 14:12:36 +0100
+
 cpm (0.28-1) unstable; urgency=low
 
   * New upstream release

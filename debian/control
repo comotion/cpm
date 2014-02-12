@@ -15,7 +15,7 @@ Build-Depends:
  libxml2-dev,
  txt2man,
  zlib1g-dev,
-Standards-Version: 3.9.2
+Standards-Version: 3.9.5
 Vcs-Git: git://github.com/comotion/cpm.git
 Vcs-Browser: https://github.com/comotion/cpm
 Homepage: http://github.com/comotion/cpm

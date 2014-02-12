@@ -1,8 +1,12 @@
-cpm (0.29-1) UNRELEASED; urgency=medium
+cpm (0.29-1) unstable; urgency=medium
 
   * Imported upstream release 0.29
+  * [0bf769c] Enable parallel building
+  * [4ed615d] Bump standards version (no changes)
+  * [7ab4ba5] Use dh-autoreconf when building
+  * [05230c4] Build with hardening flags
 
- -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 12 Feb 2014 14:12:36 +0100
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 12 Feb 2014 19:23:56 +0100
 
 cpm (0.28-1) unstable; urgency=low
 

@@ -533,7 +533,7 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
 #endif
            if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {
                // someone is already attached to us; 
-               fprintf(stderr, "Can't attach to parent! Ptrace safety *not* obtained!\n");
+               fprintf(stderr, "Warning: Can't attach to parent, ptrace safety *not* obtained!\n");
                // shoot the parent in the head
                // kill(p0, SIGKILL);
                _exit(1);

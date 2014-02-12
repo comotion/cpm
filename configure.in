@@ -3,7 +3,7 @@
 
 AC_MSG_NOTICE([general setup])
 AC_PREREQ(2.59)
-AC_INIT(cpm, 0.28, kwy@redpill-linpro.com)
+AC_INIT(cpm, 0.29, kwy@redpill-linpro.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 

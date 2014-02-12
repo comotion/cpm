@@ -37,6 +37,10 @@ void destroyScreen(int line, char* message);
 void userInterface(void);
 
 
+/* really the least messy way to clear the screen.
+ * If you don't believe me, check clear.c from ncurses */
+#define clear_screen() do { if(!fork()){exit(execl("/usr/bin/clear", "clear")); }else{int s; wait(&s);}}while(0)
+
 /* #############################################################################
  * definition of the interface layout
  */

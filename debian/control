@@ -3,7 +3,18 @@ Section: utils
 Priority: extra
 Maintainer: Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>
 Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>
-Build-Depends: debhelper (>= 7.0.50~), autotools-dev, libncurses5-dev, libxml2-dev, libcdk5-dev, libcrack2-dev, libgpgme11-dev, zlib1g-dev, libdotconf-dev, libncursesw5-dev, txt2man
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ autotools-dev,
+ libcdk5-dev,
+ libcrack2-dev,
+ libdotconf-dev,
+ libgpgme11-dev,
+ libncurses5-dev,
+ libncursesw5-dev,
+ libxml2-dev,
+ txt2man,
+ zlib1g-dev,
 Standards-Version: 3.9.2
 Vcs-Git: git://github.com/comotion/cpm.git
 Vcs-Browser: https://github.com/comotion/cpm
@@ -11,7 +22,8 @@ Homepage: http://github.com/comotion/cpm
 
 Package: cpm
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libxml2-utils
+Depends: ${misc:Depends}, ${shlibs:Depends},
+ libxml2-utils
 Description: Curses based password manager using PGP-encryption 
  This program is a ncurses based console tool to manage passwords
  and store them public key encrypted in a file - even for more than

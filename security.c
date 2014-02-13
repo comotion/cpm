@@ -526,9 +526,12 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
            }
 #endif
 
-// kFreeBSD wants PT_*, while SPARC doesn't have these
+// kFreeBSD wants PT_*
 #if !defined(PT_ATTACH)
 #define PT_ATTACH PTRACE_ATTACH
+#endif
+//  while SPARC doesn't have these, due to glibc bug
+#if !defined(PT_SYSCALL)
 #define PT_SYSCALL PTRACE_SYSCALL
 #endif
            if (ptrace(PT_ATTACH, p0, 0, 0) != 0) {

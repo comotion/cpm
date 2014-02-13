@@ -1,0 +1,107 @@
+Using revision control with CPM
+=======================
+
+Since the CPM password database is encrypted, we can safely check it into a revision control system to receive the following benefits:
+
+* audit trail (who changed the password database)
+* backups (passwords are stored centrally and on user nodes)
+* easy rollbacks
+* lock notification for multiple users
+
+Note however that since the database is encrypted we _cannot_ see which passwords have been added/modified/deleted unless we decrypt the database.
+
+When using a cpm wrapper script to access the database, the checkout/diff/checkin can be automated to the point where all you're interacting with is CPM.
+
+Here is how to use CPM with GIT on ubuntu and debian:
+
+[[First, set up CPM as per usual|Home]]. Then, follow this scripted guide:
+
+Create decentralized CPM
+----------------------------
+
+::
+
+ ## Create a git repo
+ # create a git user 
+ root@server# groupadd -g 617 git && useradd -g 617 -u 617 git
+ root@server# su git
+
+ # add users keys to git's authorized keys
+ git@server$ mkdir -p .ssh && chmod 700 .ssh cat me.pub you.pub him.pub >> .ssh/authorized_keys
+ 
+  # create a bare git repo on the _server_
+  git@server$ git init --bare --shared cpmdb.git
+ 
+  ## setup your CPM database in GIT
+  # fetch the empty repo from a user machine
+  me@mine$ git clone git@server:cpmdb.git
+
+  # import your cpmdb and cpmrc
+  me@mine$ mv ~/.cpmdb ~/.cpmrc cpmdb/
+
+  # import the cpmgit wrapper
+  me@mine$ cat > cpmgit << EOF
+  #!/bin/sh
+  cd ~/cpmdb
+  git pull
+  /usr/bin/cpm -f cpmdb -c cpmrc
+  if [ -z "`git diff --name-only`" ]
+  then
+     echo "No change"
+  else
+     git commit -a
+     git push
+  fi
+  EOF
+  me@mine$ chmod +x cpmgit
+ #Run the script, create a cpm database and add your group members keys.
+  me@mine$ ./cpmgit
+
+ # Commit and push the changes
+  me@mine$ git add cpmrc cpmdb cpmgit && git commit -m 'initial'
+ # install the cpmgit script
+  me@mine$ mkdir -p ~/bin & ln -s ~/cpmdb/cpmgit ~/bin
+
+ ## Use the 'cpmgit' script every day
+  me@mine$ cpmgit
+ ## Wash, rinse, repeat
+
+Deploy existing decentralized CPM
+---------------------------------
+
+If someone already has a CPM database in git they want to share with you,
+simply clone the git repo, install the script and use gpg-agent or gnome-keyring to avoid punching passwords too often. You can even use GPG-smartcards if you wish.
+
+Some caveats
+-------------
+ * all users on the central server should be members of the same group
+ * the central git repo should be shared to avoid permission problems
+ * all users must have all other users in their gpg public key ring, *and they must trust these keys*, otherwise CPM will refuse to operate on the database
+
+::
+  
+  gpg --recv-keys ADHDAFG ASDAFAFH # import group members' keys
+  gpg --update-trustdb # give marginal trust to above keys
+  
+
+ 
+
+Using multiple CPM databases
+===================
+
+You might be sharing different passwords with different groups of people, and this technique makes group sharing easy: simply make a different git repo for each group, encrypt with different keys and make multiple scripts, each of which opens a different database. For instance, you can have *cakecpm* and *muffincpm* for sharing the cake and muffin secret recepies, respectively.
+
+Upon the eventual conflict
+===================
+
+If / when you get a commit conflict (git rejects your push) this means you added some passwords while someone else added some passwords, and the other guy beat you to the push.
+You haven't lost the passwords you added - they are still in ~/cpmdb/cpmdb. To get back to normal you should reset, pull their changes and then add your own changes. Here's how to do that:
+::
+
+ ## open up cpmdb first and find your passwords just incase you forgot which password add/change caused the conflict
+ me@mine$ cpm -f ~/cpmdb/cpmdb
+ ## reset the repo, deleting your changess
+ me@mine$ git reset --hard
+ ## run cpmgit as normal
+ me@mine$ cpmgit
+ ## add your passwords and push quickly now to avoid having the same problem!

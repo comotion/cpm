@@ -44,7 +44,7 @@ long int                memorycounter = 0;
  */
 void* memDebugAlloc(const char* file, int line, size_t size)
   {
-    fprintf(stderr, "alloc  %5lu (%s, line %d)\n", size, file, line);
+    fprintf(stderr, "alloc  %5zu (%s, line %d)\n", size, file, line);
     return memRealAlloc(size);
   }
 
@@ -59,7 +59,7 @@ void* memDebugAlloc(const char* file, int line, size_t size)
  */
 void memDebugFree(const char* file, int line, void* ptr, size_t size)
   {
-    fprintf(stderr, "free   %5lu (%s, line %d)\n", size, file, line);
+    fprintf(stderr, "free   %5zu (%s, line %d)\n", size, file, line);
     memRealFree(ptr, size);
   }
 
@@ -76,7 +76,7 @@ void memDebugFreeString(const char* file, int line, void* ptr)
   {
     if (ptr)
       {
-        fprintf(stderr, "free   %5zd (%s, line %d)\n",
+        fprintf(stderr, "free   %5zu (%s, line %d)\n",
             strlen(ptr) + 1, file, line);
       }
 

@@ -448,9 +448,7 @@ int fileLockOpen(char* filename, int flags, mode_t mode, char** errormsg)
       {   /* error opening the file */
         *errormsg = memAlloc(__FILE__, __LINE__, STDBUFFERLENGTH);
         snprintf(*errormsg, STDBUFFERLENGTH,
-            _("error %d (%s) opening file '%s'."),
-            errno,
-            strerror(errno),
+            _("Database '%s' is missing. A new one will be created."),
             filename);
 
         return -1;

@@ -1,8 +1,9 @@
-cpm (0.30-1) UNRELEASED; urgency=medium
+cpm (0.30-1) unstable; urgency=medium
 
   * Imported upstream release 0.30
+  * [5b1b6c3] Add "multiuser" documentation
 
- -- Stig Sandbeck Mathisen <ssm@debian.org>  Thu, 13 Feb 2014 13:38:14 +0100
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 14 Feb 2014 10:35:17 +0100
 
 cpm (0.29-1) unstable; urgency=medium
 

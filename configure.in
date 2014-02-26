@@ -286,11 +286,8 @@ fi
 # ------------------------------------------------------------------------------
 # we check if we can use this CDK version
 CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
-if test "${CDK_H}" == ""; then
-  AC_MSG_ERROR([could not locate CDK header file.])
-else
-  AC_MSG_NOTICE([CDK header found at ${CDK_H}.])
-fi
+# recent cdk.h are in /usr/include/cdk.h not /usr/include/cdk/cdk.h
+AC_MSG_NOTICE([CDK version header found at ${CDK_H}.])
 INCOMPATIBLE=`grep "^#define MAX_ITEMS" "${CDK_H}" | grep -c "unused by widgets"`
 CDK_UNUSABLE=0
 CDK_VERSION_DEF="-DCDK_VERSION_4"
@@ -301,18 +298,18 @@ if test ${INCOMPATIBLE} -gt 0; then
   CDK_UNUSABLE=1
 
   # this file only exists in v5
-  CDK_VERSION_H=`dirname "${CDK_H}"`"/cdk_version.h"
+  CDK_VERSION_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk_version\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
   if test -f "${CDK_VERSION_H}"; then
     CDK_VERSION=`grep "CDK_VERSION_PATCH" ${CDK_VERSION_H} | cut -d " " -f 3 | sed -e 's/"//g'`
     AC_MSG_NOTICE([CDK version patch: ${CDK_VERSION}])
 
     # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    #if test ${CDK_VERSION} -ge 20090215; then
+    if test ${CDK_VERSION} -ge 20090215; then
       CDK_UNUSABLE=0
       CDK_VERSION_DEF="-DCDK_VERSION_5"
-      #CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
-    #fi
+      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
+    fi
   fi
 fi
 

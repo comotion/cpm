@@ -282,10 +282,14 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
       {   /* we don't check for exactly one signature - there might be more;
            * but there must be at least one valid signature
            */
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected number of signatures found"));
+        snprintf(buffer, STDBUFFERLENGTH, _("Database is not signed. Will not proceed!"));
         error = 1;
       }
     if (!error &&
+       !signature->summary) {
+       snprintf(buffer, STDBUFFERLENGTH, _("Database signed with keys of unknown validity. You must trust sign the keys before proceeding!"));
+       error = 1;
+    } else if (!error &&
         (!(signature -> summary & GPGME_SIGSUM_VALID) ||
         !(signature -> summary & GPGME_SIGSUM_GREEN)))
       {

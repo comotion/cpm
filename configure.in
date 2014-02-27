@@ -326,10 +326,11 @@ if test ${INCOMPATIBLE} -gt 0; then
 
     # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    if test ${CDK_VERSION} -ge 20090215; then
+    # note: cpm works fine with debian version 20060507-4
+    if test ${CDK_VERSION} -ge 20060507; then
       CDK_UNUSABLE=0
       CDK_VERSION_DEF="-DCDK_VERSION_5"
-      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
+      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20060507-4)"
     fi
   else
      AC_MSG_ERROR([No CDK version at ${CDK_VERSION_H}])

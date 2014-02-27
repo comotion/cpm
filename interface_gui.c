@@ -384,6 +384,13 @@ void drawStatusline(int level)
         waddstr(statusline, _(" Comment"));
 
         waddstr(statusline, " | ");
+
+        wattron(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, "^K");
+        wattroff(statusline, A_BOLD | COLOR_PAIR(3));
+        waddstr(statusline, _(" Keys"));
+
+        waddstr(statusline, " | ");
       }
 
     wattron(statusline, A_BOLD | COLOR_PAIR(3));
@@ -1290,11 +1297,15 @@ int guiDialogHandleKeys(EObjectType cdktype, void* object, void* clientdata,
 
     do
       {
+        char *keymsg = _("</B>Keys to encrypt the database with<!B>");
         counter = keyCount();
+        if(!counter){
+           keymsg = _("</B>No keys to encrypt the database with<!B>. Hit ^A to add a key.");
+        }
 
         scroll = newCDKScroll(cdkscreen, CENTER, CENTER, RIGHT,
             LINES * 2 / 3, COLS - 20,
-            _("</B>Keys to encrypt the database with<!B>"),
+            keymsg,
             keyGetList(), counter,
             NONUMBERS, A_REVERSE, SHOW_BOX, SHOW_SHADOW);
         if (!scroll)

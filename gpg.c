@@ -287,55 +287,56 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
       }
     if (!error &&
        !signature->summary) {
-       snprintf(buffer, STDBUFFERLENGTH, _("Database signed with keys of unknown validity. You must trust sign the keys before proceeding!"));
+       snprintf(buffer, STDBUFFERLENGTH, _("Database signed with keys of unknown validity. You must trust the key with fingerprint %s before proceeding"), signature->fpr);
        error = 1;
     } else if (!error &&
         (!(signature -> summary & GPGME_SIGSUM_VALID) ||
          !(signature -> summary & GPGME_SIGSUM_GREEN)))
       {
         if(signature -> summary & GPGME_SIGSUM_KEY_EXPIRED) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key has expired."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key %s has expired."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_KEY_REVOKED) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key has been revoked."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key %s been revoked."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_SIG_EXPIRED) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Database signature has expired."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Database signature has expired for key %s."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_KEY_MISSING) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Can't verify: key missing."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Can't verify: key %s missing."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_CRL_MISSING) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list missing."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list missing for key %s."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_CRL_TOO_OLD) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list too old."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list too old for key %s."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_BAD_POLICY) {
-           snprintf(buffer, STDBUFFERLENGTH, _("A key or signature policy was not met."));
+           snprintf(buffer, STDBUFFERLENGTH, _("A key or signature policy was not met for key %s."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_SYS_ERROR) {
-           snprintf(buffer, STDBUFFERLENGTH, _("A system error occurred."));
+           snprintf(buffer, STDBUFFERLENGTH, _("A system error occurred for key %s."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_RED) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Database signature is bad! Can not trust database."));
+           snprintf(buffer, STDBUFFERLENGTH, _("Key signature %s is bad! Can not trust database."), signature->fpr);
         } else if(signature -> summary & GPGME_SIGSUM_GREEN) {
-           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but validity is 0x%x"), signature->validity);
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key validity is 0x%x for key %s."),
+            signature->validity, signature->fpr);
         }else{
-           snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature summary: 0x%x"),
-            signature -> summary);
+           snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature summary: 0x%x on key %s"),
+            signature -> summary, signature->fpr);
         }
         error = 1;
       }
     if (!error &&
         gpg_err_code(signature -> status) != status)
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature status: %s"),
-            gpgme_strerror(signature -> status));
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature status: %s on key %s"),
+            gpgme_strerror(signature -> status), signature->fpr);
         error = 1;
       }
     if (!error &&
         signature -> notations)
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected notation data"));
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected notation data on key %s"), signature->fpr);
         error = 1;
       }
     if (!error &&
         signature -> wrong_key_usage)
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpectedly wrong key usage"));
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpectedly wrong key usage for key %s"), signature->fpr);
         error = 1;
       }
     if (!error &&
@@ -365,15 +366,15 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
                 validity = NULL;
                 break;
           }
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected validity: %i (%s)"),
-            signature -> validity, validity);
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected validity: %i (%s) on key %s"),
+            signature -> validity, validity, signature->fpr);
         error = 1;
       }
     if (!error &&
         gpg_err_code (signature -> validity_reason) != GPG_ERR_NO_ERROR)
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected validity reason: %s"),
-            gpgme_strerror(signature -> validity_reason));
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected validity reason: %s on key %s"),
+            gpgme_strerror(signature -> validity_reason), signature->fpr);
         error = 1;
       }
 

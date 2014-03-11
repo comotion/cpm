@@ -242,6 +242,7 @@ int main(int argc, char **argv, char **envp)
             checkSecurity(0);
             printf("\n%s %s\n%s\n",
                 _("Maximum security level not reached."),
+                _("Your database will be less protected while CPM is running."),
                 _("Are you sure you want to continue?"),
                 _("Press CTRL+C to stop now or ENTER to continue."));
 

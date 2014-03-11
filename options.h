@@ -28,7 +28,7 @@
  * includes
  */
 /* we need this for the version info only */
-#include <cdk/cdk.h>
+#include <cdk.h>
 
 
 /* #############################################################################

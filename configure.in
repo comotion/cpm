@@ -3,7 +3,7 @@
 
 AC_MSG_NOTICE([general setup])
 AC_PREREQ(2.59)
-AC_INIT(cpm, 0.30, kwy@redpill-linpro.com)
+AC_INIT(cpm, 0.31, kwy@redpill-linpro.com)
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 
@@ -99,6 +99,7 @@ AC_ARG_WITH(cdk-dir,
       if test -n "${need_dash_r}"; then
         LDFLAGS="$LDFLAGS -R${withval}/lib"
       fi
+      WITH_CDK=${withval}
     ]
   )
 AC_ARG_WITH(cdk-v4,
@@ -286,11 +287,27 @@ fi
 # ------------------------------------------------------------------------------
 # we check if we can use this CDK version
 CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
-if test "${CDK_H}" == ""; then
-  AC_MSG_ERROR([could not locate CDK header file.])
-else
-  AC_MSG_NOTICE([CDK header found at ${CDK_H}.])
+# recent cdk.h are in /usr/include/cdk.h not /usr/include/cdk/cdk.h
+if ! ( test -n "$CDK_H" &&  -f ${CDK_H} )
+then
+  CDK_H="/usr/include/cdk/cdk.h"
+  if ! test -f ${CDK_H}
+  then
+    if test -n "${WITH_CDK}"
+    then
+      AC_MSG_ERROR([cdk.h not found in ${WITH_CDK}/include or ${WITH_CDK}/include/cdk, wrong path in --with-cdk?])
+    fi
+    AC_MSG_ERROR([cdk.h not found, try --with-cdk-dir=/path/to/dir/containing/include/cdk])
+  fi
+  if test -z "${WITH_CDK}"
+  then
+    WITH_CDK="/usr"
+    CFLAGS="${CFLAGS} -I${WITH_CDK}/include -I${WITH_CDK}/include/cdk"
+    CPPFLAGS="$CPPFLAGS -I${WITH_CDK}/include -I${WITH_CDK}/include/cdk"
+    LDFLAGS="$LDFLAGS -L${WITH_CDK}/lib"
+  fi
 fi
+AC_MSG_NOTICE([CDK version header found at ${CDK_H}.])
 INCOMPATIBLE=`grep "^#define MAX_ITEMS" "${CDK_H}" | grep -c "unused by widgets"`
 CDK_UNUSABLE=0
 CDK_VERSION_DEF="-DCDK_VERSION_4"
@@ -298,21 +315,25 @@ CDK_DEBIAN_DEP="libcdk4 (<= 4.9.10)"
 if test ${INCOMPATIBLE} -gt 0; then
   # seems like an incompatible version; we have to check the detailed
   # version to be sure
+  AC_MSG_NOTICE([CDK version might be incompatible, checking.])
   CDK_UNUSABLE=1
 
   # this file only exists in v5
-  CDK_VERSION_H=`dirname "${CDK_H}"`"/cdk_version.h"
+  CDK_VERSION_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk_version\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
   if test -f "${CDK_VERSION_H}"; then
     CDK_VERSION=`grep "CDK_VERSION_PATCH" ${CDK_VERSION_H} | cut -d " " -f 3 | sed -e 's/"//g'`
     AC_MSG_NOTICE([CDK version patch: ${CDK_VERSION}])
 
     # only versions newer than 20090215 can be used since Thomas E. Dickey
     # fixed some bugs I found with the alphalist.
-    #if test ${CDK_VERSION} -ge 20090215; then
+    # note: cpm works fine with debian version 20060507-4
+    if test ${CDK_VERSION} -ge 20060507; then
       CDK_UNUSABLE=0
       CDK_VERSION_DEF="-DCDK_VERSION_5"
-      #CDK_DEBIAN_DEP="libcdk5 (> 5.0.20090215-1)"
-    #fi
+      CDK_DEBIAN_DEP="libcdk5 (> 5.0.20060507-4)"
+    fi
+  else
+     AC_MSG_ERROR([No CDK version at ${CDK_VERSION_H}])
   fi
 fi
 

@@ -282,15 +282,41 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
       {   /* we don't check for exactly one signature - there might be more;
            * but there must be at least one valid signature
            */
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected number of signatures found"));
+        snprintf(buffer, STDBUFFERLENGTH, _("Database is not signed. Will not proceed!"));
         error = 1;
       }
     if (!error &&
+       !signature->summary) {
+       snprintf(buffer, STDBUFFERLENGTH, _("Database signed with keys of unknown validity. You must trust sign the keys before proceeding!"));
+       error = 1;
+    } else if (!error &&
         (!(signature -> summary & GPGME_SIGSUM_VALID) ||
-        !(signature -> summary & GPGME_SIGSUM_GREEN)))
+         !(signature -> summary & GPGME_SIGSUM_GREEN)))
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature summary: 0x%x"),
+        if(signature -> summary & GPGME_SIGSUM_KEY_EXPIRED) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key has expired."));
+        } else if(signature -> summary & GPGME_SIGSUM_KEY_REVOKED) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but key has been revoked."));
+        } else if(signature -> summary & GPGME_SIGSUM_SIG_EXPIRED) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Database signature has expired."));
+        } else if(signature -> summary & GPGME_SIGSUM_KEY_MISSING) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Can't verify: key missing."));
+        } else if(signature -> summary & GPGME_SIGSUM_CRL_MISSING) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list missing."));
+        } else if(signature -> summary & GPGME_SIGSUM_CRL_TOO_OLD) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Certificate revocation list too old."));
+        } else if(signature -> summary & GPGME_SIGSUM_BAD_POLICY) {
+           snprintf(buffer, STDBUFFERLENGTH, _("A key or signature policy was not met."));
+        } else if(signature -> summary & GPGME_SIGSUM_SYS_ERROR) {
+           snprintf(buffer, STDBUFFERLENGTH, _("A system error occurred."));
+        } else if(signature -> summary & GPGME_SIGSUM_RED) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Database signature is bad! Can not trust database."));
+        } else if(signature -> summary & GPGME_SIGSUM_GREEN) {
+           snprintf(buffer, STDBUFFERLENGTH, _("Signature valid but validity is 0x%x"), signature->validity);
+        }else{
+           snprintf(buffer, STDBUFFERLENGTH, _("Unexpected signature summary: 0x%x"),
             signature -> summary);
+        }
         error = 1;
       }
     if (!error &&

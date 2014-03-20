@@ -327,12 +327,15 @@ int gpgCheckVerifyResult(SHOWERROR_FN showerror_cb,
             gpgme_strerror(signature -> status), signature->fpr);
         error = 1;
       }
+    /* notation data is not an error
     if (!error &&
         signature -> notations)
       {
-        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected notation data on key %s"), signature->fpr);
+        snprintf(buffer, STDBUFFERLENGTH, _("Unexpected notation data on key %s:\n %s: %s"), 
+                 signature->fpr, signature->notations->name, signautre->notations->value);
         error = 1;
       }
+    */
     if (!error &&
         signature -> wrong_key_usage)
       {

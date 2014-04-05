@@ -147,6 +147,7 @@ On Debian systems, the package names are:
     - libncurses5-dev
     - libxml2
     - libxml2-dev
+    - txt2man
     - zlib1g
     - zlib1g-dev
 

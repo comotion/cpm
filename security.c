@@ -462,13 +462,12 @@ int check_kernel_version()
          return 0;
       }
       rel = 9; // instead of passing garbage
-    }else{
-      //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
-      if(maj > 2 ||
-        (maj == 2 && min > 6) ||
-        (maj == 2 && min == 6 && rel >= 9))
-        return 1;
     }
+    //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
+    if(maj > 2 ||
+       (maj == 2 && min > 6) ||
+       (maj == 2 && min == 6 && rel >= 9))
+       return 1;
   }
   return 0;
 }

@@ -570,6 +570,9 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
    * check if rlimits are fungible 
    * >= 2.6.9: privileged users dont get limited, regular users get limit
    * <  2.6.9: users cant mlock, privileged users can lock up to mlock limit
+   *
+   * If we trip the limit, mlockall() won't fail, but the program might segfault,
+   * so this code checks the limit.
    */
   int euid = geteuid();
 #ifndef NO_MEMLOCK

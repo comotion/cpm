@@ -3,6 +3,7 @@ cpm (0.32-1) unstable; urgency=medium
   * Allow annotated keys
   * Show key fingerprint on key error
   * Bugfix, parsing certain kernel releases prevented memlock
+  * Closes Debian #720891, "Cannot drop root privileges" on jessie/i386
 
  -- Kacper Wysocki <kwy@redpill-linpro.como>  Thu, 2 Oct 2014 11:14:39 +0100
 
@@ -25,9 +26,9 @@ cpm (0.30-1) unstable; urgency=medium
 cpm (0.29-1) unstable; urgency=medium
 
   * Imported upstream release 0.29
-  * clear screen before init-screen
+  * clear screen before init-screen, closes Debian #720892
   * improve kernel-release detection
-  * don't shoot the parent
+  * don't shoot the parent, closes Ubuntu #1299229, failed to start cpm
   * [0bf769c] Enable parallel building
   * [4ed615d] Bump standards version (no changes)
   * [7ab4ba5] Use dh-autoreconf when building

@@ -1,3 +1,13 @@
+cpm (0.32-1) UNRELEASED; urgency=medium
+
+  * Imported upstream release 0.32
+    - Allow annotated keys
+    - Show key fingerprint on key error
+    - Bugfix: "parsing certain kernel releases prevented memlock"
+    - Bugfix: "Cannot drop root privileges" on jessie/i386" (Closes: #720891)
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Mon, 06 Oct 2014 11:50:57 +0200
+
 cpm (0.31-1) unstable; urgency=medium
 
   * Imported upstream release 0.31

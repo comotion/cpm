@@ -1,4 +1,4 @@
-cpm (0.32-1) UNRELEASED; urgency=medium
+cpm (0.32-1) unstable; urgency=medium
 
   * Imported upstream release 0.32
     - Allow annotated keys
@@ -6,7 +6,7 @@ cpm (0.32-1) UNRELEASED; urgency=medium
     - Bugfix: "parsing certain kernel releases prevented memlock"
     - Bugfix: "Cannot drop root privileges" on jessie/i386" (Closes: #720891)
 
- -- Stig Sandbeck Mathisen <ssm@debian.org>  Mon, 06 Oct 2014 11:50:57 +0200
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Mon, 06 Oct 2014 12:17:13 +0200
 
 cpm (0.31-1) unstable; urgency=medium
 

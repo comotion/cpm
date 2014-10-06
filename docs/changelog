@@ -1,3 +1,61 @@
+cpm (0.32-1) unstable; urgency=medium
+
+  * Allow annotated keys
+  * Show key fingerprint on key error
+  * Bugfix, parsing certain kernel releases prevented memlock
+  * Closes Debian #720891, "Cannot drop root privileges" on jessie/i386
+
+ -- Kacper Wysocki <kwy@redpill-linpro.como>  Thu, 2 Oct 2014 11:14:39 +0100
+
+cpm (0.31-1) unstable; urgency=medium
+
+  * More descriptive key error messages.
+  * Added ^K Keys to status line
+  * Imported upstream release 0.31
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Tue, 11 Mar 2014 19:38:36 +0100
+
+cpm (0.30-1) unstable; urgency=medium
+
+  * Imported upstream release 0.30
+  * fix for kfreebsd/sparc PT_ATTACH
+  * [5b1b6c3] Add "multiuser" documentation
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 14 Feb 2014 10:35:17 +0100
+
+cpm (0.29-1) unstable; urgency=medium
+
+  * Imported upstream release 0.29
+  * clear screen before init-screen, closes Debian #720892
+  * improve kernel-release detection
+  * don't shoot the parent, closes Ubuntu #1299229, failed to start cpm
+  * [0bf769c] Enable parallel building
+  * [4ed615d] Bump standards version (no changes)
+  * [7ab4ba5] Use dh-autoreconf when building
+  * [05230c4] Build with hardening flags
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Wed, 12 Feb 2014 19:23:56 +0100
+
+cpm (0.28-1) unstable; urgency=low
+
+  * New upstream release
+  * OSX/Darwin support
+  * FreeBSD support
+  * code cleanup
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Tue, 14 May 2013 16:31:20 +0200
+
+cpm (0.26-1) unstable; urgency=low
+
+  [ Kacper Wysocki (Redpill-Linpro) ]
+  * Support SHA256, SHA384 and SHA512 (Closes: #626783)
+  * Bugfix for conversion failure.
+
+  [ Stig Sandbeck Mathisen ]
+  * Revert upstream l10n metadata change committed to the debian branch
+  * Bump Standards-Version (no changes)
+
+ -- Stig Sandbeck Mathisen <ssm@debian.org>  Fri, 10 Jun 2011 15:45:32 +0200
 cpm (0.26) unstable; urgency=medium
   * support SHA256, SHA384 and SHA512 hashing algorithms
   * conversion failed for empty string

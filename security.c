@@ -462,13 +462,12 @@ int check_kernel_version()
          return 0;
       }
       rel = 9; // instead of passing garbage
-    }else{
-      //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
-      if(maj > 2 ||
-        (maj == 2 && min > 6) ||
-        (maj == 2 && min == 6 && rel >= 9))
-        return 1;
     }
+    //fprintf(stdout, "kernel rel: %d.%d\n", maj, min);
+    if(maj > 2 ||
+       (maj == 2 && min > 6) ||
+       (maj == 2 && min == 6 && rel >= 9))
+       return 1;
   }
   return 0;
 }
@@ -571,6 +570,9 @@ int initSecurity(int* max_mem_lock, int* memory_safe, int* ptrace_safe,
    * check if rlimits are fungible 
    * >= 2.6.9: privileged users dont get limited, regular users get limit
    * <  2.6.9: users cant mlock, privileged users can lock up to mlock limit
+   *
+   * If we trip the limit, mlockall() won't fail, but the program might segfault,
+   * so this code checks the limit.
    */
   int euid = geteuid();
 #ifndef NO_MEMLOCK

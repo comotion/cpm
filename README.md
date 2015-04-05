@@ -37,6 +37,7 @@ Contact: Harry Brueckner <harry_b@mm.st>
 
 Features
 --------
+
     - data files can be encrypted for more than one person
       (public key encryption)
     - data files are always signed by the last person who saved it so forging

@@ -275,7 +275,7 @@ search through the database.
 GUI usage
 ---------
 
-To get a detailed help during runtime, press <CTRL><H>.
+To get a detailed help during runtime, press <kbd>Ctrl+H</kbd>.
 
 
 Data import

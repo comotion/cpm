@@ -265,7 +265,7 @@ argument.
     set this limit somewhat higher by using the --with-memlock option which
     specifies the amount of memory in kByte.
 
-    Many thanks go to Daniel Schröder <mail@dschroeder.info> for helping me to
+    Many thanks go to Daniel SchrÃ¶der <mail@dschroeder.info> for helping me to
     track this problem down.
 
 

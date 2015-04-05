@@ -214,16 +214,12 @@ The binary should be suid root (mode 4755) to enable memory locking and
 protection from ptrace attacks.
 
 The applications runs a check on each startup on the following things:
-  * if core dumps are disabled
-  * if memory is locked from paging (so memory does not get written to swap
-    space)
-    WARNING: some computers (mostly notebooks) can create memory images for
-             'hibernation'. It's not possible to protect the sensitive data
-             from being written to those partitions!
-  * if the application is protected from ptrace spying
-  * if the application has environment checks enabled
-  * if it's running without root privileges (right after program startup
-    and memory locking, root privilges are dropped)
+- if core dumps are disabled
+- if memory is locked from paging (so memory does not get written to swap space)
+  WARNING: some computers (mostly notebooks) can create memory images for 'hibernation'. It's not possible to protect the sensitive data from being written to those partitions!
+- if the application is protected from ptrace spying
+- if the application has environment checks enabled
+- if it's running without root privileges (right after program startup and memory locking, root privilges are dropped)
 
 If one of these tests fail, a warning is displayed and a key must be
 pressed to continue or abort the application.

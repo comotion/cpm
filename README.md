@@ -315,7 +315,7 @@ The following import formats are supported:
 
 Structure of the XML file
 -------------------------
-
+```xml
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <root version="0.2alpha">
   <template>
@@ -343,5 +343,4 @@ Structure of the XML file
     <node label="label 2.3" />
   </node>
 </root>
-
-
+```

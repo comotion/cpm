@@ -226,39 +226,38 @@ pressed to continue or abort the application.
 The current security level can be displayed using the '--security' command line
 argument.
 
-    Memory issues
-    -------------
+Memory issues
+-------------
 
-    On some systems, the locked memory for an application is limited. This is
-    the case e.g. on Gentoo and SuSE systems.
-    In this case the limit is set to something like 32k which you can see using
-    the command 'ulimit -l'. The interesting part of it's output is the line
-    'max locked memory' - it should be at least 32M due to buffer bloat.
-    I have no idea why this limit is used at all (except for some special
-    purpose machines) and especially at this low limit. If anyone has an idea
-    why it is used and set to such a small value please send me an email.
+On some systems, the locked memory for an application is limited. This is
+the case e.g. on Gentoo and SuSE systems.
+In this case the limit is set to something like 32k which you can see using
+the command 'ulimit -l'. The interesting part of it's output is the line
+'max locked memory' - it should be at least 32M due to buffer bloat.
+I have no idea why this limit is used at all (except for some special
+purpose machines) and especially at this low limit. If anyone has an idea
+why it is used and set to such a small value please send me an email.
 
-    cpm locks it's memory because it is the only way to prevent the memory from
-    being swapped to disk, in case the operating system decides that it needs
-    memory.
-    If you want to disable memory locking (and take the risk that your
-    passwords land in clear text on your harddisk) you can use the option
-    --without-memlock to the configure command.
-    !!! WARNING !!!
-        It is NOT recommended to use this option - it opens a well known
-        security leak!!!
-    !!! WARNING !!!
+cpm locks it's memory because it is the only way to prevent the memory from
+being swapped to disk, in case the operating system decides that it needs
+memory.
+If you want to disable memory locking (and take the risk that your
+passwords land in clear text on your harddisk) you can use the option
+--without-memlock to the configure command.
+**WARNING**
+It is NOT recommended to use this option - it opens a well known security leak!!!
+**WARNING**
 
-    Unfortunately it is not possible to predict the exact amount of memory
-    which is necessary to run cpm. It depends on the size of the XML structure
-    and many other things which are not known at program startup.
-    Hence, the default security procedure checks for at least 5120k of
-    memory to lock. If you expect to handle alot of data with cpm, you can
-    set this limit somewhat higher by using the --with-memlock option which
-    specifies the amount of memory in kByte.
+Unfortunately it is not possible to predict the exact amount of memory
+which is necessary to run cpm. It depends on the size of the XML structure
+and many other things which are not known at program startup.
+Hence, the default security procedure checks for at least 5120k of
+memory to lock. If you expect to handle alot of data with cpm, you can
+set this limit somewhat higher by using the --with-memlock option which
+specifies the amount of memory in kByte.
 
-    Many thanks go to Daniel Schröder <mail@dschroeder.info> for helping me to
-    track this problem down.
+Many thanks go to Daniel Schröder <mail@dschroeder.info> for helping me to
+track this problem down.
 
 
 CLI usage

@@ -288,18 +288,12 @@ format and then this data gets imported.
 
 The following import formats are supported:
 
-    General interface
-    -----------------
-        The general interface imports a properly formatted CSV file.
-
-    Password Safe
-    -------------
-        The passwordsafe interface can read CSV export files from Password Safe
-        (by Bruce Schneier)
-
-    PMS
-    ---
-        The PMS interface can read CSV files created by pms_export 
+General interface
+: The general interface imports a properly formatted CSV file.
+Password Safe
+: The passwordsafe interface can read CSV export files from Password Safe (by Bruce Schneier)
+PMS
+: The PMS interface can read CSV files created by pms_export 
 
 
 Structure of the XML file

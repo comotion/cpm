@@ -37,35 +37,35 @@ Contact: Harry Brueckner <harry_b@mm.st>
 
 Features
 --------
-    * data files can be encrypted for more than one person
+    - data files can be encrypted for more than one person
       (public key encryption)
-    * data files are always signed by the last person who saved it so forging
+    - data files are always signed by the last person who saved it so forging
       data files is not possible
-    * encryption is handled by the GPGME library so it's supposed to be very
+    - encryption is handled by the GPGME library so it's supposed to be very
       secure
-    * data inside the encryption is a gzipped XML file so almost nothing is
+    - data inside the encryption is a gzipped XML file so almost nothing is
       known about the encrypted data
-    * the application memory is protected from paging
-    * no core dumps are created in case the program crashes
-    * the application is protected from ptrace attacks
-    * the runtime environment is carefully checked
-    * data files are en- and decryptable directly by gpg and gzip
-    * data is stored XML formatted
-    * backup files are created if possible
-    * data is validated using an internal DTD
-    * several passwords per account are possible to store
-    * it's possible to handle several data files, each encrypted for different
+    - the application memory is protected from paging
+    - no core dumps are created in case the program crashes
+    - the application is protected from ptrace attacks
+    - the runtime environment is carefully checked
+    - data files are en- and decryptable directly by gpg and gzip
+    - data is stored XML formatted
+    - backup files are created if possible
+    - data is validated using an internal DTD
+    - several passwords per account are possible to store
+    - it's possible to handle several data files, each encrypted for different
       people
-    * check of password strength and warnings about weak passwords
+    - check of password strength and warnings about weak passwords
       (handled by cracklib)
-    * user definable hierarchy with unlimited depth
-    * long comments for any node in the hierarchy
-    * password generator
-    * there is only one password visible at a time
-    * searchable database from the command line
-    * user definable search patterns (e.g. user@hostname)
-    * several hits can be displayed at once (e.g. several accounts per host)
-    * conversion scripts for Password Management System (pms), Password Safe
+    - user definable hierarchy with unlimited depth
+    - long comments for any node in the hierarchy
+    - password generator
+    - there is only one password visible at a time
+    - searchable database from the command line
+    - user definable search patterns (e.g. user@hostname)
+    - several hits can be displayed at once (e.g. several accounts per host)
+    - conversion scripts for Password Management System (pms), Password Safe
       and CSV files
 
 

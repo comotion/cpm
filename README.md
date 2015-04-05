@@ -83,28 +83,28 @@ Download
 --------
 
   * Web
-    It can be downloard at http://www.harry-b.de/downloads/cpm.tar.gz or
-    http://www.harry-b.de/downloads/cpm.tar.bz2
+    It can be downloard at [tar.gz](http://www.harry-b.de/downloads/cpm.tar.gz) or [tar.bz2](http://www.harry-b.de/downloads/cpm.tar.bz2)
 
   * Debian Linux
-    The package is also available as a Debian package. The package is available
-    at http://debian.harry-b.de/binary/.
+    The package is also available as a Debian package. The package is available at [here](http://debian.harry-b.de/binary/).
 
     To add this package to your APT-repository, just add the line
-        deb http://debian.harry-b.de/ binary/
+    ```bash
+    deb http://debian.harry-b.de/ binary/
+    ```
     to your sources list in /etc/apt/sources.list.
 
   * Gentoo Linux
-    For Gentoo Linux a ebuild file is available at
-    http://debian.harry-b.de/gentoo/
+    For Gentoo Linux a ebuild file is available at [here](http://debian.harry-b.de/gentoo/).
 
     First add PORTDIR_OVERLAY=/usr/local/portage to /etc/make.conf.
-
     To use this, you have to perform the following steps:
+    ```bash
         $ mkdir -p /usr/local/portage/app-admin/cpm
         $ cp cpm-0.8_beta.ebuild /usr/local/portage/app-admin/cpm
         $ ebuild /usr/local/portage/app-admin/cpm/cpm-0.8_beta.ebuild digest
         $ emerge /usr/local/portage/app-admin/cpm/cpm-0.8_beta.ebuild
+    ```
     where you have to replace the version number with the current version.
 
     The ebuild file was created by Marc Jauvin <marc@r4l.com>.

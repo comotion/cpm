@@ -115,35 +115,35 @@ Installation requirements
 -------------------------
 
 To install this program, the following libraries are required:
-    - cdk (<= 4.9.10 or >= 5.0.20090215)
-    - crack
-    - dotconf
-    - gpgme
-    - ncurses
-    - xml2 (>= 2.6.16)
+- cdk (<= 4.9.10 or >= 5.0.20090215)
+- crack
+- dotconf
+- gpgme
+- ncurses
+- xml2 (>= 2.6.16)
 
 For CDK only versions up to 4.9.10 can be used. Higher versions have a bug
 which can not handle empty widgets. I reported to the CDK developers on
 2005-09-08 and it should be fixed in one of the upcoming version 5 releases.
 
 On Debian systems, the package names are:
-    - cracklib-runtime
-    - libcdk5
-    - libcdk5-dev
-    - libcrack2
-    - libcrack2-dev
-    - libdotconf1.0
-    - libdotconf-dev
-    - libgpg-error-dev
-    - libgpgme11
-    - libgpgme11-dev
-    - libncurses5
-    - libncurses5-dev
-    - libxml2
-    - libxml2-dev
-    - txt2man
-    - zlib1g
-    - zlib1g-dev
+- cracklib-runtime
+- libcdk5
+- libcdk5-dev
+- libcrack2
+- libcrack2-dev
+- libdotconf1.0
+- libdotconf-dev
+- libgpg-error-dev
+- libgpgme11
+- libgpgme11-dev
+- libncurses5
+- libncurses5-dev
+- libxml2
+- libxml2-dev
+- txt2man
+- zlib1g
+- zlib1g-dev
 
 
 Installation

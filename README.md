@@ -244,9 +244,7 @@ memory.
 If you want to disable memory locking (and take the risk that your
 passwords land in clear text on your harddisk) you can use the option
 --without-memlock to the configure command.
-**WARNING**
-It is NOT recommended to use this option - it opens a well known security leak!!!
-**WARNING**
+**It is NOT recommended to use this option - it opens a well known security leak!!!**
 
 Unfortunately it is not possible to predict the exact amount of memory
 which is necessary to run cpm. It depends on the size of the XML structure

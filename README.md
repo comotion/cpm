@@ -67,10 +67,10 @@ Platforms
 ---------
 
 This software has been tested on the following platforms:
-    - Ubuntu Hardy
-    - Debian Woody, Sid and Sarge
-    - Gentoo Linux
-    - SuSE Linux
+- Ubuntu Hardy
+- Debian Woody, Sid and Sarge
+- Gentoo Linux
+- SuSE Linux
 
 If you encounter memory problems, e.g. on Gentoo Linux, please read the section 'Memory issues' in the security section of this document.
 

@@ -150,10 +150,12 @@ Installation
 ------------
 
 Installation should be quite simple if all requirements are met:
-    1. ./configure
-    2. make
-    3. make check (this only works if it's compiled with -DTEST_OPTION)
-    4. make install
+```bash
+./configure
+make
+make check # this only works if it's compiled with -DTEST_OPTION
+make install
+```
 
 In case the constant CRACKLIB_DICTPATH is not defined in your crack.h file, you
 might have to tell configure where the dictionary files of libcrack are.  This

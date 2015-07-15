@@ -1,6 +1,6 @@
 cpm (0.33-1) unstable; urgency=medium
 
-  * feature: 'InactivityTimeout x' in cpmrc quits CPM when inactive for x seconds
+  * feature: 'InactiveTimeout x' in cpmrc quits CPM when inactive for x seconds
   * Bugfix, clean up lock file properly when received a terminating signal
 
  -- Kacper Wysocki <comotion@delta9.pl>  Wed, 15 Jul 2015 11:14:39 +0100

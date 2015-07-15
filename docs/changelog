@@ -1,3 +1,10 @@
+cpm (0.33-1) unstable; urgency=medium
+
+  * feature: 'InactivityTimeout x' in cpmrc quits CPM when inactive for x seconds
+  * Bugfix, clean up lock file properly when received a terminating signal
+
+ -- Kacper Wysocki <comotion@delta9.pl>  Wed, 15 Jul 2015 11:14:39 +0100
+
 cpm (0.32-1) unstable; urgency=medium
 
   * Allow annotated keys
@@ -5,7 +12,7 @@ cpm (0.32-1) unstable; urgency=medium
   * Bugfix, parsing certain kernel releases prevented memlock
   * Closes Debian #720891, "Cannot drop root privileges" on jessie/i386
 
- -- Kacper Wysocki <kwy@redpill-linpro.como>  Thu, 2 Oct 2014 11:14:39 +0100
+ -- Kacper Wysocki <kwy@redpill-linpro.com>  Thu, 2 Oct 2014 11:14:39 +0100
 
 cpm (0.31-1) unstable; urgency=medium
 

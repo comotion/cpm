@@ -139,6 +139,7 @@ int main(int argc, char **argv, char **envp)
      */
     signal(SIGINT, sighandler);
     signal(SIGTERM, sighandler);
+    signal(SIGALRM, sighandler);
     /* the SIGWINCH handler is set in userInterface() */
 
     initConfiguration();
@@ -250,6 +251,10 @@ int main(int argc, char **argv, char **envp)
           }
         if (runtime -> guimode)
           {   /* we run in interactive mode */
+            
+            /* set inactivity timeout */
+            alarm(config->inactivetimeout);
+
             userInterface();
           }
         else
@@ -312,19 +317,39 @@ int main(int argc, char **argv, char **envp)
  * Arguments      int signum  - signal number
  * Return         void
  */
-RETSIGTYPE sighandler(int signum)
-  {
+RETSIGTYPE sighandler(int signum){
     char*               dummy;
 
-    if (signum == SIGINT ||
-        signum == SIGTERM)
-      {   /* we have to quit right away */
-        fprintf(stderr,"\nquitting on signal\n");
-        fileLockRemove(&dummy);
-        restoretermios();
-        _exit(1);
-      }
-  }
+    clear_screen();
+    switch (signum) {
+        case SIGALRM:
+            if(runtime->datachanged) {
+                fprintf(stderr, "\nInactivity but data changed, not quitting\n");
+                return;
+            }
+        case SIGINT:
+        case SIGTERM:
+            /* we have to quit right away */
+
+            freeGPG();
+            freeXMLInterface();
+            freeUTF8Interface();
+            freeXML();
+            freePatternparser();
+            freeKeys();
+
+            if(runtime->lockfilecreated) { fileLockRemove(&dummy); }
+            restoretermios();
+            freeConfiguration();
+            if(signum == SIGALRM)
+                fprintf(stderr, "\nCPM: Inactivity timeout\n");
+            else
+                fprintf(stderr,"\nquitting on signal %d\n", signum);
+            _exit(1);
+        default:
+            fprintf(stderr, "\nreceived unknown signal %d\n", signum);
+    }
+}
 
 
 /* #############################################################################

@@ -34,6 +34,7 @@
 #ifdef HAVE_TERMIOS_H
   #include <termios.h>
 #endif
+#include <string.h>
 #include "configuration.h"
 #include "general.h"
 #include "interface_gui.h"
@@ -549,6 +550,9 @@ int keyPreProcess(EObjectType cdktype, void* object, void* clientdata,
     char**              nodenames;
 
     TRACE(99, "keyPreProcess()", NULL);
+
+    /* reset inactivity timeout */
+    alarm(config->inactivetimeout);
 
     list = event -> widget;
 
@@ -2361,8 +2365,8 @@ void userInterface(void)
     /* we catch terminal resize events */
     signal(SIGWINCH, resizehandler);
 
-    do
-      {   /* we loop until the user really wants to quit */
+    do {
+        /* we loop until the user really wants to quit */
         interfaceLoop();
 
         if (config -> asktoquit)

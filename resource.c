@@ -63,6 +63,7 @@ static const configoption_t options[] =
     { "Compression",        ARG_INT, cbIntArgument, NULL, CTX_ALL },
     { "InfoboxHeight",      ARG_INT, cbIntArgument, NULL, CTX_ALL },
     { "PasswordLength",     ARG_INT, cbIntArgument, NULL, CTX_ALL },
+    { "InactiveTimeout",    ARG_INT, cbIntArgument, NULL, CTX_ALL }, 
 
     { "DatabaseFile",       ARG_STR, cbStringArgument, NULL, CTX_ALL },
     { "EncryptionKey",      ARG_STR, cbStringArgument, NULL, CTX_ALL },
@@ -138,6 +139,8 @@ static DOTCONF_CB(cbIntArgument)
         else
           { return _("PasswordLength must be at least be 5."); }
       }
+    else if (!strcmp(cmd -> name, "InactiveTimeout"))
+      { config -> inactivetimeout = cmd -> data.value; }
 
     return NULL;
   }

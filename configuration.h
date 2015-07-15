@@ -69,6 +69,7 @@ typedef struct
     int                 security;
     int                 templatelock;
     int                 version;
+    unsigned int        inactivetimeout;
   } cpmconfig_t;
 
 typedef struct

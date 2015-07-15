@@ -163,6 +163,7 @@ void initConfiguration(void)
     config -> security = 0;
     config -> templatelock = 0;
     config -> version = 0;
+    config -> inactivetimeout = 0;
 
     runtime -> memlock_limit = -2;
 

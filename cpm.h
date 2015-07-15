@@ -48,6 +48,7 @@
   #include <locale.h>
 #endif
 #include <signal.h>
+#include <sys/wait.h>
 #include <stdio.h>
 #ifdef HAVE_STRINGS_H
   #include <string.h>

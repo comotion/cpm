@@ -241,7 +241,7 @@ int main(int argc, char **argv, char **envp)
 #endif
           {
             checkSecurity(0);
-            printf("\n%s %s\n%s\n",
+            printf("\n%s %s\n%s\n%s\n",
                 _("Maximum security level not reached."),
                 _("Your database will be less protected while CPM is running."),
                 _("Are you sure you want to continue?"),

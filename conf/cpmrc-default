@@ -89,6 +89,9 @@ SearchType regex
 # if set to yes, the search runs case sensitive, otherwise not
 MatchCaseSensitive yes
 
+# Close and exit the database when InactivityTimeout number of seconds elapses
+# the default of 0 means never exit automatically
+InactivityTimeout 0
 
 # ##############################################################################
 

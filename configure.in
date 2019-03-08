@@ -288,7 +288,7 @@ fi
 # we check if we can use this CDK version
 CDK_H=`${CC} ${CFLAGS} ${CPPFLAGS} -D_FILE_OFFSET_BITS=64 -M -MG interface_gui.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/cdk\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
 # recent cdk.h are in /usr/include/cdk.h not /usr/include/cdk/cdk.h
-if ! ( test -n "$CDK_H" &&  -f ${CDK_H} )
+if ! ( test -n "$CDK_H" && test -f ${CDK_H} )
 then
   CDK_H="/usr/include/cdk/cdk.h"
   if ! test -f ${CDK_H}

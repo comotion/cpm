@@ -763,7 +763,7 @@ int gpgEncrypt(char* buffer, int size, char** newbuffer, int* newsize,
             if (fpr)
               {
                 error = gpgme_get_key(context, fpr, &tkey, LIST_SECRET);
-                if (tkey -> secret);
+                if (tkey -> secret)
                   {
                     error = gpgme_signers_add(context, tkey);
                     signers++;

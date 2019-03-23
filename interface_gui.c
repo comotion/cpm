@@ -1876,7 +1876,7 @@ int initializeScreen(void)
     assume_default_colors(-1, -1);
 
     /* we do not want any ESC delay */
-    ESCDELAY = 0;
+    set_escdelay(0);
 
     /* start color mode */
     initCDKColor();

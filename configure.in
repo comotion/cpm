@@ -55,7 +55,11 @@ case ${use_curses_lib} in
       AC_CHECK_LIB(ncursesw, wget_wch)
       if test "${ac_cv_lib_ncursesw_wget_wch}" == "yes"; then
         curses_found=1
-        curses_config=ncursesw5-config
+        if test -n "$(type -p ncursesw6-config)" ; then
+          curses_config=ncursesw6-config
+        else
+          curses_config=ncursesw5-config
+        fi
       fi
       ;;
   pdcurses)

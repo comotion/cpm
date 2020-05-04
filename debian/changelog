@@ -2,6 +2,7 @@ cpm (0.32-2) UNRELEASED; urgency=medium
 
   * Trim trailing whitespace.
   * Use secure URI in Homepage field.
+  * Bump debhelper from deprecated 9 to 10.
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 04 May 2020 12:49:25 +0000
 

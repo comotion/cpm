@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>
 Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>
 Build-Depends:
- debhelper (>= 9~),
+ debhelper (>= 10~),
  autotools-dev,
  dh-autoreconf,
  libcdk5-dev,

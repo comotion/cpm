@@ -19,7 +19,7 @@ Build-Depends:
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/comotion/cpm.git
 Vcs-Browser: https://github.com/comotion/cpm
-Homepage: http://github.com/comotion/cpm
+Homepage: https://github.com/comotion/cpm
 
 Package: cpm
 Architecture: any

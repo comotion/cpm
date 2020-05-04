@@ -25,7 +25,7 @@ Package: cpm
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends},
  libxml2-utils
-Description: Curses based password manager using PGP-encryption 
+Description: Curses based password manager using PGP-encryption
  This program is a ncurses based console tool to manage passwords
  and store them public key encrypted in a file - even for more than
  one person. The encryption is handled via GnuPG so the programs data

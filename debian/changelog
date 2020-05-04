@@ -10,6 +10,7 @@ cpm (0.32-2) UNRELEASED; urgency=medium
   * Use secure URI in Vcs control header Vcs-Git.
   * Remove use of githubredir - see https://lists.debian.org/debian-
     devel-announce/2014/10/msg00000.html for details.
+  * Drop unnecessary dh arguments: --parallel
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 04 May 2020 12:49:25 +0000
 

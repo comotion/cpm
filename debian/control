@@ -1,6 +1,6 @@
 Source: cpm
 Section: utils
-Priority: extra
+Priority: optional
 Maintainer: Kacper Wysocki (Redpill-Linpro) <kwy@redpill-linpro.com>
 Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>
 Build-Depends:

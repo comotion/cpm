@@ -6,6 +6,7 @@ cpm (0.32-2) UNRELEASED; urgency=medium
   * Change priority extra to priority optional.
   * Set upstream metadata fields: Bug-Database, Bug-Submit, Name (from
     ./configure), Repository, Repository-Browse.
+  * Drop unnecessary dependency on dh-autoreconf.
 
  -- Debian Janitor <janitor@jelmer.uk>  Mon, 04 May 2020 12:49:25 +0000
 

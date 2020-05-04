@@ -6,7 +6,6 @@ Uploaders: Stig Sandbeck Mathisen <ssm@debian.org>
 Build-Depends:
  debhelper (>= 10~),
  autotools-dev,
- dh-autoreconf,
  libcdk5-dev,
  libcrack2-dev,
  libdotconf-dev,

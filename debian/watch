@@ -1,2 +1,2 @@
 version=3
-http://githubredir.debian.net/github/comotion/cpm /github/comotion/cpm/(\d+\.\d+).tar.gz
+https://github.com/comotion/cpm/tags .*/(\d+\.\d+).tar.gz

@@ -101,8 +101,8 @@ typedef struct
 /* #############################################################################
  * global variables
  */
-cpmconfig_t*            config;
-cpmruntime_t*           runtime;
+extern cpmconfig_t*            config;
+extern cpmruntime_t*           runtime;
 
 #define CRACKLIB_OFF    0
 #define CRACKLIB_ON     1

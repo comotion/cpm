@@ -1,1 +1,6 @@
 *.o
+Makefile
+Makefile.dep
+config.h
+config.status
+cpm

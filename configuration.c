@@ -33,6 +33,8 @@
 #include "listhandler.h"
 #include "memory.h"
 
+cpmconfig_t*            config;
+cpmruntime_t*           runtime;
 
 /* #############################################################################
  *

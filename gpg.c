@@ -763,7 +763,7 @@ int gpgEncrypt(char* buffer, int size, char** newbuffer, int* newsize,
             if (fpr)
               {
                 error = gpgme_get_key(context, fpr, &tkey, LIST_SECRET);
-                if (tkey -> secret);
+                if (tkey -> secret)
                   {
                     error = gpgme_signers_add(context, tkey);
                     signers++;
@@ -1268,8 +1268,7 @@ char* gpgValidateEncryptionKey(char* keyname)
                         strlen(tname) + 1 +
                         strlen(key -> uids -> email) + 2 + 1;
                     identifier = memAlloc(__FILE__, __LINE__, size);
-                    snprintf(identifier, size, "%s %s <%s>",
-                        key -> subkeys -> keyid,
+                    snprintf(identifier, size, "%s <%s>",
                         tname,
                         key -> uids -> email);
                   }

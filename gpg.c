@@ -1268,8 +1268,7 @@ char* gpgValidateEncryptionKey(char* keyname)
                         strlen(tname) + 1 +
                         strlen(key -> uids -> email) + 2 + 1;
                     identifier = memAlloc(__FILE__, __LINE__, size);
-                    snprintf(identifier, size, "%s %s <%s>",
-                        key -> subkeys -> keyid,
+                    snprintf(identifier, size, "%s <%s>",
                         tname,
                         key -> uids -> email);
                   }

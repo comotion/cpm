@@ -14,6 +14,8 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
+PKG_PROG_PKG_CONFIG
+
 # Check --with-XXX configuration
 AC_ARG_WITH(curses-dir,
     [  --with-curses-dir=PATH  path to the curses installation],
@@ -170,12 +172,6 @@ AC_ARG_WITH(memlock,
       else
         CFLAGS="${CFLAGS} -DMEMLOCK_LIMIT=${withval}"
       fi
-    ]
-  )
-AC_ARG_WITH(xml2-dir,
-    [  --with-xml2-dir=PATH    path to the xml2 installation],
-    [
-      PATH="${withval}/bin:${withval}:${PATH}"
     ]
   )
 AC_ARG_WITH(zlib-dir,
@@ -350,22 +346,10 @@ fi
 AC_SUBST(CDK_VERSION_DEF)
 AC_SUBST(CDK_DEBIAN_DEP)
 
+PKG_CHECK_MODULES([LIBXML], [libxml-2.0])
 
-# ------------------------------------------------------------------------------
-# libxml2 check from http://webcvs.kde.org/cgi-bin/cvsweb.cgi/kdelibs/kdoctools/configure.in.in?rev=1.38&content-type=text/x-cvsweb-markup
-
-AC_PATH_PROG([XML_CONFIG], [xml2-config])
-if test -z "$ac_cv_path_XML_CONFIG"; then
-  AC_MSG_ERROR([Could not find libxml2 anywhere.])
-fi
-
-LIBXML_LIBS="`$XML_CONFIG --libs`"
-LIBXML_CFLAGS="`$XML_CONFIG --cflags`"
-LIBXML_XMLLINT=`dirname $XML_CONFIG`"/xmllint"
-AC_SUBST(LIBXML_LIBS)
-AC_SUBST(LIBXML_CFLAGS)
+LIBXML_XMLLINT="$exec_prefix/bin/xmllint"
 AC_SUBST(LIBXML_XMLLINT)
-
 
 AC_PATH_PROG([GPGME_CONFIG], [gpgme-config])
 if test -z "$ac_cv_path_GPGME_CONFIG"; then

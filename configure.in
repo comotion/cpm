@@ -46,14 +46,14 @@ curses_config=""
 case ${use_curses_lib} in
   ncurses)
       AC_CHECK_LIB(ncurses, initscr)
-      if test "${ac_cv_lib_ncurses_initscr}" == "yes"; then
+      if test "${ac_cv_lib_ncurses_initscr}" = "yes"; then
         curses_found=1
         curses_config=ncurses5-config
       fi
       ;;
   ncursesw)
       AC_CHECK_LIB(ncursesw, wget_wch)
-      if test "${ac_cv_lib_ncursesw_wget_wch}" == "yes"; then
+      if test "${ac_cv_lib_ncursesw_wget_wch}" = "yes"; then
         curses_found=1
         if test -n "$(type -p ncursesw6-config)" ; then
           curses_config=ncursesw6-config
@@ -64,13 +64,13 @@ case ${use_curses_lib} in
       ;;
   pdcurses)
       AC_CHECK_LIB(pdcurses, initscr)
-      if test "${ac_cv_lib_pdcurses_initscr}" == "yes"; then
+      if test "${ac_cv_lib_pdcurses_initscr}" = "yes"; then
         curses_found=1
       fi
       ;;
   curses)
       AC_CHECK_LIB(curses, initscr)
-      if test "${ac_cv_lib_curses_initscr}" == "yes"; then
+      if test "${ac_cv_lib_curses_initscr}" = "yes"; then
         curses_found=1
       fi
       ;;
@@ -118,7 +118,7 @@ USE_CRACKLIB=1
 AC_ARG_WITH(cracklib-dir,
     [  --with-cracklib-dir=PATH   path to the libcrack installation],
     [
-      if test "${withval}" == "no"; then
+      if test "${withval}" = "no"; then
         CFLAGS="${CFLAGS} -DNO_CRACKLIB"
         USE_CRACKLIB=0
       else
@@ -165,7 +165,7 @@ AC_ARG_WITH(memlock,
     [  --with-memlock=LIMIT    limit for max. memory lock validation
                           WARNING: It is NOT recommended to turn this off! ],
     [
-      if test "${withval}" == "no"; then
+      if test "${withval}" = "no"; then
         CFLAGS="${CFLAGS} -DNO_MEMLOCK"
       else
         CFLAGS="${CFLAGS} -DMEMLOCK_LIMIT=${withval}"
@@ -204,7 +204,7 @@ AC_CHECK_LIB(cdk, initCDKScreen)
 if test "${ac_cv_lib_cdk_initCDKScreen}" != "yes"; then
   AC_MSG_ERROR([can not find the cdk library.])
 fi
-if test ${USE_CRACKLIB} == 1; then
+if test ${USE_CRACKLIB} = 1; then
   AC_CHECK_LIB(crack, FascistCheck)
   if test "${ac_cv_lib_crack_FascistCheck}" != "yes"; then
     AC_MSG_ERROR([can not find the crack library.])
@@ -234,12 +234,12 @@ AC_CHECK_LIB(intl, gettext)
 
 # ------------------------------------------------------------------------------
 # try to find the cracklib dictionary
-if test ${USE_CRACKLIB} == 1; then
+if test ${USE_CRACKLIB} = 1; then
   if test -z ${CRACKLIB_DICTPATH}; then
     # the -D setting here is necessary, because general.c would not compile
     # without this definition
     CRACK_H=`${CC} -DCRACKLIB_DICTPATH='\"/\"' ${CFLAGS} ${CPPFLAGS} -M -MG general.c | perl -e 'while (<>) { $_ =~ s/^.*://; $_ =~ s/^\\s+//; $_ =~ s/\\\\//; $_ =~ s/\\s+$//; @tmp = split(/ /, $_); while (@tmp) { $file = shift(@tmp); if ($file =~ m:/crack\\.h$:) { print "$file\\n"; } } }' | sort | uniq`
-    if test "${CRACK_H}" == ""; then
+    if test "${CRACK_H}" = ""; then
       AC_MSG_ERROR([could not locate the cracklib header file.])
     else
       AC_MSG_NOTICE([cracklib header found at ${CRACK_H}.])
